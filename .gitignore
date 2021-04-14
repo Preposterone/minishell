@@ -1,0 +1,10 @@
+/cmake-build-debug/
+**/*.swp
+**/*.swo
+**/*.temp
+**/*.o
+**/*.a
+**/.idea
+**/*a.out*
+.DS_Store
+
