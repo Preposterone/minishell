@@ -22,14 +22,14 @@ re:	fclean all
 #cleaning up
 cleanlib:
 	/bin/rm -f $(LIB_DIR)/*
+
 clean:
-	@make clean -C $(MLX_DIR)
 	@make clean -C $(LFT_DIR)
 	/bin/rm -f $(OBJS)
+
 fclean:	clean cleanlib
-	@make fclean -C $(LFT_DIR)
-	/bin/rm -f libmlx.dylib
 	/bin/rm -f $(NAME)
+
 cleanall: fclean dclean
 
 #debug section

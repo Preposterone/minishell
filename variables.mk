@@ -10,7 +10,6 @@ OS_NAME := $(shell uname -s | tr A-Z a-z)
 
 LFLAGS	:= -L$(LIB_DIR)/ -lft 
 
-endif
 #TODO: list .h files explicitly
 H_FILES := $(shell find ./inc/ -type f -name "*.h" -exec basename {} \;)
 HEADERS :=	$(addprefix $(INC_DIR)/, $(H_FILES))
