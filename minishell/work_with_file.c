@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "termcap.h"
 
 int		ft_strcmp(const char *s1, const char *s2)
 {
@@ -30,7 +30,7 @@ int file(char *str)
     i = 0;
     if (!str)
         return (0);
-    fd = open("minishell_history", O_CREAT | O_APPEND | O_RDWR, 00644);
+    fd = open(FILE_HISTORY, O_CREAT | O_APPEND | O_RDWR, 00644);
 	if (fd == -1)
 		return (-1);
     write(fd, str, strlen(str));
@@ -46,7 +46,7 @@ void from_file(t_for_in_terminal *t)
 
 
     i = 0;
-    fd = open("minishell_history", O_CREAT | O_APPEND | O_RDWR, 00644);
+    fd = open(FILE_HISTORY, O_CREAT | O_APPEND | O_RDWR, 00644);
 	if (fd == -1)
 		return ;
     while (get_next_line(fd, &line))
@@ -62,7 +62,7 @@ int file_mas(char **str, int i)
 
     if (!str)
         return (0);
-    fd = open("minishell_history", O_CREAT | O_APPEND | O_RDWR, 00644);
+    fd = open(FILE_HISTORY, O_CREAT | O_APPEND | O_RDWR, 00644);
 	if (fd == -1)
 		return (-1);
     while (str[i] != NULL)

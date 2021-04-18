@@ -1,5 +1,5 @@
 
-#include "minishell.h"
+#include "termcap.h"
 
 
 //gcc -g main.c work_with_file.c ft_strjoin_for_mas.c ft_strjoin_for_line.c  terminal_two_fun.c terminal_one_fun.c gnl.c  -ltermcap && ./a.out

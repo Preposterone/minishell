@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "termcap.h"
 
 int			ft_strlen(char *s)
 {

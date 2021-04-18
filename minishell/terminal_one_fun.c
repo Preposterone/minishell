@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "termcap.h"
 
 
 void terminal_do(t_for_in_terminal *t)
@@ -10,11 +10,23 @@ void terminal_do(t_for_in_terminal *t)
 	else if (strcmp(t->str, key_backspace) && !strcmp(t->str, "\177"))
 	{
 		if (t->i == ft_strlen_mas(t->mas_his))
+		{
+			if (t->s[0] != 0)
+			{
+				tputs(cursor_left, 1, ft_putchar);
+				tputs(tgetstr("dc", 0), 1, ft_putchar);
+			}
 			t->s = str_delet_last_char(t->s);
+		}
 		else if (t->sn)
+		{
+			if (t->sn[0] != 0)
+			{
+				tputs(cursor_left, 1, ft_putchar);
+				tputs(tgetstr("dc", 0), 1, ft_putchar);
+			}
 			t->sn = str_delet_last_char(t->sn);
-		tputs(cursor_left, 1, ft_putchar);
-		tputs(tgetstr("dc", 0), 1, ft_putchar);
+		}
 	}
 	else if (!strcmp(t->str, "\e[D"))
 		write(1, "left", 0);
@@ -50,6 +62,7 @@ void terminal_while_sec(t_for_in_terminal *t)
 				t->sn = NULL;
 			}
 		}
+		write(1, TERMINALNAME, 11);
 	}
 	t->s = NULL;
 }
@@ -87,6 +100,7 @@ void terminal(int argc, char const *argv[], char const *envp[])
 	t.j = t.i;
 	t.peri = t.i;
 	write(1, &t.str, 100);
+	write(1, TERMINALNAME, 11);
 	while (strcmp(t.str, "\4"))
 		terminal_while(&t);
 	write(1, "\n", 1);

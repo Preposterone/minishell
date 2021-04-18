@@ -1,11 +1,19 @@
 
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef TERMCAP_H
+# define TERMCAP_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100
 # endif
+
+
+# define FILE_HISTORY "minishell_history"
+
+
+
+# define TERMINALNAME "minishell$ "
+
 
 #include <term.h>
 #include <unistd.h>
