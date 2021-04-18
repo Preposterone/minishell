@@ -67,7 +67,7 @@ int file_mas(char **str, int i)
 		return (-1);
     while (str[i] != NULL)
     {
-        if (ft_strcmp("\n", str[i]) && str[i][0] != 0 && str[i][0] != 4)
+        if (ft_strcmp("\n", str[i]) && str[i][0] != 0 && str[i][0] != 4 && str[i][0] != 10)
         {
             write(fd, str[i], strlen(str[i]));
             write(fd, "\n", 1);

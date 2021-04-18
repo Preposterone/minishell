@@ -66,11 +66,8 @@ void		terminal_do_write(t_for_in_terminal *t);
 void		terminal_do_elseif(t_for_in_terminal *t);
 void		terminal_do_if(t_for_in_terminal *t);
 int			file_mas(char **str, int i);
-//char		*ft_strdup(char *s1);
-//char		*ft_strchr(char *s, int c);
 void		from_file(t_for_in_terminal *t);
-int		ft_strcmp(const char *s1, const char *s2);
-//size_t		ft_strlcpy(char *dst, char *src, size_t dstsize);
+int			ft_strcmp(const char *s1, const char *s2);
 
 
 

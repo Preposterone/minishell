@@ -28,21 +28,28 @@ void terminal_while_sec(t_for_in_terminal *t)
 {
 	if (strcmp(t->s, "\n"))
 	{
-		if (t->i == ft_strlen_mas(t->mas_his))
+		if (t->i == ft_strlen_mas(t->mas_his) && t->s[0] != 0 && t->s[0] != 4 && t->s[0] != 10)
 		{
 			t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)+1, t->mas_his, t->s);
+			t->j = t->j + 1;
+			t->i = t->j;
 		}
 		else if (t->mas_his[t->i])
 		{
-			if (t->sn != NULL)
+			if (t->sn != NULL && t->sn[0] != 0 && t->sn[0] != 4 && t->sn[0] != 10)
 			{
 				t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)+1, t->mas_his, t->sn);
 				free((void *)t->sn);
 				t->sn = NULL;
+				t->j = t->j + 1;
+				t->i = t->j;
+			}
+			else if (t->sn != NULL)
+			{
+				free((void *)t->sn);
+				t->sn = NULL;
 			}
 		}
-		t->j = t->j + 1;
-		t->i = t->j;
 	}
 	t->s = NULL;
 }
