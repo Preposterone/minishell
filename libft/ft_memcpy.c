@@ -20,6 +20,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 		return (dst);
 	tmp = dst;
 	while (n--)
-		*(char*)tmp++ = *(char*)src++;
+		*(char *)tmp++ = *(char *)src++;
 	return (dst);
 }

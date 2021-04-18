@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 18:13:18 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/01/07 14:50:22 by aarcelia         ###   ########.fr       */
+/*   Created: 2021/04/18 15:00:07 by aarcelia          #+#    #+#             */
+/*   Updated: 2021/04/18 15:27:38 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
+# include "gnl.h"
+# include "libft.h"
+# include "termcap.h"
 
-int	ft_isprint(int c)
-{
-	return (c >= 32 && c <= 126);
-}
+#endif

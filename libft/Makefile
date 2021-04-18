@@ -6,7 +6,7 @@
 #    By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/27 16:31:52 by aarcelia          #+#    #+#              #
-#    Updated: 2021/03/31 15:06:22 by aarcelia         ###   ########.fr        #
+#    Updated: 2021/04/18 15:08:35 by aarcelia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
@@ -33,8 +33,9 @@ CFLAGS = -Wall -Werror -Wextra
 .c.o:
 	${CC} ${CFLAGS} -I ${INC_DIR} -c $< -o ${<:.c=.o}
 
-${NAME}:	${OBJS} ${HEAD}
-	ar rc ${NAME} ${OBJS}
+${NAME}:	${OBJS}
+	@ar rc ${NAME} ${OBJS}
+	@echo "LIBFT compiled"
 
 all:	${NAME}
 
@@ -47,6 +48,6 @@ fclean:	clean
 re:	fclean all
 
 norm:
-	@norminetteV2 ${SRCS} | grep --color -E '^|Error'
+	@norminette ${SRCS} | grep --color -E '^|Error'
 
 .PHONY:	all clean fclean re

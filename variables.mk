@@ -10,6 +10,7 @@ OS_NAME := $(shell uname -s | tr A-Z a-z)
 
 LFLAGS	:= -L$(LIB_DIR)/ -lft 
 
+#Sources
 #TODO: list .h files explicitly
 H_FILES := $(shell find ./inc/ -type f -name "*.h" -exec basename {} \;)
 HEADERS :=	$(addprefix $(INC_DIR)/, $(H_FILES))
@@ -22,5 +23,6 @@ IFLAGS += -I/usr/include -I$(INC_DIR)/ -I$(MLX_DIR)/
 #Sources
 #TODO: list sources explicitly
 SRCS := $(shell find ./src/ -type f -name "*.c" -exec basename {} \;)
+SRC_FILES := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

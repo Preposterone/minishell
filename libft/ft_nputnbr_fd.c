@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-int			ft_nputnbr_fd(int n, int fd)
+int	ft_nputnbr_fd(int n, int fd)
 {
 	unsigned int	num;
 	char			s[ft_numlen(n) + 1];
