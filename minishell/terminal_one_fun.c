@@ -30,7 +30,6 @@ void terminal_while_sec(t_for_in_terminal *t)
 	{
 		if (t->i == ft_strlen_mas(t->mas_his))
 		{
-			file(t->s);
 			t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)+1, t->mas_his, t->s);
 		}
 		else if (t->mas_his[t->i])
@@ -69,18 +68,21 @@ void terminal(int argc, char const *argv[], char const *envp[])
 	t.argc = argc;
 	t.argv = argv;
 	t.envp = envp;
-	t.i = 0;
     tcgetattr(0, &t.term);
+	from_file(&t);
+	t.i = ft_strlen_mas(t.mas_his);
     t.term.c_lflag &= ~(ECHO);
     t.term.c_lflag &= ~(ICANON);
     tcsetattr(0, TCSANOW, &t.term);
 	tgetent(0, t.term_name);
 	t.term_name = "xterm-256color";
 	t.n = 0;
-	t.j = 0;
+	t.j = t.i;
+	t.peri = t.i;
 	write(1, &t.str, 100);
 	while (strcmp(t.str, "\4"))
 		terminal_while(&t);
 	write(1, "\n", 1);
+	file_mas(t.mas_his, t.peri);
 	return ;
 }
