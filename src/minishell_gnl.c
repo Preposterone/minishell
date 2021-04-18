@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   minishell_gnl.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:35:42 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/02/05 14:35:09 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/18 13:10:13 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d_gnl.h"
+#include "gnl.h"
 
 /*
 ** A function which frees all memory allocated to static var 'rem' and points

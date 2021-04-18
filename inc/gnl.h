@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d_gnl.h                                        :+:      :+:    :+:   */
+/*   gnl.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 10:14:07 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/03/12 11:08:14 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/18 13:09:56 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_GNL_H
-# define CUB3D_GNL_H
+#ifndef GNL_H
+# define GNL_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100
 # endif
