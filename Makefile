@@ -14,7 +14,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 #main targets
 $(NAME): $(OBJS)
 	@$(MAKE) -j 6 -C $(LFT_DIR)/
-	@cp $(LFT_DIR)/libft.a $(LIB_DIR)
+	@mv $(LFT_DIR)/libft.a $(LIB_DIR)
 	$(CC) $(CFLAGS) $(IFLAGS) -o $(NAME) $(OBJS) $(LFLAGS)
 
 re:	fclean all
