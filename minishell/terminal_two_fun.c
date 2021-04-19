@@ -70,33 +70,3 @@ void	terminal_do_if(t_for_in_terminal *t)
 	}
 }
 
-void	terminal_while_sec(t_for_in_terminal *t)
-{
-	if (ft_strcmp(t->s, "\n"))
-	{
-		if (t->i == ft_strlen_mas(t->mas_his)
-			&& t->s[0] != 0 && t->s[0] != 4 && t->s[0] != 10)
-		{
-			t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
-					+ 1, t->mas_his, t->s);
-			t->j = t->j + 1;
-			t->i = t->j;
-		}
-		else if (t->i == 0 && ft_strlen_mas(t->mas_his) == 0)
-		{
-			t->i = t->i;
-		}
-		else if (t->mas_his[t->i])
-		{
-			terminal_while_sec_t(t);
-		}
-	}
-	if (t->s)
-	{
-		t->s = NULL;
-		free((void *)t->s);
-	}
-	write(1, TERMINALNAME, 11);
-	t->s = NULL;
-	t->i = t->j;
-}
