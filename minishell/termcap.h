@@ -57,5 +57,6 @@ size_t	my_strlen(const char *s);
 void	terminal_while_sec(t_for_in_terminal *t);
 void	terminal_while_sec_t(t_for_in_terminal *t);
 char	*ft_strjoin_str(char *s1, char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

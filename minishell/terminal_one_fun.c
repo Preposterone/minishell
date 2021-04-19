@@ -2,7 +2,7 @@
 
 void	terminal_do_two(t_for_in_terminal *t)
 {
-	if (t->i == ft_strlen_mas(t->mas_his))
+	if (t->i == ft_strlen_mas(t->mas_his) && t->s)
 	{
 		if (t->s[0] != 0)
 		{
@@ -24,15 +24,17 @@ void	terminal_do_two(t_for_in_terminal *t)
 
 void	terminal_do(t_for_in_terminal *t)
 {
-	if (!strcmp(t->str, "\e[A"))
+	if (!ft_strcmp(t->str, "\e[A"))
+	{
 		terminal_do_if(t);
-	else if (!strcmp(t->str, "\e[B"))
+	}
+	else if (!ft_strcmp(t->str, "\e[B"))
 		terminal_do_elseif(t);
-	else if (strcmp(t->str, key_backspace) && !strcmp(t->str, "\177"))
+	else if (ft_strcmp(t->str, key_backspace) && !ft_strcmp(t->str, "\177"))
 		terminal_do_two(t);
-	else if (!strcmp(t->str, "\e[D"))
+	else if (!ft_strcmp(t->str, "\e[D"))
 		write(1, "left", 0);
-	else if (!strcmp(t->str, "\e[C"))
+	else if (!ft_strcmp(t->str, "\e[C"))
 		write(1, "right", 0);
 	else
 	{
@@ -47,15 +49,15 @@ void	terminal_while_sec_t(t_for_in_terminal *t)
 	{
 		t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
 				+ 1, t->mas_his, t->sn);
-		free((void *)t->sn);
-		t->sn = NULL;
+		if (t->sn)
+			free((void *)t->sn);
 		t->j = t->j + 1;
 		t->i = t->j;
 	}
 	else if (t->sn != NULL)
 	{
-		free((void *)t->sn);
-		t->sn = NULL;
+		if (t->sn)
+			free((void *)t->sn);
 	}
 }
 
@@ -69,7 +71,7 @@ void	terminal_while(t_for_in_terminal *t)
 		t->str[t->l] = 0;
 		terminal_do(t);
 	}
-	while (strcmp(t->str, "\n") && strcmp(t->str, "\4"));
+	while (ft_strcmp(t->str, "\n") && ft_strcmp(t->str, "\4"));
 		terminal_while_sec(t);
 }
 
@@ -93,7 +95,7 @@ void	terminal(int argc, char const *argv[], char const *envp[])
 	t.peri = t.i;
 	write(1, &t.str, 100);
 	write(1, TERMINALNAME, 11);
-	while (strcmp(t.str, "\4"))
+	while (ft_strcmp(t.str, "\4"))
 		terminal_while(&t);
 	write(1, "\n", 1);
 	file_mas(t.mas_his, t.peri);

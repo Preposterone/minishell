@@ -66,7 +66,6 @@ char	*str_delet_last_char(char *s1)
 	return (r);
 }
 
-
 char	*ft_strjoin_n_str(char *s2, char *r, int i)
 {
 	r = malloc(sizeof(char) * (strlen(s2) + 1));
