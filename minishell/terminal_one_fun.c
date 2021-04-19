@@ -1,8 +1,18 @@
 #include "termcap.h"
 
+void dellet(char *s)
+{
+	if (s != NULL)
+	{
+		free((void *)s);
+		s = NULL;
+	}
+}
 
 void	terminal_while(t_for_in_terminal *t)
 {
+	int f;
+	f = 0;
 	tputs(save_cursor, 1, ft_putchar);
 	do
 	{
@@ -13,7 +23,6 @@ void	terminal_while(t_for_in_terminal *t)
 		{
 			if (t->i > 0)
 			{
-				printf("\n=%d=\n", t->n);
 				tputs(restore_cursor, 1, ft_putchar);
 				tputs(tigetstr("ed"), 1, ft_putchar);
 				if (t->sn)
@@ -21,10 +30,10 @@ void	terminal_while(t_for_in_terminal *t)
 					t->mas_his[t->i] = ft_strjoin(NULL, t->sn);
 				}
 				t->i = t->i - 1;
-				if (t->sn)
+				if (t->sn && t->sn != NULL)
 				{
-					t->sn = NULL;
 					free((void *)t->sn);
+					t->sn = NULL;
 				}
 				if (t->mas_his[t->i] && t->mas_his[t->i] != NULL)
 				{
@@ -35,7 +44,6 @@ void	terminal_while(t_for_in_terminal *t)
 		}
 		else if (!ft_strcmp(t->str, "\e[B"))
 		{
-
 			if (t->i < ft_strlen_mas(t->mas_his))
 			{
 				tputs(restore_cursor, 1, ft_putchar);
@@ -45,10 +53,10 @@ void	terminal_while(t_for_in_terminal *t)
 					t->mas_his[t->i] = ft_strjoin(NULL, t->sn);
 				}
 				t->i = t->i + 1;
-				if (t->sn)
+				if (t->sn && t->sn != NULL)
 				{
-					t->sn = NULL;
 					free((void *)t->sn);
+					t->sn = NULL;
 				}
 				if (t->mas_his[t->i] && t->mas_his[t->i] != NULL)
 				{
@@ -95,11 +103,11 @@ void	terminal_while(t_for_in_terminal *t)
 				t->i = t->i;
 			else if (t->i == ft_strlen_mas(t->mas_his))
 			{
-				t->s = ft_strjoin_str(t->s, t->str);
+				t->s = ft_strjoin(t->s, t->str);
 			}
 			else if (t->mas_his[t->i])
 			{
-				t->sn = ft_strjoin_str(t->sn, t->str);
+				t->sn = ft_strjoin(t->sn, t->str);
 			}
 			write (1, t->str, t->l);
 		}
@@ -118,19 +126,10 @@ void	terminal_while(t_for_in_terminal *t)
 
 
 
-
-
-
-
-
-
-
-
-
 	while (ft_strcmp(t->str, "\n") && ft_strcmp(t->str, "\4"));
 	{
 		if (ft_strcmp(t->s, "\n"))
-			{
+		{
 			if (t->i == ft_strlen_mas(t->mas_his)
 				&& t->s[0] != 0 && t->s[0] != 4 && t->s[0] != 10)
 			{
@@ -150,8 +149,6 @@ void	terminal_while(t_for_in_terminal *t)
 				{
 					t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
 							+ 1, t->mas_his, t->sn);
-					if (t->sn)
-						free((void *)t->sn);
 					t->j = t->j + 1;
 					t->i = t->j;
 				}
@@ -159,16 +156,16 @@ void	terminal_while(t_for_in_terminal *t)
 		}
 		if (t->s)
 		{
+			free(t->s);
 			t->s = NULL;
-			free((void *)t->s);
 		}
 		if (t->sn)
 		{
+			free(t->sn);
 			t->sn = NULL;
-			free((void *)t->sn);
 		}
+		f = 1;
 		write(1, TERMINALNAME, 11);
-		t->s = NULL;
 		t->i = t->j;
 	}
 }
@@ -180,6 +177,15 @@ void	terminal(int argc, char const *argv[], char const *envp[])
 	t.argc = argc;
 	t.argv = argv;
 	t.envp = envp;
+	/*t.str = (char *)(malloc(sizeof(char) * (2000)));
+	if (!t.str)
+		return ;
+	int jj = 0;
+	while (jj < 2000)
+	{
+		t.str[jj] = 45;
+		jj++;
+	}*/
 	tcgetattr(0, &t.term);
 	//from_file(&t);
 	t.i = ft_strlen_mas(t.mas_his);
