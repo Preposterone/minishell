@@ -14,7 +14,7 @@
 
 int	ft_strstrchr(const char *str, const char **search)
 {
-	int n;
+	int	n;
 
 	n = 0;
 	if (!str)

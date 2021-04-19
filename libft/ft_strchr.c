@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 13:14:20 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/03/09 10:31:37 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/19 14:50:08 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ char	*ft_strchr(const char *s, int c)
 	while (slen--)
 	{
 		if (*s == ctmp)
-			return ((char*)s);
+			return ((char *)s);
 		s++;
 	}
 	return (ret);
 }
 
-int		ft_strchr_index(const char *s, int c)
+int	ft_strchr_index(const char *s, int c)
 {
 	int		i;
 

@@ -14,7 +14,7 @@
 
 int	ft_numlen(int n)
 {
-	int nret;
+	int	nret;
 
 	nret = 0;
 	while (n)

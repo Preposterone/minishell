@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-int		ft_numlenu(unsigned int n)
+int	ft_numlenu(unsigned int n)
 {
-	int nret;
+	int	nret;
 
 	nret = 0;
 	while (n)

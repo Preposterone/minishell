@@ -19,13 +19,13 @@ char	*ft_strrchr(const char *s, int c)
 	size_t	slen;
 
 	slen = ft_strlen(s);
-	ret = (char*)s + slen;
+	ret = (char *)s + slen;
 	ctmp = (char)c;
 	slen++;
 	while (slen--)
 	{
 		if (*ret == ctmp)
-			return ((char*)ret);
+			return ((char *)ret);
 		ret--;
 	}
 	return (NULL);

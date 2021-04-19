@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:03:42 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/18 17:24:50 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/19 16:17:41 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,11 +146,6 @@ size_t	ft_memsetn(void *b, int c, size_t len);
 char	*ft_utoa(unsigned int n);
 
 /*
-**  Returns max of two integers
-*/
-int		ft_max(int a, int b);
-
-/*
 ** Sets value via pointer, always returns 1
 */
 int		ft_set(bool *sw, bool value);
@@ -192,5 +187,10 @@ int		*ft_tointarr_substitute(char *s, char *sub_chr, int *int_arr);
 ** bzero which returns true, for use in if statements
 */
 bool	if_bzero(void *s, size_t n);
+
+uint	ft_abs(int x);
+int		ft_min(int a, int b);
+int		ft_max(int a, int b);
+int		ft_tern(bool condition, int iftrue, int iffalse);
 
 #endif

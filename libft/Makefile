@@ -6,7 +6,7 @@
 #    By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/27 16:31:52 by aarcelia          #+#    #+#              #
-#    Updated: 2021/04/18 15:08:35 by aarcelia         ###   ########.fr        #
+#    Updated: 2021/04/19 17:03:12 by aarcelia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
@@ -20,7 +20,7 @@ SRCS =	ft_atoi.c	ft_isprint.c	ft_lstlast.c ft_memcpy.c	ft_split.c	ft_nputnbr_fd.
 		ft_isalnum.c	ft_lstadd_front.c	ft_lstsize.c ft_putchar_fd.c	ft_putnchar.c\
 		ft_strjoin.c	ft_strrchr.c	ft_isalpha.c	ft_lstclear.c	ft_memcmpi.c\
 		ft_memccpy.c	ft_putendl_fd.c	ft_strlcat.c	ft_strtrim.c ft_strndup.c\
-		ft_isascii.c	ft_lstdelone.c	ft_memchr.c	ft_putnbr_fd.c	ft_strstrchr.c\
+		ft_isascii.c	ft_lstdelone.c	ft_memchr.c	ft_putnbr_fd.c	ft_strstrchr.c	ft_math.c\
 		ft_strlcpy.c	ft_substr.c	ft_isdigit.c	ft_lstiter.c	ft_memcmp.c	ft_utilities.c\
 		ft_putstr_fd.c	ft_strlen.c	ft_tolower.c	ft_putstrn_fd.c	ft_strcmp.c	ft_putnbru_fd.c\
 		ft_itoa_base.c	ft_numlen_base.c	ft_numlen.c	ft_memsetn.c	ft_utoa.c	ft_numlenu.c\
@@ -28,7 +28,7 @@ SRCS =	ft_atoi.c	ft_isprint.c	ft_lstlast.c ft_memcpy.c	ft_split.c	ft_nputnbr_fd.
 OBJS	=	${SRCS:.c=.o}
 
 CC	= gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 
 .c.o:
 	${CC} ${CFLAGS} -I ${INC_DIR} -c $< -o ${<:.c=.o}
@@ -38,6 +38,9 @@ ${NAME}:	${OBJS}
 	@echo "LIBFT compiled"
 
 all:	${NAME}
+
+dbg:
+	gcc -g3 *.c
 
 clean:
 			/bin/rm -f $(OBJS)

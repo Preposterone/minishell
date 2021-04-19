@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 10:00:08 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/18 17:34:13 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/19 17:08:22 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,12 @@ static char	*ft_wordmalloc(const char *s, char c)
 	y = 0;
 	while (s[y] != c && s[y])
 		y++;
-	ret = (char *)malloc(sizeof(char) * (y + 1));
+	ret = (char *)ft_calloc(y + 1, sizeof(char));
 	if (!ret)
 		return (NULL);
 	y = 0;
 	while (*s != c && *s)
 		ret[y++] = (char)*s++;
-	ret[y] = '\0';
 	return (ret);
 }
 
@@ -68,11 +67,13 @@ char	**ft_split(char const *s, char c)
 	int		flag;
 	int		i;
 
-	i = -1;
+	i = 0;
 	flag = -1;
+	if (!s)
+		return (NULL);
 	words = ft_wordcount(s, c);
-	ret = (char **)malloc(sizeof(char *) * (words + 1));
-	if (!s || !(ret))
+	ret = (char **)ft_calloc(words + 1, sizeof(char *));
+	if (!ret)
 		return (NULL);
 	while (*s && i <= words - 1)
 	{
@@ -89,6 +90,5 @@ char	**ft_split(char const *s, char c)
 		while (*s != c && *s + 1 && *s)
 			s++;
 	}
-	ret[i] = NULL;
 	return (ret);
 }

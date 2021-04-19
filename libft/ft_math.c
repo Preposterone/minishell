@@ -1,24 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_math.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/30 10:38:46 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/19 15:13:28 by aarcelia         ###   ########.fr       */
+/*   Created: 2021/04/19 14:35:12 by aarcelia          #+#    #+#             */
+/*   Updated: 2021/04/19 14:57:20 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memchr(const void *s, int c, size_t n)
+uint	ft_abs(int x)
 {
-	while (n--)
-	{
-		if (*(u_char *)s == (u_char)c)
-			return ((u_char *)s);
-		s++;
-	}
-	return (NULL);
+	if (x < 0)
+		return (-x);
+	return (x);
+}
+
+int	ft_min(int a, int b)
+{
+	if (a > b)
+		return (b);
+	return (a);
+}
+
+int	ft_max(int a, int b)
+{
+	if (a < b)
+		return (b);
+	return (a);
+}
+
+int	ft_tern(bool condition, int iftrue, int iffalse)
+{
+	if (condition)
+		return (iftrue);
+	return (iffalse);
 }
