@@ -5,22 +5,31 @@ int	ft_putchar(int c)
 	return (write(1, &c, 1));
 }
 
-void	terminal_do_write(t_for_in_terminal *t)
+void	up_terminal(t_for_in_terminal *t)
 {
-	if (t->str[0] == 0)
-		t->i = t->i;
-	else if (t->i == ft_strlen_mas(t->mas_his))
+	if (t->i > 0)
 	{
-		t->s = ft_strjoin_str(t->s, t->str);
+		tputs(restore_cursor, 1, ft_putchar);
+		tputs(tigetstr("ed"), 1, ft_putchar);
+		if (t->sn)
+		{
+			t->mas_his[t->i] = ft_strjoin(NULL, t->sn);
+		}
+		t->i = t->i - 1;
+		if (t->sn && t->sn != NULL)
+		{
+			free((void *)t->sn);
+			t->sn = NULL;
+		}
+		if (t->mas_his[t->i] && t->mas_his[t->i] != NULL)
+		{
+			write(1, t->mas_his[t->i], ft_strlen(t->mas_his[t->i]));
+			t->sn = ft_strjoin(NULL, t->mas_his[t->i]);
+		}
 	}
-	else if (t->mas_his[t->i])
-	{
-		t->sn = ft_strjoin_str(t->sn, t->str);
-	}
-	write (1, t->str, t->l);
 }
 
-void	terminal_do_elseif(t_for_in_terminal *t)
+void	down_term(t_for_in_terminal *t)
 {
 	if (t->i < ft_strlen_mas(t->mas_his))
 	{
@@ -29,11 +38,13 @@ void	terminal_do_elseif(t_for_in_terminal *t)
 		if (t->sn)
 		{
 			t->mas_his[t->i] = ft_strjoin(NULL, t->sn);
-			if (t->sn)
-				free((void *)t->sn);
-			//t->sn = NULL;
 		}
 		t->i = t->i + 1;
+		if (t->sn && t->sn != NULL)
+		{
+			free((void *)t->sn);
+			t->sn = NULL;
+		}
 		if (t->mas_his[t->i] && t->mas_his[t->i] != NULL)
 		{
 			write(1, t->mas_his[t->i], ft_strlen(t->mas_his[t->i]));
@@ -47,26 +58,3 @@ void	terminal_do_elseif(t_for_in_terminal *t)
 		}
 	}
 }
-
-void	terminal_do_if(t_for_in_terminal *t)
-{
-	if (t->i > 0)
-	{
-		tputs(restore_cursor, 1, ft_putchar);
-		tputs(tigetstr("ed"), 1, ft_putchar);
-		if (t->sn)
-		{
-			t->mas_his[t->i] = ft_strjoin(NULL, t->sn);
-			//if (t->sn)
-				//free((void *)t->sn);
-			//t->sn = NULL;
-		}
-		t->i = t->i - 1;
-		if (t->mas_his[t->i] && t->mas_his[t->i] != NULL)
-		{
-			write(1, t->mas_his[t->i], ft_strlen(t->mas_his[t->i]));
-			t->sn = ft_strjoin(NULL, t->mas_his[t->i]);
-		}
-	}
-}
-

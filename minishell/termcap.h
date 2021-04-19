@@ -45,18 +45,15 @@ int		ft_strlen_mas(char **s);
 char	**strjoin_for_mas(int len, char **s, char *line);
 int		file(char *str);
 void	terminal(int argc, char const *argv[], char const *envp[]);
-void	terminal_do_write(t_for_in_terminal *t);
-void	terminal_do_elseif(t_for_in_terminal *t);
-void	terminal_do_if(t_for_in_terminal *t);
 int		file_mas(char **str, int i);
 void	from_file(t_for_in_terminal *t);
 int		t_strcmp(const char *s1, const char *s2);
 void	*my_memmove(void *dst, const void *src, size_t len);
 char	*get_h_const(char *h_const);
 size_t	my_strlen(const char *s);
-void	terminal_while_sec(t_for_in_terminal *t);
-void	terminal_while_sec_t(t_for_in_terminal *t);
 char	*ft_strjoin_str(char *s1, char *s2);
 int		ft_strcmp(const char *s1, const char *s2);
+void	up_terminal(t_for_in_terminal *t);
+void	down_term(t_for_in_terminal *t);
 
 #endif
