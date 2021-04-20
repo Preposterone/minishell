@@ -15,7 +15,6 @@
 # include <sys/types.h>
 # include <sys/uio.h>
 
-
 typedef struct s_for_in_terminal
 {
 	int				argc;

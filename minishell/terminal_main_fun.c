@@ -80,12 +80,12 @@ void	while_enter_term(t_for_in_terminal *t)
 void	terminal_while(t_for_in_terminal *t)
 {
 	tputs(save_cursor, 1, ft_putchar);
-	do
+	while (1 == 1)
 	{
 		do_term(t);
+		if (!ft_strcmp(t->str, "\n") || !ft_strcmp(t->str, "\4"))
+			break ;
 	}
-	while (ft_strcmp(t->str, "\n") && ft_strcmp(t->str, "\4"));
-	{
 	while_enter_term(t);
 	if (t->s)
 	{
@@ -99,7 +99,6 @@ void	terminal_while(t_for_in_terminal *t)
 	}
 	write(1, TERMINALNAME, 11);
 	t->i = t->j;
-	}
 }
 
 void	terminal(int argc, char const *argv[], char const *envp[])
