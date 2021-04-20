@@ -1,6 +1,6 @@
 #include "termcap.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	term_strcmp(const char *s1, const char *s2)
 {
 	int				i;
 	unsigned char	c1;
@@ -25,16 +25,13 @@ int	ft_strcmp(const char *s1, const char *s2)
 int	file(char *str)
 {
 	int	fd;
-	int	fdf;
-	int	i;
 
-	i = 0;
 	if (!str)
 		return (0);
 	fd = open(FILE_HISTORY, O_CREAT | O_APPEND | O_RDWR, 00644);
 	if (fd == -1)
 		return (-1);
-	write(fd, str, strlen(str));
+	write(fd, str, term_strlen(str));
 	close(fd);
 	return (0);
 }
@@ -49,9 +46,9 @@ void	from_file(t_for_in_terminal *t)
 	fd = open(FILE_HISTORY, O_CREAT | O_APPEND | O_RDWR, 00644);
 	if (fd == -1)
 		return ;
-	while (get_next_line(fd, &line, 1))
+	while (term_get_next_line(fd, &line, 1))
 	{
-		t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
+		t->mas_his = strjoin_for_mas(term_strlen_mas(t->mas_his)
 				+ 1, t, line);
 		i++;
 		if (line)
@@ -70,7 +67,7 @@ void	from_file(t_for_in_terminal *t)
 
 int	file_mas(char **str, int i)
 {
-	int	fd;
+	int fd;
 
 	if (!str)
 		return (0);
@@ -79,10 +76,10 @@ int	file_mas(char **str, int i)
 		return (-1);
 	while (str[i] != NULL)
 	{
-		if (ft_strcmp("\n", str[i]) && str[i][0] != 0 && str[i][0] != 4
+		if (term_strcmp("\n", str[i]) && str[i][0] != 0 && str[i][0] != 4
 			&& str[i][0] != 10)
 		{
-			write(fd, str[i], strlen(str[i]));
+			write(fd, str[i], term_strlen(str[i]));
 			write(fd, "\n", 1);
 		}
 		i++;

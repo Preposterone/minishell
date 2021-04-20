@@ -77,7 +77,7 @@ char	*get_line(char *str)
 	return (r);
 }
 
-int	get_next_line(int fd, char **line, int reader)
+int	term_get_next_line(int fd, char **line, int reader)
 {
 	char		*buff;
 	static char	*h_const;
@@ -101,5 +101,5 @@ int	get_next_line(int fd, char **line, int reader)
 	}
 	*line = get_line(h_const);
 	h_const = get_h_const(h_const);
-	return (gnl_second(reader, &buff, &h_const));
+	return (gnl_second(reader, &buff));
 }
