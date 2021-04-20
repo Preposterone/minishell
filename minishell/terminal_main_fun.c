@@ -110,7 +110,7 @@ void	terminal(int argc, char const *argv[], char const *envp[])
 	t.argv = argv;
 	t.envp = envp;
 	tcgetattr(0, &t.term);
-	//from_file(&t);
+	from_file(&t);
 	t.i = ft_strlen_mas(t.mas_his);
 	t.term.c_lflag &= ~(ECHO);
 	t.term.c_lflag &= ~(ICANON);

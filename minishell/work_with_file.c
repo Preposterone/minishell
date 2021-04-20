@@ -53,6 +53,17 @@ void	from_file(t_for_in_terminal *t)
 	{
 		t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
 				+ 1, t, line);
+		i++;
+		if (line)
+		{
+			free((void *)line);
+			line = NULL;
+		}
+	}
+	if (line)
+	{
+		free((void *)line);
+		line = NULL;
 	}
 	close(fd);
 }
@@ -78,4 +89,31 @@ int	file_mas(char **str, int i)
 	}
 	close(fd);
 	return (0);
+}
+
+char	*get_h_const(char *h_const)
+{
+	char	*r;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!h_const)
+		return (NULL);
+	while (h_const[i] && h_const[i] != '\n')
+		i++;
+	r = malloc(sizeof(char) * ((my_strlen(h_const) - i) + 1));
+	if (!r)
+		return (NULL);
+	i++;
+	while (h_const[i])
+		r[j++] = h_const[i++];
+	r[j] = '\0';
+	if (h_const)
+	{
+		free((void *)h_const);
+		h_const = NULL;
+	}
+	return (r);
 }

@@ -78,29 +78,14 @@ void	*my_memmove(void *dst,
 	return (dst);
 }
 
-char	*get_h_const(char *h_const)
+int	gnl_second(int reader, char **buff, char	**h_const)
 {
-	char	*r;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (!h_const)
-		return (NULL);
-	while (h_const[i] && h_const[i] != '\n')
-		i++;
-	r = malloc(sizeof(char) * ((my_strlen(h_const) - i) + 1));
-	if (!r)
-		return (NULL);
-	i++;
-	while (h_const[i])
-		r[j++] = h_const[i++];
-	r[j] = '\0';
-	if (h_const)
+	if (*buff)
 	{
-		free((void *)h_const);
-		h_const = NULL;
+		free((void *)*buff);
+		*buff = NULL;
 	}
-	return (r);
+	if (reader == 0)
+		return (0);
+	return (1);
 }
