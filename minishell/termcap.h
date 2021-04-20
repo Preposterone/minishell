@@ -42,7 +42,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*str_delet_last_char(char *s1);
 int		ft_strlen(char *s);
 int		ft_strlen_mas(char **s);
-char	**strjoin_for_mas(int len, char **s, char *line);
+char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line);
 int		file(char *str);
 void	terminal(int argc, char const *argv[], char const *envp[]);
 int		file_mas(char **str, int i);

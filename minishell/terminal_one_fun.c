@@ -1,6 +1,6 @@
 #include "termcap.h"
 
-void del_term(t_for_in_terminal *t)
+void	del_term(t_for_in_terminal *t)
 {
 	if (t->i == ft_strlen_mas(t->mas_his) && t->s)
 	{
@@ -22,7 +22,7 @@ void del_term(t_for_in_terminal *t)
 	}
 }
 
-void do_term(t_for_in_terminal *t)
+void	do_term(t_for_in_terminal *t)
 {
 	ioctl(0, FIONREAD, &t->n);
 	t->l = read(0, t->str, t->n);
@@ -49,7 +49,7 @@ void do_term(t_for_in_terminal *t)
 	}
 }
 
-void while_enter_term(t_for_in_terminal *t)
+void	while_enter_term(t_for_in_terminal *t)
 {
 	if (ft_strcmp(t->s, "\n"))
 	{
@@ -57,21 +57,19 @@ void while_enter_term(t_for_in_terminal *t)
 			&& t->s[0] != 0 && t->s[0] != 4 && t->s[0] != 10)
 		{
 			t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
-					+ 1, t->mas_his, t->s);
+					+ 1, t, t->s);
 			t->j = t->j + 1;
 			t->i = t->j;
 		}
 		else if (t->i == 0 && ft_strlen_mas(t->mas_his) == 0)
-		{
 			t->i = t->i;
-		}
 		else if (t->mas_his[t->i])
 		{
 			if (t->sn != NULL && t->sn[0] != 0
 				&& t->sn[0] != 4 && t->sn[0] != 10)
 			{
 				t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
-						+ 1, t->mas_his, t->sn);
+						+ 1, t, t->sn);
 				t->j = t->j + 1;
 				t->i = t->j;
 			}
@@ -81,8 +79,6 @@ void while_enter_term(t_for_in_terminal *t)
 
 void	terminal_while(t_for_in_terminal *t)
 {
-	int f;
-	f = 0;
 	tputs(save_cursor, 1, ft_putchar);
 	do
 	{
@@ -90,20 +86,19 @@ void	terminal_while(t_for_in_terminal *t)
 	}
 	while (ft_strcmp(t->str, "\n") && ft_strcmp(t->str, "\4"));
 	{
-		while_enter_term(t);
-		if (t->s)
-		{
-			free(t->s);
-			t->s = NULL;
-		}
-		if (t->sn)
-		{
-			free(t->sn);
-			t->sn = NULL;
-		}
-		f = 1;
-		write(1, TERMINALNAME, 11);
-		t->i = t->j;
+	while_enter_term(t);
+	if (t->s)
+	{
+		free((void *)t->s);
+		t->s = NULL;
+	}
+	if (t->sn)
+	{
+		free((void *)t->sn);
+		t->sn = NULL;
+	}
+	write(1, TERMINALNAME, 11);
+	t->i = t->j;
 	}
 }
 

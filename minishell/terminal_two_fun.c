@@ -13,6 +13,11 @@ void	up_terminal(t_for_in_terminal *t)
 		tputs(tigetstr("ed"), 1, ft_putchar);
 		if (t->sn)
 		{
+			if (t->mas_his[t->i])
+			{
+				free((void *)t->mas_his[t->i]);
+				t->mas_his[t->i] = NULL;
+			}
 			t->mas_his[t->i] = ft_strjoin(NULL, t->sn);
 		}
 		t->i = t->i - 1;
@@ -37,14 +42,13 @@ void	down_term(t_for_in_terminal *t)
 		tputs(tigetstr("ed"), 1, ft_putchar);
 		if (t->sn)
 		{
+			if (t->mas_his[t->i])
+				free((void *)t->mas_his[t->i]);
 			t->mas_his[t->i] = ft_strjoin(NULL, t->sn);
 		}
 		t->i = t->i + 1;
 		if (t->sn && t->sn != NULL)
-		{
 			free((void *)t->sn);
-			t->sn = NULL;
-		}
 		if (t->mas_his[t->i] && t->mas_his[t->i] != NULL)
 		{
 			write(1, t->mas_his[t->i], ft_strlen(t->mas_his[t->i]));

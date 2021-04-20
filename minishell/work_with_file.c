@@ -52,7 +52,7 @@ void	from_file(t_for_in_terminal *t)
 	while (get_next_line(fd, &line, 1))
 	{
 		t->mas_his = strjoin_for_mas(ft_strlen_mas(t->mas_his)
-				+ 1, t->mas_his, line);
+				+ 1, t, line);
 	}
 	close(fd);
 }

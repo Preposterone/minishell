@@ -2,7 +2,7 @@
 
 char	*ft_strjoin_n(char *s2, char *r, int i)
 {
-	r = malloc(sizeof(char) * (strlen(s2) + 1));
+	r = (char *)malloc(sizeof(char) * (strlen(s2) + 1));
 	if (!r)
 		return (NULL);
 	i = -1;
@@ -23,7 +23,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	if (!s1 || s1 == NULL)
 		return (ft_strjoin_n(s2, r, i));
-	r = malloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
+	r = (char *)malloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
 	if (!r)
 		return (NULL);
 	while (s1[i] && s1[i] != '\n')
@@ -47,7 +47,7 @@ char	*str_delet_last_char(char *s1)
 
 	if (!s1 && strlen(s1) == 1)
 		return (NULL);
-	r = malloc(sizeof(char) * (strlen(s1)));
+	r = (char *)malloc(sizeof(char) * (strlen(s1)));
 	if (!r)
 		return (NULL);
 	i = 0;
@@ -58,6 +58,9 @@ char	*str_delet_last_char(char *s1)
 	}
 	r[i] = '\0';
 	if (s1)
+	{
 		free((void *)s1);
+		s1 = NULL;
+	}
 	return (r);
 }

@@ -24,7 +24,7 @@ int	ft_strlen_mas(char **s)
 	return (i);
 }
 
-char	**strjoin_for_mas(int len, char **s, char *line)
+char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line)
 {
 	char	**lin;
 	int		i;
@@ -33,23 +33,23 @@ char	**strjoin_for_mas(int len, char **s, char *line)
 	lin = (char **)malloc((len + 1) * sizeof(char *));
 	if (!lin)
 		return (NULL);
-	while (s && s[i] != NULL && i < len)
+	while (t->mas_his && t->mas_his[i] != NULL && i < len)
 	{
-		lin[i] = (char *)malloc((ft_strlen(s[i]) + 1) * sizeof(char));
-		if (!lin[i])
-			return (NULL);
-		lin[i] = ft_strjoin(NULL, s[i]);
-		if (s[i])
-			free((void *)s[i]);
+		lin[i] = ft_strjoin(NULL, t->mas_his[i]);
+		if (t->mas_his[i])
+		{
+			free((void *)t->mas_his[i]);
+			t->mas_his[i] = NULL;
+		}
 		i++;
 	}
-	lin[i] = (char *)malloc((ft_strlen(line) + 1) * sizeof(char));
-	if (!lin[i])
-		return (NULL);
 	lin[i] = ft_strjoin(NULL, line);
 	lin[++i] = NULL;
-	if (s)
-		free((void **)s);
+	if (t->mas_his)
+	{
+		free((void **)t->mas_his);
+		t->mas_his = NULL;
+	}
 	return (lin);
 }
 
@@ -98,6 +98,9 @@ char	*get_h_const(char *h_const)
 		r[j++] = h_const[i++];
 	r[j] = '\0';
 	if (h_const)
+	{
 		free((void *)h_const);
+		h_const = NULL;
+	}
 	return (r);
 }
