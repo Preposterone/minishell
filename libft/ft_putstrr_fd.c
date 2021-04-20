@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-size_t		ft_putstrr_fd(char *s, int fd)
+size_t	ft_putstrr_fd(char *s, int fd)
 {
 	size_t	n;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 18:00:35 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/01/07 14:50:22 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/19 15:11:15 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	ft_hasch(const char *s, char c)
 	return (0);
 }
 
-char		*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*ret;
 	int		y;
@@ -36,7 +36,8 @@ char		*ft_strtrim(char const *s1, char const *set)
 		start++;
 	while (ft_hasch(set, s1[end]) && end > start)
 		end--;
-	if (!(ret = (char*)malloc((sizeof(char) * (end - start + 2)))))
+	ret = (char *)malloc((sizeof(char) * (end - start + 2)));
+	if (!ret)
 		return (NULL);
 	while (start <= end)
 		ret[y++] = s1[start++];

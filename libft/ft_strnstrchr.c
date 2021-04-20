@@ -19,7 +19,7 @@
 
 int	ft_strnstrchr(const char *str, const char **search, size_t n)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str)

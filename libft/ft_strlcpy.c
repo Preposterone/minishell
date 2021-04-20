@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/30 11:44:09 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/01/07 14:50:22 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/19 15:17:16 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 	i = 0;
 	if (dstsize == 0 || dst == NULL || src == NULL)
-		return (src == NULL ? 0 : ft_strlen(src));
+		return (ft_tern(src == NULL, 0, ft_strlen(src)));
 	srclen = ft_strlen(src);
 	while (--dstsize && *src)
 	{
@@ -27,5 +27,5 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		i++;
 	}
 	*dst = '\0';
-	return (i < srclen ? srclen : i);
+	return (ft_tern(i < srclen, srclen, i));
 }
