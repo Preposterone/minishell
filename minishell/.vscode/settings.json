@@ -1,0 +1,8 @@
+{
+    "lldb.displayFormat": "auto",
+    "lldb.showDisassembly": "always",
+    "lldb.dereferencePointers": false,
+    "files.associations": {
+        "sstream": "c"
+    }
+}
