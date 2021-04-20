@@ -1,6 +1,6 @@
 #include "termcap.h"
 
-int	ft_strlen(char *s)
+int	term_strlen(char *s)
 {
 	int	i;
 
@@ -12,7 +12,7 @@ int	ft_strlen(char *s)
 	return (i);
 }
 
-int	ft_strlen_mas(char **s)
+int	term_strlen_mas(char **s)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line)
 		return (NULL);
 	while (t->mas_his && t->mas_his[i] != NULL && i < len)
 	{
-		lin[i] = ft_strjoin(NULL, t->mas_his[i]);
+		lin[i] = term_strjoin(NULL, t->mas_his[i]);
 		if (t->mas_his[i])
 		{
 			free((void *)t->mas_his[i]);
@@ -43,7 +43,7 @@ char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line)
 		}
 		i++;
 	}
-	lin[i] = ft_strjoin(NULL, line);
+	lin[i] = term_strjoin(NULL, line);
 	lin[++i] = NULL;
 	if (t->mas_his)
 	{
@@ -78,7 +78,7 @@ void	*my_memmove(void *dst,
 	return (dst);
 }
 
-int	gnl_second(int reader, char **buff, char	**h_const)
+int	gnl_second(int reader, char **buff)
 {
 	if (*buff)
 	{

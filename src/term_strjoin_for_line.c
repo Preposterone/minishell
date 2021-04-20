@@ -1,6 +1,6 @@
 #include "termcap.h"
 
-char	*ft_strjoin_n(char *s2, char *r, int i)
+char	*term_strjoin_n(char *s2, char *r, int i)
 {
 	r = (char *)malloc(sizeof(char) * (strlen(s2) + 1));
 	if (!r)
@@ -12,7 +12,7 @@ char	*ft_strjoin_n(char *s2, char *r, int i)
 	return (r);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*term_strjoin(char *s1, char *s2)
 {
 	char			*r;
 	unsigned int	i;
@@ -21,9 +21,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	if ((!s1 || s1 == NULL) && !s2)
 		return (NULL);
 	i = 0;
+	r = NULL;
 	if (!s1 || s1 == NULL)
-		return (ft_strjoin_n(s2, r, i));
-	r = (char *)malloc(sizeof(char) * (strlen(s1) + strlen(s2) + 1));
+		return (term_strjoin_n(s2, r, i));
+	r = (char *)malloc(sizeof(char) * (term_strlen(s1) + term_strlen(s2) + 1));
 	if (!r)
 		return (NULL);
 	while (s1[i] && s1[i] != '\n')

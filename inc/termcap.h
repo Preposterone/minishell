@@ -3,7 +3,7 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100
 # endif
-# define FILE_HISTORY "minishell_history"
+# define FILE_HISTORY ".minishell_history"
 # define TERMINALNAME "minishell$ "
 # include <term.h>
 # include <unistd.h>
@@ -35,25 +35,24 @@ typedef struct s_for_in_terminal
 	int				peri;
 }					t_for_in_terminal;
 
-int		get_next_line(int fd, char **line, int reader);
-int		ft_putchar(int c);
-char	*ft_strjoin(char *s1, char *s2);
+int		term_get_next_line(int fd, char **line, int reader);
+int		term_putchar(int c);
+char	*term_strjoin(char *s1, char *s2);
 char	*str_delet_last_char(char *s1);
-int		ft_strlen(char *s);
-int		ft_strlen_mas(char **s);
+int		term_strlen(char *s);
+int		term_strlen_mas(char **s);
 char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line);
 int		file(char *str);
 void	terminal(int argc, char const *argv[], char const *envp[]);
 int		file_mas(char **str, int i);
 void	from_file(t_for_in_terminal *t);
-int		t_strcmp(const char *s1, const char *s2);
 void	*my_memmove(void *dst, const void *src, size_t len);
 size_t	my_strlen(const char *s);
-char	*ft_strjoin_str(char *s1, char *s2);
-int		ft_strcmp(const char *s1, const char *s2);
+char	*term_strjoin_str(char *s1, char *s2);
+int		term_strcmp(const char *s1, const char *s2);
 void	up_terminal(t_for_in_terminal *t);
 void	down_term(t_for_in_terminal *t);
 char	*get_h_const(char *h_const);
-int		gnl_second(int reader, char **buff, char	**h_const);
+int		gnl_second(int reader, char **buff);
 
 #endif
