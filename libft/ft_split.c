@@ -60,21 +60,15 @@ static char	**ft_freeall(char **s, int i)
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**ft_dosplit(const char *s, int i, int words, char c)
 {
 	char	**ret;
-	int		words;
 	int		flag;
-	int		i;
 
-	i = 0;
-	flag = -1;
-	if (!s)
-		return (NULL);
-	words = ft_wordcount(s, c);
 	ret = (char **)ft_calloc(words + 1, sizeof(char *));
 	if (!ret)
 		return (NULL);
+	flag = -1;
 	while (*s && i <= words - 1)
 	{
 		if (flag >= 0)
@@ -91,4 +85,15 @@ char	**ft_split(char const *s, char c)
 			s++;
 	}
 	return (ret);
+}
+
+
+char	**ft_split(char const *s, char c)
+{
+	int		words;
+
+	if (!s)
+		return (NULL);
+	words = ft_wordcount(s, c);
+	return (ft_dosplit(s, 0, words, c));
 }
