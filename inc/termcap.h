@@ -33,6 +33,7 @@ typedef struct s_for_in_terminal
 	int				i;
 	char			str[2000];
 	int				peri;
+	int				len;
 }					t_for_in_terminal;
 
 int		term_get_next_line(int fd, char **line, int reader);
@@ -54,5 +55,6 @@ void	up_terminal(t_for_in_terminal *t);
 void	down_term(t_for_in_terminal *t);
 char	*get_h_const(char *h_const);
 int		gnl_second(int reader, char **buff);
+void	line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, int i);
 
 #endif
