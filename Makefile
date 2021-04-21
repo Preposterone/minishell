@@ -22,13 +22,13 @@ re:	fclean all
 
 #cleaning up
 cleanlib:
-	/bin/rm -f $(LIB_DIR)/*
+	/bin/rm -f $(LIB_DIR)/*.a
 
 clean:
-	@make clean -C $(LFT_DIR)
+	#@make clean -C $(LFT_DIR) TODO: uncomment for clean in lft_dir
 	/bin/rm -f $(OBJS)
 
-fclean:	clean cleanlib
+fclean:	clean #cleanlib TODO: uncomment for clean in lib_dir
 	/bin/rm -f $(NAME)
 
 cleanall: fclean dclean

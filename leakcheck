@@ -1,0 +1,11 @@
+#!/bin/bash
+
+MINISH=minishell;
+SLEEPFOR=2;
+
+while pgrep minishell
+do
+	leaks ${MINISH} | grep -A15 "for" | grep --color -E '^.*'
+	sleep ${SLEEPFOR}
+done
+#echo "${MINISH} has stopped."

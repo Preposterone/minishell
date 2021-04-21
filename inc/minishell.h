@@ -15,5 +15,6 @@
 # include "gnl.h"
 # include "libft.h"
 # include "termcap.h"
+# include "expander.h"
 
 #endif
