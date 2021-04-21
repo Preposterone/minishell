@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/20 18:59:52 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/21 11:25:46 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static bool	ft_isfileindir(char *filename, DIR *dir, int len)
 		if (entry->d_namlen == len && !ft_strcmp(entry->d_name, filename))
 		{
 			ret = true;
-			break;
+			break ;
 		}
 		entry = readdir(dir);
 	}
@@ -94,7 +94,7 @@ char	*expander(char *cmd, char *path)
 		if (dir)
 		{
 			if (ft_isfileindir(cmd, dir, len))
-				break;
+				break ;
 		}
 	}
 	return (ft_freesplit_and_ret(split_path, i));
@@ -103,21 +103,22 @@ char	*expander(char *cmd, char *path)
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_envp	sh_envp;
-	(void)argv;
-	(void)argc;
 	char	*cmdpath;
 	char	cmd[100];
 
+	(void)argv;
+	(void)argc;
 	ft_bzero(&sh_envp, sizeof(sh_envp));
 	ft_envp_cpy(envp, &sh_envp);
-	for (int i = 0; i < 10; i++)
+	while (true)
 	{
 		ft_bzero(&cmd, 100);
 		scanf("%s", cmd);
 		cmdpath = expander(cmd, sh_envp.sh_path);
 		if (!cmdpath)
 		{
-			ft_putendl_fd(MINISHELL ": la" ERR_CMD_NOT_FOUND, 2);
+			printf("Not found.\n");
+			break;
 		}
 		else
 			printf("%s\n", cmdpath);
