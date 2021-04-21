@@ -5,7 +5,6 @@
 # endif
 # define FILE_HISTORY ".minishell_history"
 # define TERMINALNAME "minishell$ "
-# define MINISHELL "minishell"
 # include <term.h>
 # include <unistd.h>
 # include <string.h>
