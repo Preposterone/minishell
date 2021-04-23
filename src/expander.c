@@ -6,13 +6,13 @@
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/21 12:33:21 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/23 14:13:30 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	ft_isbuiltin(char *cmd)
+bool	ft_isbuiltin(char *cmd)
 {
 	int		i;
 	bool	ret;

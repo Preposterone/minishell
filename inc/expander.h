@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:39:04 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/21 12:31:45 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/23 14:12:52 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct	s_envp
 # define ERR_CMD_NOT_FOUND ": command not found"
 
 void	ft_envp_cpy(const char *envp[], t_envp *buf);
+bool	ft_isbuiltin(char *cmd);
 char	*expander(char *cmd, char *path);
 
 
