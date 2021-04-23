@@ -1,8 +1,9 @@
 #include "termcap.h"
 
+
 char	*term_strjoin_n(char *s2, char *r, int i)
 {
-	r = (char *)malloc(sizeof(char) * (strlen(s2) + 1));
+	r = (char *)malloc(sizeof(char) * (term_strlen(s2) + 1));
 	if (!r)
 		return (NULL);
 	i = -1;
@@ -64,4 +65,96 @@ char	*str_delet_last_char(char *s1)
 		s1 = NULL;
 	}
 	return (r);
+}
+
+
+char *lexer_charjoin(char *s1, char c)
+{
+	char			*r;
+	unsigned int	i;
+
+	if ((!s1 || s1 == NULL) && !c)
+		return (NULL);
+	i = 0;
+	r = (char *)malloc(sizeof(char) * (term_strlen(s1) + 1 + 1));
+	if (!r)
+		return (NULL);
+	while (s1 != NULL && s1 && s1[i] != '\0' && s1[i] != '\n')
+	{
+		r[i] = s1[i];
+		i++;
+	}
+	r[i++] = c;
+	r[i] = '\0';
+	if (s1 && s1 != NULL)
+		free(s1);
+	return (r);
+}
+
+int	en(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s || s == NULL || s[i] == '\0' || !s[i])
+	{
+		return (0);
+	}
+	while (s && s[i] && s[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
+
+char	*ter(char *s2, int i)
+{
+	char *r;
+	int len;
+
+	len = en(s2);
+	r = (char *)malloc(sizeof(char) * (len + 1));
+	if (!r)
+		return (NULL);
+	while (i < len && s2 != NULL && s2[++i] && s2[i] != '\0' && s2[i] != '\n')
+	{
+		r[i] = s2[i];
+	}
+	r[i] = '\0';
+	return (r);
+}
+
+
+char	**strjoin_lex_mas(int len, t_for_in_lexer *lex)
+{
+	char	**lin;
+	int		i;
+
+	i = 0;
+	lex->len = len;
+	//printf("\n++%d\n", len);
+	lin = (char **)malloc((len + 1) * sizeof(char *));
+	if (!lin)
+		return (NULL);
+	while (lex->mas_line && lex->mas_line != NULL && lex->mas_line[i] && lex->mas_line[i] != NULL && i < len)
+	{
+		//printf("\n%s\n", lex->mas_line[i]);
+		lin[i] = ter(lex->mas_line[i], -1);
+		//printf("\n**%s == %d\n", lex->mas_line[i], i);
+		if (lex->mas_line[i])
+		{
+			free((void *)lex->mas_line[i]);
+			lex->mas_line[i] = NULL;
+		}
+		i++;
+	}
+	lin[i++] = ter(lex->line, -1);
+	//printf("\n--%s == %d\n", lin[i-1], i-1);
+	lin[i] = NULL;
+	if (lex->mas_line)
+	{
+		free((void **)lex->mas_line);
+		lex->mas_line = NULL;
+	}
+	return (lin);
 }

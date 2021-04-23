@@ -60,7 +60,7 @@ void	while_enter_term(t_for_in_terminal *t)
 					+ 1, t, t->s);
 			t->j = t->j + 1;
 			t->i = t->j;
-			line_from_terminal_to_lexer(t->s, t, -1);
+			line_from_terminal_to_lexer(t->s, t);
 		}
 		else if (t->i == 0 && term_strlen_mas(t->mas_his) == 0)
 			t->i = t->i;
@@ -73,7 +73,7 @@ void	while_enter_term(t_for_in_terminal *t)
 						+ 1, t, t->sn);
 				t->j = t->j + 1;
 				t->i = t->j;
-				line_from_terminal_to_lexer(t->sn, t, -1);
+				line_from_terminal_to_lexer(t->sn, t);
 			}
 		}
 	}

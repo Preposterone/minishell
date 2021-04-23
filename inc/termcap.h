@@ -22,6 +22,7 @@ typedef struct s_for_in_terminal
 	char const		**envp;
 	int				l;
 	char			**mas_his;
+	char			**mas_line;
 	struct termios	term;
 	struct winsize	win;
 	char			*term_name;
@@ -35,6 +36,22 @@ typedef struct s_for_in_terminal
 	int				peri;
 	int				len;
 }					t_for_in_terminal;
+
+typedef struct s_for_in_lexer
+{
+	int				argc;
+	char const		**argv;
+	char const		**envp;
+	char			**mas_his;
+	char			**mas_line;
+	char			*line;
+	char			*s;
+	int				j;
+	int				fd;
+	int				i;
+	int				len;
+	char			*use;
+}					t_for_in_lexer;
 
 int		term_get_next_line(int fd, char **line, int reader);
 int		term_putchar(int c);
@@ -55,6 +72,9 @@ void	up_terminal(t_for_in_terminal *t);
 void	down_term(t_for_in_terminal *t);
 char	*get_h_const(char *h_const);
 int		gnl_second(int reader, char **buff);
-void	line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, int i);
+void	line_from_terminal_to_lexer(char *s, t_for_in_terminal *t);
+char	*lexer_charjoin(char *s1, char c);
+char	**strjoin_lex_mas(int len, t_for_in_lexer *t);
+void	del_mas(t_for_in_lexer *lex);
 
 #endif

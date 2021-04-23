@@ -33,7 +33,7 @@ char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line)
 	lin = (char **)malloc((len + 1) * sizeof(char *));
 	if (!lin)
 		return (NULL);
-	while (t->mas_his && t->mas_his[i] != NULL && i < len)
+	while (t->mas_his && t->mas_his[i] != NULL && i < len) //just len - 1
 	{
 		lin[i] = term_strjoin(NULL, t->mas_his[i]);
 		if (t->mas_his[i])
