@@ -29,7 +29,7 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 	{
 		if (lex->pipe == 1)
 		{
-			/*printf("%s\n", (*par)->arguments[0]);
+			printf("%s\n", (*par)->arguments[0]);
 			printf("%s\n", (*par)->arguments[1]);
 			printf("%s\n", (*par)->arguments[2]);
 			printf("%s\n", (*par)->input[0]);
@@ -37,8 +37,10 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			printf("%s\n", (*par)->outend[0]);
 			printf("%s\n", (*par)->input[1]);
 			printf("%s\n", (*par)->out[1]);
-			printf("%s\n", (*par)->outend[1]);*/
+			printf("%s\n", (*par)->outend[1]);
+
 			(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
+			(*par)->next->key = (*par)->key + 1;
 			*par = (*par)->next;
 			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
 			(*par)->out = (char **)ft_calloc(1, sizeof(char *));
@@ -233,5 +235,5 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t)
 	del_masiv(par->out);
 	del_masiv(par->outend);
 	del_masiv(par->input);
-	//free(par);
+	free(par);
 }
