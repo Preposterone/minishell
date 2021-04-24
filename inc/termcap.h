@@ -51,7 +51,24 @@ typedef struct s_for_in_lexer
 	int				i;
 	int				len;
 	char			*use;
+
+	int				input;
+	int				out;
+	int				outend;
+	int				pipe;
+	int				l;
 }					t_for_in_lexer;
+
+typedef struct s_for_in_parser
+{
+	char			**arguments;
+	char			**input;
+	char			**out;
+	char			**outend;
+	int				j;
+	struct s_for_in_parser		*next;
+}					t_for_in_parser;
+
 
 int		term_get_next_line(int fd, char **line, int reader);
 int		term_putchar(int c);
@@ -76,5 +93,6 @@ void	line_from_terminal_to_lexer(char *s, t_for_in_terminal *t);
 char	*lexer_charjoin(char *s1, char c);
 char	**strjoin_lex_mas(int len, t_for_in_lexer *t);
 void	del_mas(t_for_in_lexer *lex);
+char	**strjoin_pr_mas(int len, char **s, char *line);
 
 #endif

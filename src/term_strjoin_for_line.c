@@ -1,4 +1,4 @@
-#include "termcap.h"
+#include "minishell.h"
 
 
 char	*term_strjoin_n(char *s2, char *r, int i)
@@ -113,7 +113,8 @@ char	*ter(char *s2, int i)
 	int len;
 
 	len = en(s2);
-	r = (char *)malloc(sizeof(char) * (len + 1));
+	//r = (char *)malloc(sizeof(char) * (len + 1));
+	r = (char *)ft_calloc(len + 1, sizeof(char));
 	if (!r)
 		return (NULL);
 	while (i < len && s2 != NULL && s2[++i] && s2[i] != '\0' && s2[i] != '\n')
@@ -132,15 +133,12 @@ char	**strjoin_lex_mas(int len, t_for_in_lexer *lex)
 
 	i = 0;
 	lex->len = len;
-	//printf("\n++%d\n", len);
 	lin = (char **)malloc((len + 1) * sizeof(char *));
 	if (!lin)
 		return (NULL);
 	while (lex->mas_line && lex->mas_line != NULL && lex->mas_line[i] && lex->mas_line[i] != NULL && i < len)
 	{
-		//printf("\n%s\n", lex->mas_line[i]);
 		lin[i] = ter(lex->mas_line[i], -1);
-		//printf("\n**%s == %d\n", lex->mas_line[i], i);
 		if (lex->mas_line[i])
 		{
 			free((void *)lex->mas_line[i]);
@@ -149,7 +147,6 @@ char	**strjoin_lex_mas(int len, t_for_in_lexer *lex)
 		i++;
 	}
 	lin[i++] = ter(lex->line, -1);
-	//printf("\n--%s == %d\n", lin[i-1], i-1);
 	lin[i] = NULL;
 	if (lex->mas_line)
 	{
@@ -158,3 +155,41 @@ char	**strjoin_lex_mas(int len, t_for_in_lexer *lex)
 	}
 	return (lin);
 }
+
+char	**strjoin_pr_mas(int len, char **s, char *line)
+{
+	char	**lin;
+	int		i;
+
+	i = 0;
+	printf("\n3'/'\n");
+	//par = (t_for_in_parser *)ft_calloc(2, sizeof(par));
+	lin = (char **)ft_calloc(len + 1, sizeof(char *));
+	//lin = (char **)malloc((len + 1) * sizeof(char *));
+	if (!lin)
+		return (NULL);
+	while (i < len - 1 && s && s != NULL && s[i] && s[i] != NULL)
+	{
+		lin[i] = ter(s[i], -1);
+		//printf("\nlin += |%s|\n", lin[i]);
+		if (s[i])
+		{
+			free(s[i]);
+			s[i] = NULL;
+		}
+		i++;
+		if (!s[i])
+			break ;
+	}
+	lin[i++] = ter(line, -1);
+	//printf("\n++lin = |%s|\n", lin[i  - 1]);
+	lin[i] = NULL;
+	if (s)
+	{
+		free((void **)s);
+		s = NULL;
+	}
+	printf("\n3''''''\n");
+	return (lin);
+}
+
