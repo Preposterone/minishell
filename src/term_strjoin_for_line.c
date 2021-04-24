@@ -96,10 +96,8 @@ int	en(char *s)
 	int	i;
 
 	i = 0;
-	if (!s || s == NULL || s[i] == '\0' || !s[i])
-	{
+	if (!s || s == NULL || !s[i] || s[i] == '\0')
 		return (0);
-	}
 	while (s && s[i] && s[i] != '\0')
 	{
 		i++;
@@ -162,7 +160,6 @@ char	**strjoin_pr_mas(int len, char **s, char *line)
 	int		i;
 
 	i = 0;
-	printf("\n3'/'\n");
 	//par = (t_for_in_parser *)ft_calloc(2, sizeof(par));
 	lin = (char **)ft_calloc(len + 1, sizeof(char *));
 	//lin = (char **)malloc((len + 1) * sizeof(char *));
@@ -181,15 +178,15 @@ char	**strjoin_pr_mas(int len, char **s, char *line)
 		if (!s[i])
 			break ;
 	}
+	//printf("\n3'/++'\n");
 	lin[i++] = ter(line, -1);
-	//printf("\n++lin = |%s|\n", lin[i  - 1]);
 	lin[i] = NULL;
 	if (s)
 	{
 		free((void **)s);
 		s = NULL;
 	}
-	printf("\n3''''''\n");
+	//printf("\n3''''''\n");
 	return (lin);
 }
 
