@@ -25,11 +25,13 @@ void del_masiv(char **l)
 
 void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 {
+	t_for_in_parser *t_p;
+
 	if (lex->line && lex->line != NULL)
 	{
 		if (lex->pipe == 1)
 		{
-			printf("%s\n", (*par)->arguments[0]);
+			/*printf("%s\n", (*par)->arguments[0]);
 			printf("%s\n", (*par)->arguments[1]);
 			printf("%s\n", (*par)->arguments[2]);
 			printf("%s\n", (*par)->input[0]);
@@ -37,11 +39,13 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			printf("%s\n", (*par)->outend[0]);
 			printf("%s\n", (*par)->input[1]);
 			printf("%s\n", (*par)->out[1]);
-			printf("%s\n", (*par)->outend[1]);
-
+			printf("%s\n", (*par)->outend[1]);*/
+			//(*par)->previous = ft_calloc(1, sizeof(t_for_in_parser));
+			t_p = *par;
 			(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
 			(*par)->next->key = (*par)->key + 1;
 			*par = (*par)->next;
+			(*par)->previous = t_p;
 			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
 			(*par)->out = (char **)ft_calloc(1, sizeof(char *));
 			(*par)->outend = (char **)ft_calloc(1, sizeof(char *));
@@ -69,6 +73,15 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		lex->line = free_null(lex->line);
 		lex->j++;
+	}
+	if (lex->j > 15)
+	{
+		lex->j = 11;
+		while (lex->j == lex->j)
+		{
+			lex->j = lex->j;
+		}
+		
 	}
 }
 
@@ -176,6 +189,7 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 	}
 	//printf("\n333212\n");
 	put_line_in_mas(lex, par);
+	(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
 	//printf("\n333311\n");
 	int i;
 	i = 0;
@@ -192,10 +206,97 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 }
 
 
+void print_par(t_for_in_parser **par)
+{
+	int i;
+	printf("\nStart\n");
+	while (*par != NULL)
+	{
+		i = 0;
+		while ((*par)->arguments[i] != NULL)
+		{
+			printf("|%s", (*par)->arguments[i]);
+			i++;
+		}
+		i = 0;
+		while ((*par)->out[i] != NULL)
+		{
+			printf("|%s", (*par)->out[i]);
+			i++;
+		}
+		i = 0;
+		while ((*par)->outend[i] != NULL)
+		{
+			printf("|%s", (*par)->outend[i]);
+			i++;
+		}
+		i = 0;
+		while ((*par)->input[i] != NULL)
+		{
+			printf("|%s", (*par)->input[i]);
+			i++;
+		}
+		printf("|%d", (*par)->key);
+		*par = (*par)->previous;
+	}
+}
+
+void del_free_par(t_for_in_parser **par)
+{
+	int i;
+	int j;
+
+	j = 0;
+	while (*par != NULL)
+	{
+		i = 0;
+		while ((*par)->arguments != NULL && (*par)->arguments[i] != NULL)
+		{
+			free((*par)->arguments[i]);
+			(*par)->arguments[i] = NULL;
+			i++;
+		}
+		free((*par)->arguments);
+		i = 0;
+		while ((*par)->out != NULL && (*par)->out[i] != NULL)
+		{
+			free((*par)->out[i]);
+			(*par)->out[i] = NULL;
+			i++;
+		}
+		free((*par)->out);
+		i = 0;
+		while ((*par)->outend != NULL && (*par)->outend[i] != NULL)
+		{
+			free((*par)->outend[i]);
+			(*par)->outend[i] = NULL;
+			i++;
+		}
+		free((*par)->outend);
+		i = 0;
+		while ((*par)->input != NULL && (*par)->input[i] != NULL)
+		{
+			free((*par)->input[i]);
+			(*par)->input[i] = NULL;
+			i++;
+		}
+		free((*par)->input);
+
+		free((*par)->next);
+		*par = (*par)->previous;
+		j++;
+
+	}
+	//free((*par)->previous);
+	//free((*par)->next);
+	free(*par);
+}
+
 void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t)
 {
 	t_for_in_lexer lex;
 	t_for_in_parser *par;
+	t_for_in_parser *t_p;
 
 	lex.s = s;
 	//lex.mas_his = t->mas_his;
@@ -215,12 +316,16 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t)
 
 	lex.mas_line = NULL;
 	lex.line = NULL;
-	//par = *par.now;
+
 	par = ft_calloc(1, sizeof(t_for_in_parser));
-	par->key = 0;
-	//par->now = NULL;
 	par->next = ft_calloc(1, sizeof(t_for_in_parser));
+	t_p = par;
 	par = par->next;
+	par->previous = t_p;
+
+
+	//par->previous = t_p;
+
 
 	par->arguments = (char **)ft_calloc(1, sizeof(char *));
 	par->out = (char **)ft_calloc(1, sizeof(char *));
@@ -230,10 +335,21 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t)
 	//par = (t_for_in_parser *)malloc(3 * sizeof(par));
 	//par = (t_for_in_parser *)ft_calloc(3, sizeof(par));
 	//printf("\n|%s|\n", lex.s);
-	lexer(&lex, &par);
-	del_masiv(par->arguments);
+	//lexer(&lex, &par);
+
+	/*while (lex.l == lex.l)
+	{
+		lex.l = lex.l;
+	}*/
+	//print_par(&par);
+	del_free_par(&par);
+	free(t_p);
+	/*del_masiv(par->arguments);
 	del_masiv(par->out);
 	del_masiv(par->outend);
-	del_masiv(par->input);
-	free(par);
+	del_masiv(par->input);*/
+	/*par = par->previous;
+	free(par->next);
+	free(par->previous);
+	free(par);*/
 }

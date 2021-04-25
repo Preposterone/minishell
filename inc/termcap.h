@@ -68,7 +68,6 @@ typedef struct s_for_in_parser
 	int				j;
 	struct s_for_in_parser		*next;
 	struct s_for_in_parser		*previous;
-	struct s_for_in_parser		*parent;
 	int key;
 }					t_for_in_parser;
 
