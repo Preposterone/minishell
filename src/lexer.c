@@ -288,6 +288,7 @@ void print_par(t_for_in_parser **par)
 	while (*par != NULL)
 	{
 		i = 0;
+		printf("\nkey = %d\n", (*par)->key);
 		while ((*par)->arguments != NULL && (*par)->arguments[i] != NULL)
 		{
 			printf("arguments = %s\n", (*par)->arguments[i]);
@@ -311,7 +312,6 @@ void print_par(t_for_in_parser **par)
 			printf("input = %s\n", (*par)->input[i]);
 			i++;
 		}
-		printf("key = %d\n", (*par)->key);
 		*par = (*par)->previous;
 	}
 }
