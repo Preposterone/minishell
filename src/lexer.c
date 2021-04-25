@@ -141,7 +141,7 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 	if ((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122))
 	{
 		lex->dollar = 1;
-		while((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] >= 60 && lex->s[lex->i] <= 71))
+		while((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57))
 		{
 			s = lexer_charjoin(s, lex->s[lex->i]);
 			lex->i++;
@@ -155,7 +155,43 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 	}
 	else
 	{
-		lex->line = lexer_charjoin(lex->line, lex->s[lex->i - 1]);
+		if (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57)
+		{
+			s = lexer_charjoin(s, lex->s[lex->i]);
+			lex->i++;
+			s = find_in_envp(lex, s);
+			if (s != NULL)
+			{
+				lex->line = s;
+				put_line_in_mas(lex, par);
+			}
+		}
+		else if (lex->s[lex->i] == '-')
+		{
+			lex->i++;
+			s = term_strjoin(NULL, "him");
+			if (s != NULL)
+			{
+				lex->line = s;
+				put_line_in_mas(lex, par);
+			}
+		}
+		else if (lex->s[lex->i] == '?')
+		{
+			lex->i++;
+			s = term_strjoin(NULL, "0");
+			if (s != NULL)
+			{
+				lex->line = s;
+				put_line_in_mas(lex, par);
+			}
+		}
+		else if (lex->s[lex->i] == '*')
+		{
+			lex->i++;
+		}
+		else
+			lex->line = lexer_charjoin(lex->line, lex->s[lex->i - 1]);
 	}
 	lex->i--;
 }
@@ -368,8 +404,10 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t)
 	par->outend = (char **)ft_calloc(1, sizeof(char *));
 	par->input = (char **)ft_calloc(1, sizeof(char *));
 	lexer(&lex, &par);
-	//print_par(&par);
-	del_free_par(&par);
+
+	//print_par(&par); //Для печати
+	del_free_par(&par); //не запускать эту фунцию, когда есть функция печати  
+
 	free(t_p);
 }
 
