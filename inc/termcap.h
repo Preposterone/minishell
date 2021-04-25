@@ -56,6 +56,7 @@ typedef struct s_for_in_lexer
 	int				out;
 	int				outend;
 	int				pipe;
+	int				dollar;
 	int				l;
 }					t_for_in_lexer;
 
