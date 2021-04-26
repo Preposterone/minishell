@@ -28,14 +28,20 @@ char	*term_strjoin(char *s1, char *s2)
 	r = (char *)malloc(sizeof(char) * (term_strlen(s1) + term_strlen(s2) + 1));
 	if (!r)
 		return (NULL);
-	while (s1[i] && s1[i] != '\n')
+	while (s1[i])
 	{
+		if (s1[i] == '\n' && s1[i + 1] == '\0')
+			break ;
 		r[i] = s1[i];
 		i++;
 	}
 	j = -1;
-	while (s2[++j] && s2[i] != '\n')
+	while (s2[++j])
+	{
+		if (s1[i] == '\n' && s1[i + 1] == '\0')
+			break ;
 		r[i++] = s2[j];
+	}
 	r[i] = '\0';
 	if (s1 && s1 != NULL)
 		free(s1);

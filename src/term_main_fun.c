@@ -94,8 +94,10 @@ void	terminal_while(t_for_in_terminal *t)
 	while (1 == 1)
 	{
 		do_term(t);
-		if (!term_strcmp(t->str, "\n") || !term_strcmp(t->str, "\4"))
+		if (!term_strcmp(t->str, "\n\0"))
 			break ;
+		if (!term_strcmp(t->str, "\4"))
+			return ;
 	}
 	while_enter_term(t);
 	if (t->s)
