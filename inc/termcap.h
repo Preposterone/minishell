@@ -35,6 +35,7 @@ typedef struct s_for_in_terminal
 	char			str[2000];
 	int				peri;
 	int				len;
+	int				del_len;
 }					t_for_in_terminal;
 
 typedef struct s_for_in_lexer

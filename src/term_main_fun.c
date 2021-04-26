@@ -2,7 +2,7 @@
 
 void	del_term(t_for_in_terminal *t)
 {
-	if (t->i == term_strlen_mas(t->mas_his) && t->s)
+	if (t->del_len > 0 && t->i == term_strlen_mas(t->mas_his) && t->s)
 	{
 		if (t->s[0] != 0 && t->s[0] != 10)
 		{
@@ -11,7 +11,7 @@ void	del_term(t_for_in_terminal *t)
 		}
 		t->s = str_delet_last_char(t->s);
 	}
-	else if (t->sn)
+	else if (t->del_len > 0 && t->sn)
 	{
 		if (t->sn[0] != 0)
 		{
@@ -20,6 +20,8 @@ void	del_term(t_for_in_terminal *t)
 		}
 		t->sn = str_delet_last_char(t->sn);
 	}
+	if (t->del_len > 0)
+		t->del_len--;
 }
 
 void	do_term(t_for_in_terminal *t)
@@ -42,15 +44,22 @@ void	do_term(t_for_in_terminal *t)
 		if (t->str[0] == 0)
 			t->i = t->i;
 		else if (t->i == term_strlen_mas(t->mas_his))
+		{
+			t->del_len++;
 			t->s = term_strjoin(t->s, t->str);
+		}
 		else if (t->mas_his[t->i])
+		{
+			t->del_len++;
 			t->sn = term_strjoin(t->sn, t->str);
+		}
 		write (1, t->str, t->l);
 	}
 }
 
 void	while_enter_term(t_for_in_terminal *t)
 {
+	t->del_len = 0;
 	if (term_strcmp(t->s, "\n"))
 	{
 		if (t->i == term_strlen_mas(t->mas_his)
@@ -119,6 +128,7 @@ void	terminal(int argc, char const *argv[], char const *envp[])
 	tgetent(0, t.term_name);
 	t.term_name = "xterm-256color";
 	t.n = 0;
+	t.del_len = 0;
 	t.j = t.i;
 	t.peri = t.i;
 	write(1, &t.str, 100);
