@@ -29,6 +29,10 @@ void	do_term(t_for_in_terminal *t)
 	ioctl(0, FIONREAD, &t->n);
 	t->l = read(0, t->str, t->n);
 	t->str[t->l] = 0;
+	if (t->str[0] == 9)
+	{
+		t->str[0] = '\0';
+	}
 	if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
 	else if (!term_strcmp(t->str, "\e[B"))
@@ -97,7 +101,10 @@ void	terminal_while(t_for_in_terminal *t)
 		if (!term_strcmp(t->str, "\n\0"))
 			break ;
 		if (!term_strcmp(t->str, "\4"))
+		{
+			write(1, EXIT, term_strlen(EXIT));
 			return ;
+		}
 	}
 	while_enter_term(t);
 	if (t->s)
@@ -119,6 +126,11 @@ void	terminal(int argc, char const *argv[], char const *envp[])
 	t_for_in_terminal	t;
 
 	t.argc = argc;
+	if (argc > 1)
+	{
+		write(1, MANY_ARGS, term_strlen(MANY_ARGS));
+		exit(0);
+	}
 	t.argv = argv;
 	t.envp = envp;
 	tcgetattr(0, &t.term);
@@ -136,7 +148,9 @@ void	terminal(int argc, char const *argv[], char const *envp[])
 	write(1, &t.str, 100);
 	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
 	while (term_strcmp(t.str, "\4"))
+	{
 		terminal_while(&t);
+	}
 	write(1, "\n", 1);
 	file_mas(t.mas_his, t.peri);
 	return ;

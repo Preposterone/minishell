@@ -6,6 +6,9 @@
 # define FILE_HISTORY ".minishell_history"
 # define TERMINALNAME "minishell$ "
 # define ERROR_LEXER "minishell: error\n"
+# define MANY_ARGS "minishell: too many arguments\n"
+# define EXIT "exit"
+# define NO_FILE_PUT "minishell: syntax error near unexpected token `newline'\n"
 # include <term.h>
 # include <unistd.h>
 # include <string.h>

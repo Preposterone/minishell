@@ -75,6 +75,11 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		lex->line = free_null(lex->line);
 		lex->j++;
 	}
+	else if (lex->outend == 1 || lex->out == 1 || lex->input == 1)
+	{
+		write(1, NO_FILE_PUT, term_strlen(NO_FILE_PUT));
+		exit(0);
+	}
 }
 
 void del_mas(t_for_in_lexer *lex)
@@ -270,7 +275,10 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 				exit_mistake();
 		}
 		else if (lex->s[lex->i] == ';')
+		{
+			put_line_in_mas(lex, par);
 			lex->i = lex->i;//go_to_pars();
+		}
 		else if (lex->s[lex->i] != ' ' && lex->s[lex->i] != 10)
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 		else if (lex->s[lex->i] == ' ' && lex->line && lex->line != NULL)
@@ -281,7 +289,6 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 	}
 	put_line_in_mas(lex, par);
 	(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
-
 }
 
 
