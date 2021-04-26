@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	exit_mistake()
+{
+	write(1, ERROR_LEXER, term_strlen(ERROR_LEXER));
+	exit(0);
+}
+
 char *free_null(char *l)
 {
 	if (l)
@@ -85,8 +91,6 @@ void del_mas(t_for_in_lexer *lex)
 	free((void **)lex->mas_line);
 	lex->mas_line = NULL;
 }
-
-
 
 
 
@@ -216,13 +220,13 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 					if (lex->s[lex->i + 1] != '\0')
 						lex->line = lexer_charjoin(lex->line, lex->s[++lex->i]);
 					else
-						exit(0);
+						exit_mistake();
 				}
 				else
 					lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 			}
 			if (lex->s[lex->i] == '\0')
-				exit(0);
+				exit_mistake();
 		}
 		else if (lex->s[lex->i] == 39)
 		{
@@ -231,7 +235,7 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 				lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 			}
 			if (lex->s[lex->i] == '\0')
-				exit(0);
+				exit_mistake();
 		}
 		else if (lex->s[lex->i] == '$')
 		{
@@ -263,7 +267,7 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 			if (lex->s[lex->i + 1] != '\0')
 				lex->line = lexer_charjoin(lex->line, lex->s[++lex->i]);
 			else
-				exit(0);
+				exit_mistake();
 		}
 		else if (lex->s[lex->i] == ';')
 			lex->i = lex->i;//go_to_pars();
