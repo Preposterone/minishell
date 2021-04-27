@@ -163,6 +163,7 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 {
 	t_for_in_terminal	t;
 
+	ft_bzero(&t, sizeof(t_for_in_terminal)); //зануление значений структуры
 	t.argc = argc;
 	if (argc > 1)
 	{
@@ -171,7 +172,6 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 	}
 	t.argv = argv;
 	t.envp = sh_envp->sh_envp;
-	ft_bzero(&t, sizeof(t_for_in_terminal)); //зануление значений структуры
 	tcgetattr(0, &t.term);
 	from_file(&t);
 	t.i = term_strlen_mas(t.mas_his);
