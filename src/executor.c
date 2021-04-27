@@ -35,7 +35,6 @@ static char	**ft_argappend(char **args, char *cmd)
 	i = -1;
 	while (args[++i])
 		newargs[i + 1] = args[i];
-	// free(args); //is this needed?
 	return (newargs);
 }
 
@@ -50,12 +49,24 @@ static char	*ft_strstrjoin(char *cmd, char *cmdpath)
 	return (ret);
 }
 
+static char *ft_build_command(char *cmd, char *cmdpath)
+{
+	char *ret;
+
+	ret = NULL;
+	if (ft_strchr(cmd, '/'))
+		ret = ft_strdup(cmd);
+	else
+		ret = ft_strstrjoin(cmd, cmdpath);
+	return (ret);
+}
+
 int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
 {
 	int		ret;
 	char	*cmd_abs;
 	char	**newargs;
-	pid_t	child;
+	pid_t	id;
 
 	ret = 0;
 	(void )args;
@@ -63,11 +74,12 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
 		ret = ft_do_builtin(cmd, args); //do builtin
 	else
 	{
-		cmd_abs = ft_strstrjoin(cmd, cmdpath);
+		cmd_abs = ft_build_command(cmd, cmdpath);
 		newargs = ft_argappend(args, cmd);
-		child = fork(); //waitpid?
-		wait(&ret);
-		if (child == 0)
+		id = fork(); //waitpid?
+		if (id)
+			wait(&ret);
+		else
 		{
 			execve(cmd_abs, newargs, envp->sh_envp);
 			exit(0); //should it be?
@@ -83,7 +95,10 @@ int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp)
 {
 	char *cmdpath;
 
-	cmdpath = expander(par[0]->arguments[0], sh_envp->sh_path);
-	executor(par[0]->arguments[0], &par[0]->arguments[1], cmdpath, sh_envp);
+	if (par[0]->key == 1)
+	{
+		cmdpath = expander(par[0]->arguments[0], sh_envp->sh_path);
+		executor(par[0]->arguments[0], &par[0]->arguments[1], cmdpath, sh_envp);
+	}
 	return (0);
 }
