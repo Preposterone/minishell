@@ -417,7 +417,7 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t)
 	lexer(&lex, &par);
 
 	print_par(&par); //Для печати
-	//del_free_par(&par); //не запускать эту фунцию, когда есть функция печати  
+	//del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
 
 	free(t_p);
 }

@@ -9,6 +9,7 @@
 # define MANY_ARGS "minishell: too many arguments\n"
 # define EXIT "exit"
 # define NO_FILE_PUT "minishell: syntax error near unexpected token `newline'\n"
+# include "minishell.h"
 # include <term.h>
 # include <unistd.h>
 # include <string.h>
@@ -23,7 +24,7 @@ typedef struct s_for_in_terminal
 {
 	int				argc;
 	char const		**argv;
-	char const		**envp;
+	char			**envp;
 	int				l;
 	char			**mas_his;
 	char			**mas_line;
@@ -46,7 +47,7 @@ typedef struct s_for_in_lexer
 {
 	int				argc;
 	char const		**argv;
-	char const		**envp;
+	char			**envp;
 	char			**mas_his;
 	char			**mas_line;
 	char			*line;
@@ -77,7 +78,6 @@ typedef struct s_for_in_parser
 	int key;
 }					t_for_in_parser;
 
-
 int		term_get_next_line(int fd, char **line, int reader);
 int		term_putchar(int c);
 char	*term_strjoin(char *s1, char *s2);
@@ -86,7 +86,7 @@ int		term_strlen(char *s);
 int		term_strlen_mas(char **s);
 char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line);
 int		file(char *str);
-void	terminal(int argc, char const *argv[], char const *envp[]);
+void	terminal(int argc, char const *argv[], t_envp *sh_envp);
 int		file_mas(char **str, int i);
 void	from_file(t_for_in_terminal *t);
 void	*my_memmove(void *dst, const void *src, size_t len);

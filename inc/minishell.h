@@ -12,16 +12,11 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include "minishell_structs.h"
 # include "gnl.h"
 # include "libft.h"
 # include "termcap.h"
 # include "expander.h"
 # include "executor.h"
-
-typedef struct	s_all
-{
-	t_envp				sh_envp;	//copy of envp
-	t_for_in_terminal	termcap;	//struct for termcap
-}				t_all;
 
 #endif

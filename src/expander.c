@@ -54,6 +54,8 @@ void	ft_envp_cpy(const char *envp[], t_envp *buf)
 		envp_cpy[i] = ft_strdup(envp[i]);
 		if (!ft_strncmp(envp[i], "PATH=", 5))
 			path = &envp_cpy[i][5];
+		else if (!ft_strncmp(envp[i], "TERM=", 5))
+			buf->sh_term = &envp_cpy[i][5];
 	}
 	buf->sh_envp = envp_cpy;
 	buf->sh_path = path;

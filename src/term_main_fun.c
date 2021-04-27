@@ -1,4 +1,4 @@
-#include "termcap.h"
+#include "minishell.h"
 
 void	del_term(t_for_in_terminal *t)
 {
@@ -121,7 +121,7 @@ void	terminal_while(t_for_in_terminal *t)
 	t->i = t->j;
 }
 
-void	terminal(int argc, char const *argv[], char const *envp[])
+void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 {
 	t_for_in_terminal	t;
 
@@ -132,20 +132,21 @@ void	terminal(int argc, char const *argv[], char const *envp[])
 		exit(0);
 	}
 	t.argv = argv;
-	t.envp = envp;
+	t.envp = sh_envp->sh_envp;
+	ft_bzero(&t, sizeof(t_for_in_terminal)); //зануление значений структуры
 	tcgetattr(0, &t.term);
 	from_file(&t);
 	t.i = term_strlen_mas(t.mas_his);
 	t.term.c_lflag &= ~(ECHO);
 	t.term.c_lflag &= ~(ICANON);
 	tcsetattr(0, TCSANOW, &t.term);
+	t.term_name = sh_envp->sh_term;
 	tgetent(0, t.term_name);
-	t.term_name = "xterm-256color";
 	t.n = 0;
 	t.del_len = 0;
 	t.j = t.i;
 	t.peri = t.i;
-	write(1, &t.str, 100);
+	// write(1, &t.str, 100);	//зачем?
 	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
 	while (term_strcmp(t.str, "\4"))
 	{
