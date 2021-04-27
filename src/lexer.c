@@ -124,7 +124,8 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else
 		{
-			check_flags(lex);
+			if (term_strlen_mas((*par)->arguments) == 1)
+				check_flags(lex);
 			(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments) + 1, (*par)->arguments, lex->line);
 		}
 		lex->line = free_null(lex->line);
