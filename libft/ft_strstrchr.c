@@ -22,10 +22,10 @@ int	ft_strstrchr(const char *str, const char **search)
 	while (search[n])
 	{
 		if (ft_strcmp(str, search[n]) == 0)
-			return (1);
+			return (n);
 		n++;
 	}
-	return (0);
+	return (-1);
 }
 
 int	ft_strstrchr0(char *searchfor, const char **searchin, int upto)

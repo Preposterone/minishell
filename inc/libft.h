@@ -80,7 +80,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		ft_numlen(int n);
 
 /*
-** Searches for str in search, returns 1 if str found, else 0
+** Searches for str in search, returns index if str found, else -1
 */
 int		ft_strstrchr(const char *str, const char **search);
 
