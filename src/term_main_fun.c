@@ -92,12 +92,50 @@ void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp)
 	}
 }
 
+void ft_signal_slesh()
+{
+	g_all.key_signal = 2;
+}
+
+void ft_signal_c()
+{
+	g_all.key_signal = 1;
+}
+
 void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 {
 	tputs(save_cursor, 1, term_putchar);
 	while (1 == 1)
 	{
-		do_term(t);
+		signal(SIGQUIT, ft_signal_slesh);
+		signal(SIGINT, ft_signal_c);
+		if (g_all.key_signal == 1)
+		{
+			if (t->del_len == 0)
+			{
+				write(1, "\n", 1);
+				t->s = (char *)ft_calloc(1, sizeof(char));
+				g_all.key_signal = 0;
+				break ;
+			}
+			if (t->del_len > 0 && t->s)
+			{
+				free(t->s);
+				t->s = NULL;
+				t->s = term_strjoin(NULL, "\0");
+			}
+			else if (t->del_len > 0 && t->sn)
+			{
+				free(t->sn);
+				t->sn = NULL;
+				t->sn = term_strjoin(NULL, "\0");
+			}
+			g_all.key_signal = 0;
+			write(1, "\n", 1);
+			break ;
+		}
+		else
+			do_term(t);
 		if (!term_strcmp(t->str, "\n\0"))
 			break ;
 		if (!term_strcmp(t->str, "\4"))
