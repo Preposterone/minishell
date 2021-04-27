@@ -6,11 +6,7 @@
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2021/04/23 17:30:14 by aarcelia         ###   ########.fr       */
-=======
-/*   Updated: 2021/04/23 14:13:30 by aarcelia         ###   ########.fr       */
->>>>>>> master
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +54,8 @@ void	ft_envp_cpy(const char *envp[], t_envp *buf)
 		envp_cpy[i] = ft_strdup(envp[i]);
 		if (!ft_strncmp(envp[i], "PATH=", 5))
 			path = &envp_cpy[i][5];
-<<<<<<< HEAD
 		else if (!ft_strncmp(envp[i], "TERM=", 5))
 			buf->sh_term = &envp_cpy[i][5];
-=======
->>>>>>> master
 	}
 	buf->sh_envp = envp_cpy;
 	buf->sh_path = path;

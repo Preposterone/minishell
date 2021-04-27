@@ -8,24 +8,10 @@ int main(int argc, char const *argv[], char const *envp[])
 	t_envp	sh_envp;
 
 	ft_envp_cpy(envp, &sh_envp);
-<<<<<<< HEAD
+
 	terminal(argc, argv, &sh_envp);
     return 0;
 }
-int main(int argc, char *argv[])
-{
-	(void)argc;
-	(void)argv;
-	const char *src = "system of a down";
-	const char *dst = "12";
-	int n = 6;
-	printf("%d\n", strncmp(src, dst, n));
-	printf("%d\n", ft_strncmp(src, dst, n));
-	printf("%d\n", strncmp("system of a down", "12", 6));
-	printf("%d\n", ft_strncmp("system of a down", "12", 6));
-	return (0);
-}*/
-
 
 /* exectuor test
 int main(int argc, char const *argv[], char const *envp[])
