@@ -8,6 +8,7 @@ int main(int argc, char const *argv[], char const *envp[])
 {
 	t_envp	sh_envp;
 
+	ft_bzero(&g_all, sizeof(t_all));
 	ft_envp_cpy(envp, &sh_envp);
 
 	terminal(argc, argv, &sh_envp);

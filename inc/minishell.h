@@ -18,7 +18,7 @@
 # include "termcap.h"
 # include "expander.h"
 # include "executor.h"
-
+# include <stdio.h>
 typedef struct	s_all
 {
 	//t_envp				sh_envp;	//copy of envp
