@@ -1,5 +1,6 @@
 
 #include "minishell.h"
+t_all g_all;
 
 //gcc -g main.c work_with_file.c ft_strjoin_for_mas.c ft_strjoin_for_line.c  terminal_up_down_fun.c terminal_main_fun.c gnl.c  -ltermcap && ./a.out
 

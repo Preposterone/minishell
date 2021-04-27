@@ -29,6 +29,60 @@ void del_masiv(char **l)
 	}
 }
 
+
+
+
+void check_flags(t_for_in_lexer *lex)
+{
+	int i;
+	int *h;
+	char *s;
+
+	i = 0;
+	if (!lex->line)
+		return ;
+	h = (int *)ft_calloc(128, sizeof(int));
+	s = (char *)ft_calloc(1, sizeof(char));
+	while(i < 127)
+		h[i++] = 0;
+	i = -1;
+	if (lex->line[0] == '-' && lex->line[1] != '-' && lex->line[1] != '\0')
+	{
+		i++;
+		s = lexer_charjoin(s, lex->line[i]);
+		while (lex->line[++i])
+		{
+			if ((lex->line[i] >= 65 && lex->line[i] <= 90) || (lex->line[i] >= 97 && lex->line[i] <= 122))
+			{
+				if (lex->line[i] < 127 && h[(int)lex->line[i]] == 0)
+					s = lexer_charjoin(s, lex->line[i]);		
+				if ((int)lex->line[i] < 127)
+					h[(int)lex->line[i]] = 1;
+			}
+			else
+			{
+				free(s);
+				free(h);
+				s = NULL;
+				return ;
+			}
+		}
+	}
+	else
+	{
+		free(s);
+		free(h);
+		s = NULL;
+		return ;
+	}
+	free(lex->line);
+	free(h);
+	lex->line = NULL;
+	lex->line = s;
+}
+
+
+
 void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	t_for_in_parser *t_p;
@@ -70,6 +124,7 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else
 		{
+			check_flags(lex);
 			(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments) + 1, (*par)->arguments, lex->line);
 		}
 		lex->line = free_null(lex->line);
@@ -105,6 +160,7 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 	int i;
 	int j;
 	char *str;
+	char *ex;
 
 	j = 0;
 	str = NULL;
@@ -113,6 +169,14 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 		if (s != NULL)
 			free(s);
 		return (NULL);
+	}
+	if (s[0] == '0')
+	{
+		ex = ft_itoa(g_all.exit_code);
+		str = term_strjoin(str, ex);
+		free(s);
+		free(ex);
+		return (str);
 	}
 	while (lex->envp[j] != NULL)
 	{
@@ -158,8 +222,10 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 		s = find_in_envp(lex, s);
 		if (s != NULL)
 		{
-			lex->line = s;
+			//lex->line = s;
 			lex->line = term_strjoin(lex->line, s);
+			free(s);
+			s = NULL;
 		}
 	}
 	else
@@ -171,8 +237,10 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 			s = find_in_envp(lex, s);
 			if (s != NULL)
 			{
-				lex->line = s;
+				//lex->line = s;
 				lex->line = term_strjoin(lex->line, s);
+				free(s);
+				s = NULL;
 			}
 		}
 		else if (lex->s[lex->i] == '-')
@@ -181,8 +249,10 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 			s = term_strjoin(NULL, "him");
 			if (s != NULL)
 			{
-				lex->line = s;
+				//lex->line = s;
 				lex->line = term_strjoin(lex->line, s);
+				free(s);
+				s = NULL;
 			}
 		}
 		else if (lex->s[lex->i] == '?')
@@ -191,8 +261,10 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 			s = term_strjoin(NULL, "0");
 			if (s != NULL)
 			{
-				lex->line = s;
+				//lex->line = s;
 				lex->line = term_strjoin(lex->line, s);
+				free(s);
+				s = NULL;
 			}
 		}
 		else if (lex->s[lex->i] == '*')
@@ -277,7 +349,20 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 		else if (lex->s[lex->i] == ';')
 		{
 			put_line_in_mas(lex, par);
-			lex->i = lex->i;//go_to_pars();
+			//executor(par->arguments[0],&par->arguments[1],expander(par->arguments[0], sh_envp->sh_path), sh_envp);
+			//del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
+			/*par = ft_calloc(1, sizeof(t_for_in_parser));
+			par->next = ft_calloc(1, sizeof(t_for_in_parser));
+			par = par->next;
+			par->key = 1;
+			par->previous = t_p;
+
+
+			par->arguments = (char **)ft_calloc(1, sizeof(char *));
+			par->out = (char **)ft_calloc(1, sizeof(char *));
+			par->outend = (char **)ft_calloc(1, sizeof(char *));
+			par->input = (char **)ft_calloc(1, sizeof(char *));*/
+
 		}
 		else if (lex->s[lex->i] != ' ' && lex->s[lex->i] != 10)
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
@@ -416,9 +501,10 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	par->input = (char **)ft_calloc(1, sizeof(char *));
 	lexer(&lex, &par);
 
-//	print_par(&par); //Для печати
-	printf("%d", executor(par->arguments[0],&par->arguments[1],expander(par->arguments[0], sh_envp->sh_path), sh_envp));
-	//del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
+	//print_par(&par); //Для печати
+	(void)sh_envp;
+	//executor(par->arguments[0],&par->arguments[1],expander(par->arguments[0], sh_envp->sh_path), sh_envp);
+	del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
 
 	free(t_p);
 }

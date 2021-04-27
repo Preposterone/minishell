@@ -19,4 +19,14 @@
 # include "expander.h"
 # include "executor.h"
 
+typedef struct	s_all
+{
+	//t_envp				sh_envp;	//copy of envp
+	//t_for_in_terminal	termcap;	//struct for termcap
+    int                     key_signal;
+	int                     exit_code;
+}				t_all;
+
+extern t_all g_all;
+
 #endif
