@@ -97,7 +97,7 @@ void	up_terminal(t_for_in_terminal *t);
 void	down_term(t_for_in_terminal *t);
 char	*get_h_const(char *h_const);
 int		gnl_second(int reader, char **buff);
-void	line_from_terminal_to_lexer(char *s, t_for_in_terminal *t);
+void	line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp 						*sh_envp);
 char	*lexer_charjoin(char *s1, char c);
 char	**strjoin_lex_mas(int len, t_for_in_lexer *t);
 void	del_mas(t_for_in_lexer *lex);

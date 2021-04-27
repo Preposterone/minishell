@@ -112,7 +112,7 @@ char	*expander(char *cmd, char *path)
 	i = -1;
 	if (ft_isbuiltin(cmd))
 	{
-		printf("Running builtin\n");//todo: return cmd to executor
+		// printf("Running builtin\n");//todo: return cmd to executor
 		return cmd;
 	}
 	else if (!path)

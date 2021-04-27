@@ -61,7 +61,7 @@ void	do_term(t_for_in_terminal *t)
 	}
 }
 
-void	while_enter_term(t_for_in_terminal *t)
+void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp)
 {
 	t->del_len = 0;
 	if (term_strcmp(t->s, "\n"))
@@ -73,7 +73,7 @@ void	while_enter_term(t_for_in_terminal *t)
 					+ 1, t, t->s);
 			t->j = t->j + 1;
 			t->i = t->j;
-			line_from_terminal_to_lexer(t->s, t);
+			line_from_terminal_to_lexer(t->s, t, sh_envp);
 		}
 		else if (t->i == 0 && term_strlen_mas(t->mas_his) == 0)
 			t->i = t->i;
@@ -86,13 +86,13 @@ void	while_enter_term(t_for_in_terminal *t)
 						+ 1, t, t->sn);
 				t->j = t->j + 1;
 				t->i = t->j;
-				line_from_terminal_to_lexer(t->sn, t);
+				line_from_terminal_to_lexer(t->sn, t, sh_envp);
 			}
 		}
 	}
 }
 
-void	terminal_while(t_for_in_terminal *t)
+void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 {
 	tputs(save_cursor, 1, term_putchar);
 	while (1 == 1)
@@ -106,7 +106,7 @@ void	terminal_while(t_for_in_terminal *t)
 			return ;
 		}
 	}
-	while_enter_term(t);
+	while_enter_term(t, sh_envp);
 	if (t->s)
 	{
 		free((void *)t->s);
@@ -150,7 +150,7 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
 	while (term_strcmp(t.str, "\4"))
 	{
-		terminal_while(&t);
+		terminal_while(&t, sh_envp);
 	}
 	write(1, "\n", 1);
 	file_mas(t.mas_his, t.peri);

@@ -25,7 +25,7 @@ static char	**ft_argappend(char **args, char *cmd)
 	i = -1;
 	while (args[++i])
 		newargs[i + 1] = args[i];
-	free(args);
+	// free(args); //is this needed?
 	return (newargs);
 }
 
