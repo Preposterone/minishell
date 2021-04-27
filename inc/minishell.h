@@ -18,5 +18,5 @@
 # include "termcap.h"
 # include "expander.h"
 # include "executor.h"
-
+# include <stdio.h>
 #endif

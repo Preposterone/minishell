@@ -417,34 +417,8 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	lexer(&lex, &par);
 
 //	print_par(&par); //Для печати
-	printf("%d", executor(par->arguments[0],&par->arguments[1],expander(par->arguments[0], sh_envp->sh_path), sh_envp));
-	//del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
+	executor_secretary(&par, sh_envp);
+	del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
 
 	free(t_p);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

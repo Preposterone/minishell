@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+void	ft_freematrix(void **target)
+{
+	int i;
+
+	i = -1;
+	while (target[++i])
+		free(target[i]);
+	free(target);
+}
+
 static char	**ft_argappend(char **args, char *cmd)
 {
 	char	**newargs;
@@ -50,7 +60,7 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
 	ret = 0;
 	(void )args;
 	if (ft_isbuiltin(cmd))
-		ret = ft_do_builtin(cmd, args);//do builtin
+		ret = ft_do_builtin(cmd, args); //do builtin
 	else
 	{
 		cmd_abs = ft_strstrjoin(cmd, cmdpath);
@@ -62,6 +72,18 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
 			execve(cmd_abs, newargs, envp->sh_envp);
 			exit(0); //should it be?
 		}
+		ft_freematrix((void **)newargs);
+		free(cmd_abs);
+		free(cmdpath);
 	}
 	return (ret);
+}
+
+int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp)
+{
+	char *cmdpath;
+
+	cmdpath = expander(par[0]->arguments[0], sh_envp->sh_path);
+	executor(par[0]->arguments[0], &par[0]->arguments[1], cmdpath, sh_envp);
+	return (0);
 }

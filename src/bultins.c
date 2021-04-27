@@ -50,20 +50,31 @@ int ft_do_cd(char **args)
 
 int	ft_do_echo(char **args)
 {
-	int i;
+	int		i;
+	bool	newl;
 
-	i = -1;
-	while (args[++i])
-		ft_putstr_fd(args[i], 1);
+	i = 0;
+	if (!ft_strcmp(args[i], "-n"))
+	{
+		newl = false;
+		i++;
+	}
+	else
+		newl = true;
+	while (args[i])
+		ft_putstr_fd(args[i++], 1);
+	if (newl)
+		ft_putstr_fd("\n", 1);
 	return (0);
 }
+
+//No fork for builtin - because it leaks
 
 int	ft_do_builtin(char *cmd, char **args)
 {
 	int sw;
 
 	sw = ft_strstrchr((const char *)cmd, (const char **)BLT_IN);
-	fork();
 	if (sw == 0)
 		return (ft_do_echo(args));
 	else if (sw == 1)
