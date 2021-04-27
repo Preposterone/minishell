@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/23 14:13:30 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/23 17:30:14 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	ft_envp_cpy(const char *envp[], t_envp *buf)
 		envp_cpy[i] = ft_strdup(envp[i]);
 		if (!ft_strncmp(envp[i], "PATH=", 5))
 			path = &envp_cpy[i][5];
+		else if (!ft_strncmp(envp[i], "TERM=", 5))
+			buf->sh_term = &envp_cpy[i][5];
 	}
 	buf->sh_envp = envp_cpy;
 	buf->sh_path = path;
@@ -110,7 +112,7 @@ char	*expander(char *cmd, char *path)
 	i = -1;
 	if (ft_isbuiltin(cmd))
 	{
-		printf("Running builtin\n");//todo: return cmd to executor
+		// printf("Running builtin\n");//todo: return cmd to executor
 		return cmd;
 	}
 	else if (!path)

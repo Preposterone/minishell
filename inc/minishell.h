@@ -12,9 +12,11 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include "minishell_structs.h"
 # include "gnl.h"
 # include "libft.h"
 # include "termcap.h"
 # include "expander.h"
+# include "executor.h"
 
 #endif

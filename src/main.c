@@ -8,20 +8,34 @@ int main(int argc, char const *argv[], char const *envp[])
 	t_envp	sh_envp;
 
 	ft_envp_cpy(envp, &sh_envp);
+
+	terminal(argc, argv, &sh_envp);
+    return 0;
+}
+
+/* exectuor test
+int main(int argc, char const *argv[], char const *envp[])
+{
+	t_envp	sh_envp;
+	(void)argv;
+	(void)argc;
+	ft_envp_cpy(envp, &sh_envp);
+	char *cmd = "cat";
+	char **args = malloc(2 * sizeof(char *));
+//	args[0] = ft_strdup("leakcheck");
+	args[0] = NULL;
+	args[1] = NULL;
+	char *cmdpath = expander(cmd, sh_envp.sh_path);
+	executor(cmd, args, cmdpath, &sh_envp);
+	return (0);
+}*/
+
+/* expander test
+=======
 	terminal(argc, argv, envp);
 	return 0;
 }
-
-/*
-int	main(int argc, char *argv[], const char *envp[])
-{
-	t_envp	sh_envp;
-	char	*cmdpath;
 	char	cmd[100];
-
-	(void)argv;
-	(void)argc;
-	ft_bzero(&sh_envp, sizeof(sh_envp));
 	ft_envp_cpy(envp, &sh_envp);
 	while (true)
 	{
