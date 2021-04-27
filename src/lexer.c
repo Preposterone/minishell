@@ -29,6 +29,60 @@ void del_masiv(char **l)
 	}
 }
 
+
+
+
+void check_flags(t_for_in_lexer *lex)
+{
+	int i;
+	int *h;
+	char *s;
+
+	i = 0;
+	if (!lex->line)
+		return ;
+	h = (int *)ft_calloc(128, sizeof(int));
+	s = (char *)ft_calloc(1, sizeof(char));
+	while(i < 127)
+		h[i++] = 0;
+	i = -1;
+	if (lex->line[0] == '-' && lex->line[1] != '-' && lex->line[1] != '\0')
+	{
+		i++;
+		s = lexer_charjoin(s, lex->line[i]);
+		while (lex->line[++i])
+		{
+			if ((lex->line[i] >= 65 && lex->line[i] <= 90) || (lex->line[i] >= 97 && lex->line[i] <= 122))
+			{
+				if (lex->line[i] < 127 && h[(int)lex->line[i]] == 0)
+					s = lexer_charjoin(s, lex->line[i]);		
+				if ((int)lex->line[i] < 127)
+					h[(int)lex->line[i]] = 1;
+			}
+			else
+			{
+				free(s);
+				free(h);
+				s = NULL;
+				return ;
+			}
+		}
+	}
+	else
+	{
+		free(s);
+		free(h);
+		s = NULL;
+		return ;
+	}
+	free(lex->line);
+	free(h);
+	lex->line = NULL;
+	lex->line = s;
+}
+
+
+
 void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	t_for_in_parser *t_p;
@@ -70,7 +124,7 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else
 		{
-			//check_flags();
+			check_flags(lex);
 			(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments) + 1, (*par)->arguments, lex->line);
 		}
 		lex->line = free_null(lex->line);
