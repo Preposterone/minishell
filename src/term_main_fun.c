@@ -165,6 +165,7 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 
 	ft_bzero(&t, sizeof(t_for_in_terminal)); //зануление значений структуры
 	t.argc = argc;
+	g_all.exit_code = 0;
 	if (argc > 1)
 	{
 		write(1, MANY_ARGS, term_strlen(MANY_ARGS));

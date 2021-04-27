@@ -160,6 +160,7 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 	int i;
 	int j;
 	char *str;
+	char *ex;
 
 	j = 0;
 	str = NULL;
@@ -168,6 +169,14 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 		if (s != NULL)
 			free(s);
 		return (NULL);
+	}
+	if (s[0] == '0')
+	{
+		ex = ft_itoa(g_all.exit_code);
+		str = term_strjoin(str, ex);
+		free(s);
+		free(ex);
+		return (str);
 	}
 	while (lex->envp[j] != NULL)
 	{
@@ -492,10 +501,10 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	par->input = (char **)ft_calloc(1, sizeof(char *));
 	lexer(&lex, &par);
 
-	print_par(&par); //Для печати
+	//print_par(&par); //Для печати
 	(void)sh_envp;
 	//executor(par->arguments[0],&par->arguments[1],expander(par->arguments[0], sh_envp->sh_path), sh_envp);
-	//del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
+	del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
 
 	free(t_p);
 }
