@@ -1,7 +1,6 @@
 
 #include "minishell.h"
 
-
 //gcc -g main.c work_with_file.c ft_strjoin_for_mas.c ft_strjoin_for_line.c  terminal_up_down_fun.c terminal_main_fun.c gnl.c  -ltermcap && ./a.out
 
 int main(int argc, char const *argv[], char const *envp[])
@@ -9,11 +8,10 @@ int main(int argc, char const *argv[], char const *envp[])
 	t_envp	sh_envp;
 
 	ft_envp_cpy(envp, &sh_envp);
+<<<<<<< HEAD
 	terminal(argc, argv, &sh_envp);
     return 0;
 }
-
-/*
 int main(int argc, char *argv[])
 {
 	(void)argc;
@@ -47,14 +45,11 @@ int main(int argc, char const *argv[], char const *envp[])
 }*/
 
 /* expander test
-int	main(int argc, char *argv[], const char *envp[])
-{
-	t_envp	sh_envp;
-	char	*cmdpath;
+=======
+	terminal(argc, argv, envp);
+	return 0;
+}
 	char	cmd[100];
-	(void)argv;
-	(void)argc;
-	ft_bzero(&sh_envp, sizeof(sh_envp));
 	ft_envp_cpy(envp, &sh_envp);
 	while (true)
 	{
