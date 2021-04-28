@@ -17,7 +17,7 @@ HEADERS :=	$(addprefix $(INC_DIR)/, $(H_FILES))
 
 #compiler setup
 CC := gcc
-CFLAGS += -Wall -Werror -Wextra -g3 #todo: switch to o2
+CFLAGS += -Wall -Werror -Wextra -g3 #TODO: switch to o2
 IFLAGS += -I$(INC_DIR)/
 
 #Sources
