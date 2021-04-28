@@ -21,18 +21,21 @@ void	ft_print_arr(char **arr)
 		ft_putendl_fd(arr[i], 1);
 }
 
-int ft_do_exit(char **args)
+int ft_do_exit(char **args, t_for_in_terminal *t)
 {
 	(void)args;
-	return (0);
+	ft_putendl_fd(EXIT, 1);
+	file_mas(t->mas_his, t->peri);
+	// write(1, EXIT, term_strlen(EXIT)); //todo
+	exit (0);
 }
 
-int ft_do_env(char **args)
+int ft_do_env(char **args, char **envp_cpy)
 {
 	if (args[0])
-		; //invalid argument error
+		; //invalid argument error or should there be this
 	else
-		ft_print_arr(args);
+		ft_print_arr(envp_cpy);
 	return (0);
 }
 
@@ -53,7 +56,7 @@ int ft_do_pwd(char **args)
 	char *buf;
 
 	if (args[0])
-		; //invalid argument error
+		; //invalid argument error or should there be this
 	buf = NULL;
 	buf = getcwd(buf, 0);
 	if (buf)
@@ -97,7 +100,8 @@ int	ft_do_echo(char **args)
 
 //No fork for builtin - because it leaks
 
-int	ft_do_builtin(char *cmd, char **args)
+int	ft_do_builtin(char *cmd, char **args, t_envp *envp,
+			t_for_in_terminal *term_props)
 {
 	int sw;
 
@@ -113,8 +117,8 @@ int	ft_do_builtin(char *cmd, char **args)
 	if (sw == 4)
 		return (ft_do_unset(args));
 	if (sw == 5)
-		return (ft_do_env(args));
+		return (ft_do_env(args, envp->sh_envp));
 	if (sw == 6)
-		return (ft_do_exit(args));
+		return (ft_do_exit(args, term_props));
 	return (0);
 }

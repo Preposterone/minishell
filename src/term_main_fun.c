@@ -140,7 +140,7 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			break ;
 		if (!term_strcmp(t->str, "\4"))
 		{
-			write(1, EXIT, term_strlen(EXIT));
+			ft_do_exit((char *[]){0, NULL}, t);
 			return ;
 		}
 	}
@@ -191,7 +191,7 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 	{
 		terminal_while(&t, sh_envp);
 	}
-	write(1, "\n", 1);
-	file_mas(t.mas_his, t.peri);
+	// write(1, "\n", 1);
+	// file_mas(t.mas_his, t.peri);	//moved to ft_do_exit
 	return ;
 }

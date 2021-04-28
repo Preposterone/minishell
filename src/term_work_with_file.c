@@ -65,7 +65,7 @@ void	from_file(t_for_in_terminal *t)
 	close(fd);
 }
 
-int	file_mas(char **str, int i)
+int	file_mas(char **str, int i) //todo
 {
 	int fd;
 

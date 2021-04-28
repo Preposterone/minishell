@@ -14,8 +14,10 @@
 # define EXECUTOR_H
 # include "minishell.h"
 
-int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp);
-int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp);
+int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp,
+			t_for_in_terminal *term_props);
+int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
+						t_for_in_terminal *term_props);
 
 /*
 	Builtin prototypes
@@ -24,11 +26,12 @@ int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp);
 /**
  * Secretary function, switch-like
  */
-int	ft_do_builtin(char *cmd, char **args); //need struct for output and input and pipe maybe?
+int	ft_do_builtin(char *cmd, char **args, t_envp *envp,
+			t_for_in_terminal *term_props);
 
-int ft_do_exit(char **args);
+int ft_do_exit(char **args, t_for_in_terminal *term_props);
 
-int ft_do_set(char **args);
+int ft_do_env(char **args, char **envp_cpy);
 
 int ft_do_unset(char **args);
 
@@ -39,7 +42,5 @@ int ft_do_pwd(char **args);
 int ft_do_cd(char **args);
 
 int	ft_do_echo(char **args);
-
-
 
 #endif

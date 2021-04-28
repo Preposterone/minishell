@@ -34,7 +34,7 @@ static char	**ft_argappend(char **args, char *cmd)
 	newargs[0] = ft_strdup(cmd);
 	i = -1;
 	while (args[++i])
-		newargs[i + 1] = args[i];
+		newargs[i + 1] = ft_strdup(args[i]);
 	return (newargs);
 }
 
@@ -61,7 +61,8 @@ static char *ft_build_command(char *cmd, char *cmdpath)
 	return (ret);
 }
 
-int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
+int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp,
+			t_for_in_terminal *term_props)
 {
 	int		ret;
 	char	*cmd_abs;
@@ -69,9 +70,8 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
 	pid_t	id;
 
 	ret = 0;
-	(void )args;
 	if (ft_isbuiltin(cmd))
-		ret = ft_do_builtin(cmd, args); //do builtin
+		ret = ft_do_builtin(cmd, args, envp, term_props); //do builtin
 	else
 	{
 		cmd_abs = ft_build_command(cmd, cmdpath);
@@ -81,7 +81,8 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
 			wait(&ret);
 		else
 		{
-			execve(cmd_abs, newargs, envp->sh_envp);
+			if (execve(cmd_abs, newargs, envp->sh_envp) == -1)
+				ft_putendl_fd("command not found", 2);
 			exit(0); //should it be?
 		}
 		ft_freematrix((void **)newargs);
@@ -91,14 +92,15 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp)
 	return (ret);
 }
 
-int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp)
+int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
+						t_for_in_terminal *term_props)
 {
 	char *cmdpath;
 
 	if (par[0]->key == 1)
 	{
 		cmdpath = expander(par[0]->arguments[0], sh_envp->sh_path);
-		executor(par[0]->arguments[0], &par[0]->arguments[1], cmdpath, sh_envp);
+		g_all.exit_code = executor(par[0]->arguments[0], &par[0]->arguments[1], cmdpath, sh_envp, term_props);
 	}
 	return (0);
 }

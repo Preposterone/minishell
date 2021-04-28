@@ -503,7 +503,7 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 
 	// print_par(&par); //Для печати
 	// (void)sh_envp;
-	executor_secretary(&par, sh_envp);
+	executor_secretary(&par, sh_envp, t);
 	del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
 
 	free(t_p);
