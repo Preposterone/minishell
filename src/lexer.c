@@ -154,8 +154,6 @@ void del_mas(t_for_in_lexer *lex)
 }
 
 
-
-
 char *find_in_envp(t_for_in_lexer *lex, char *s)
 {
 	int i;
@@ -171,7 +169,7 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 			free(s);
 		return (NULL);
 	}
-	if (s[0] == '0')
+	if (s[0] == '?')
 	{
 		ex = ft_itoa(g_all.exit_code);
 		str = term_strjoin(str, ex);
