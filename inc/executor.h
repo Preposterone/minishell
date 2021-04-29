@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:57:01 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/28 16:20:25 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/29 16:40:57 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define EXECUTOR_H
 # include "minishell.h"
 # include <errno.h>
+# include <sys/wait.h>
+
+#ifndef LENCHECK
+# define LENCHECK
+#endif
 
 int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp,
 			t_for_in_terminal *term_props);

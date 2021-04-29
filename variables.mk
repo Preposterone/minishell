@@ -8,7 +8,15 @@ LFT_DIR := ./libft
 
 OS_NAME := $(shell uname -s | tr A-Z a-z)
 
-LFLAGS	:= -L$(LIB_DIR)/ -lft -ltermcap
+LFLAGS	:= -L$(LIB_DIR)/ -lft
+
+ifeq ($(OS_NAME),darwin)	#OS_X
+	LFLAGS += -ltermcap
+	CFLAGS += -D LENCHECK='entry->d_namlen == len && '
+else
+	LFLAGS += -lncurses
+	CFLAGS += -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-error=empty-body
+endif
 
 #Sources
 #TODO: list .h files explicitly

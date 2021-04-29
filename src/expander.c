@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/28 16:45:26 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/29 16:41:48 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static bool	ft_isfileindir(char *filename, DIR *dir, int len)
 	ret = false;
 	while (entry)
 	{
-		if (entry->d_namlen == len && !ft_strcmp(entry->d_name, filename))
+		if (LENCHECK !ft_strcmp(entry->d_name, filename))
 		{
 			ret = true;
 			break ;
