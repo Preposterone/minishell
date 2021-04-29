@@ -12,7 +12,7 @@ int main(int argc, char const *argv[], char const *envp[])
 	ft_envp_cpy(envp, &sh_envp);
 
 	terminal(argc, argv, &sh_envp);
-    return 0;
+	return 0;
 }
 
 /* exectuor test
@@ -29,29 +29,5 @@ int main(int argc, char const *argv[], char const *envp[])
 	args[1] = NULL;
 	char *cmdpath = expander(cmd, sh_envp.sh_path);
 	executor(cmd, args, cmdpath, &sh_envp);
-	return (0);
-}*/
-
-/* expander test
-=======
-	terminal(argc, argv, envp);
-	return 0;
-}
-	char	cmd[100];
-	ft_envp_cpy(envp, &sh_envp);
-	while (true)
-	{
-		ft_bzero(&cmd, 100);
-		scanf("%s", cmd);
-		cmdpath = expander(cmd, sh_envp.sh_path);
-		if (!cmdpath)
-		{
-			printf("Not found.\n");
-			break;
-		}
-		else
-			printf("%s\n", cmdpath);
-		free(cmdpath);
-	}
 	return (0);
 }*/

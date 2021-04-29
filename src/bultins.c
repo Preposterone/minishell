@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:39:34 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/28 16:45:27 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/29 11:57:23 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_print_arr(char **arr)
 /*
 	Exit the shell, returning a status of n to the shell’s parent.
 	If n is omitted, the exit status is that of the last command executed
+	exit status = args[0] % 256
+	todo: add undo termcap flags
 */
 int ft_do_exit(char **args, t_for_in_terminal *t)
 {
@@ -31,19 +33,32 @@ int ft_do_exit(char **args, t_for_in_terminal *t)
 	int				i;
 
 	i = 0;
+	reason = 0;
 	ft_putendl_fd(EXIT, 1);
 	while (args[i])
 		i++;
 	if (i > 1)
-		; //TODO: print error, don't actually exit
-	/* else if (i == 1)
 	{
-		reason =
-	} */
-
-	(void)args; //TODO: long long as exit status
+		perror("too many arguments"); //TODO: print error, don't actually exit, exit status = 1
+		return (1);
+	}
+	else if (i == 1)
+	{
+		i = -1;
+		while (args[0][++i])
+		{
+			if (ft_isdigit(args[0][i]))
+				reason = reason * 10 + args[0][i] - '0';
+			else
+			{
+				perror("numeric argument required");
+				reason = 1;
+			}
+		}
+	}
 	file_mas(t->mas_his, t->peri);
-	exit (0);
+	g_all.exit_code = reason;
+	exit (reason);
 }
 
 int ft_do_env(char **args, char **envp_cpy)
