@@ -30,21 +30,15 @@ void del_masiv(char **l)
 }
 
 
-
-
 void check_flags(t_for_in_lexer *lex)
 {
 	int i;
-	int *h;
 	char *s;
 
 	i = 0;
 	if (!lex->line)
 		return ;
-	h = (int *)ft_calloc(128, sizeof(int));
 	s = (char *)ft_calloc(1, sizeof(char));
-	while(i < 127)
-		h[i++] = 0;
 	i = -1;
 	if (lex->line[0] == '-' && lex->line[1] != '-' && lex->line[1] != '\0')
 	{
@@ -54,15 +48,14 @@ void check_flags(t_for_in_lexer *lex)
 		{
 			if ((lex->line[i] >= 65 && lex->line[i] <= 90) || (lex->line[i] >= 97 && lex->line[i] <= 122))
 			{
-				if (lex->line[i] < 127 && h[(int)lex->line[i]] == 0)
+				if (lex->line[i] < 127 && lex->flags_arg[(int)lex->line[i]] == 0)
 					s = lexer_charjoin(s, lex->line[i]);		
 				if ((int)lex->line[i] < 127)
-					h[(int)lex->line[i]] = 1;
+					lex->flags_arg[(int)lex->line[i]] = 1;
 			}
 			else
 			{
 				free(s);
-				free(h);
 				s = NULL;
 				return ;
 			}
@@ -70,13 +63,19 @@ void check_flags(t_for_in_lexer *lex)
 	}
 	else
 	{
+		lex->flags_check = 0;
 		free(s);
-		free(h);
 		s = NULL;
 		return ;
 	}
+	if (s[1] == '\0')
+	{
+		free(s);
+		s = NULL;
+		s = (char *)ft_calloc(1, sizeof(char));
+	}
+	lex->flags_check = 1;
 	free(lex->line);
-	free(h);
 	lex->line = NULL;
 	lex->line = s;
 }
@@ -124,9 +123,12 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else
 		{
-			if (term_strlen_mas((*par)->arguments) == 1)
+			if (term_strlen_mas((*par)->arguments) == 1 || lex->flags_check == 1)
+			{
 				check_flags(lex);
-			(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments) + 1, (*par)->arguments, lex->line);
+			}
+			if (lex->line != NULL && lex->line[0] != '\0')
+				(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments) + 1, (*par)->arguments, lex->line);
 		}
 		lex->line = free_null(lex->line);
 		lex->j++;
@@ -201,10 +203,10 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 	lex->i++;
 	(*par)->j = (*par)->j;
 	s = NULL;
-	if ((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] == '-'))
+	if ((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] == '_'))
 	{
 		lex->dollar = 1;
-		while((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57) || (lex->s[lex->i] == '-'))
+		while((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57) || (lex->s[lex->i] == '_'))
 		{
 			s = lexer_charjoin(s, lex->s[lex->i]);
 			lex->i++;
@@ -343,12 +345,13 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 			par->key = 1;
 			par->previous = t_p;
 
+			while(i < 127)
+				lex.flags_arg[i++] = 0;
 
 			par->arguments = (char **)ft_calloc(1, sizeof(char *));
 			par->out = (char **)ft_calloc(1, sizeof(char *));
 			par->outend = (char **)ft_calloc(1, sizeof(char *));
 			par->input = (char **)ft_calloc(1, sizeof(char *));*/
-
 		}
 		else if (lex->s[lex->i] != ' ' && lex->s[lex->i] != 10)
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
@@ -455,7 +458,7 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 
 	lex.s = s;
 	int i;
-	i = -1;
+	i = 0;
 	t->i = t->i;
 	lex.envp = t->envp;
 	lex.i = 0;
@@ -479,14 +482,19 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	par = par->next;
 	par->key = 1;
 	par->previous = t_p;
-
+	lex.flags_arg = (int *)ft_calloc(128, sizeof(int));
+	lex.i = 0;
+	while(lex.i < 127)
+		lex.flags_arg[lex.i++] = 0;
+	lex.i = 0;
+	lex.flags_check = 0;
 
 	par->arguments = (char **)ft_calloc(1, sizeof(char *));
 	par->out = (char **)ft_calloc(1, sizeof(char *));
 	par->outend = (char **)ft_calloc(1, sizeof(char *));
 	par->input = (char **)ft_calloc(1, sizeof(char *));
 	lexer(&lex, &par);
-
+	free(lex.flags_arg);
 	//print_par(&par); //Для печати
 	(void)sh_envp;
 	//executor(par->arguments[0],&par->arguments[1],expander(par->arguments[0], sh_envp->sh_path), sh_envp);
