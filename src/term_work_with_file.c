@@ -1,4 +1,4 @@
-#include "termcap.h"
+#include "minishell.h"
 
 int	term_strcmp(const char *s1, const char *s2)
 {
@@ -65,7 +65,7 @@ void	from_file(t_for_in_terminal *t)
 	close(fd);
 }
 
-int	file_mas(char **str, int i) //TODO
+int	file_mas(char **str, int i, t_for_in_terminal *t)
 {
 	int fd;
 
@@ -85,6 +85,11 @@ int	file_mas(char **str, int i) //TODO
 		i++;
 	}
 	close(fd);
+	tcgetattr(0, &t->term);
+	t->term.c_lflag |= ~(ECHO);
+	t->term.c_lflag |= ~(ICANON);
+	tcsetattr(0, TCSANOW, &t->term);
+	tgetent(0, t->term_name);
 	return (0);
 }
 

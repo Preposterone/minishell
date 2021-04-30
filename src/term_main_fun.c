@@ -35,6 +35,10 @@ void	do_term(t_for_in_terminal *t)
 	}
 	if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
+	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
+		ft_do_exit((char *[]){0, NULL}, t);
+	else if (!term_strcmp(t->str, "\4"))
+		write(1, "ctr+D", 0);
 	else if (!term_strcmp(t->str, "\e[B"))
 		down_term(t);
 	else if (term_strcmp(t->str, key_backspace) && !term_strcmp(t->str, "\177"))
@@ -45,6 +49,8 @@ void	do_term(t_for_in_terminal *t)
 		write(1, "right", 0);
 	else
 	{
+		//if (t->str[0] != 0)
+			//printf("\nd = %d\n", t->del_len);
 		if (t->str[0] == 0)
 			t->i = t->i;
 		else if (t->i == term_strlen_mas(t->mas_his))
@@ -100,6 +106,7 @@ void ft_signal_slesh()
 void ft_signal_c()
 {
 	g_all.key_signal = 1;
+	g_all.exit_code = 1;
 }
 
 void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
@@ -135,14 +142,11 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			break ;
 		}
 		else
+		{
 			do_term(t);
+		}
 		if (!term_strcmp(t->str, "\n\0"))
 			break ;
-		if (!term_strcmp(t->str, "\4"))
-		{
-			ft_do_exit((char *[]){0, NULL}, t);
-			return ;
-		}
 	}
 	while_enter_term(t, sh_envp);
 	if (t->s)

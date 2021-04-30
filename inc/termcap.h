@@ -7,7 +7,7 @@
 # define TERMINALNAME "minishell$ "
 # define ERROR_LEXER "minishell: error\n"
 # define MANY_ARGS "minishell: too many arguments\n"
-# define EXIT "exit"
+# define EXIT "exit\n"
 # define NO_FILE_PUT "minishell: syntax error near unexpected token `newline'\n"
 # include "minishell.h"
 

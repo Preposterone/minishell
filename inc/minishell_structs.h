@@ -47,13 +47,14 @@ typedef struct s_for_in_lexer
 	int				i;
 	int				len;
 	char			*use;
-
 	int				input;
 	int				out;
 	int				outend;
 	int				pipe;
 	int				dollar;
 	int				l;
+	int				*flags_arg;
+	int				flags_check;
 }					t_for_in_lexer;
 
 typedef struct s_for_in_parser
