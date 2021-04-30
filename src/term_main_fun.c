@@ -35,6 +35,10 @@ void	do_term(t_for_in_terminal *t)
 	}
 	if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
+	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
+		exit(0);//**********************************************************************************
+	else if (!term_strcmp(t->str, "\4"))
+		write(1, "ctr+D", 0);
 	else if (!term_strcmp(t->str, "\e[B"))
 		down_term(t);
 	else if (term_strcmp(t->str, key_backspace) && !term_strcmp(t->str, "\177"))
@@ -45,6 +49,8 @@ void	do_term(t_for_in_terminal *t)
 		write(1, "right", 0);
 	else
 	{
+		//if (t->str[0] != 0)
+			//printf("\nd = %d\n", t->del_len);
 		if (t->str[0] == 0)
 			t->i = t->i;
 		else if (t->i == term_strlen_mas(t->mas_his))
@@ -136,14 +142,11 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			break ;
 		}
 		else
+		{
 			do_term(t);
+		}
 		if (!term_strcmp(t->str, "\n\0"))
 			break ;
-		if (!term_strcmp(t->str, "\4"))
-		{
-			write(1, EXIT, term_strlen(EXIT));
-			return ;
-		}
 	}
 	while_enter_term(t, sh_envp);
 	if (t->s)
@@ -193,6 +196,6 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 		terminal_while(&t, sh_envp);
 	}
 	write(1, "\n", 1);
-	file_mas(t.mas_his, t.peri);
+	file_mas(t.mas_his, t.peri, &t);
 	return ;
 }

@@ -7,7 +7,7 @@
 # define TERMINALNAME "minishell$ "
 # define ERROR_LEXER "minishell: error\n"
 # define MANY_ARGS "minishell: too many arguments\n"
-# define EXIT "exit"
+# define EXIT "exit\n"
 # define NO_FILE_PUT "minishell: syntax error near unexpected token `newline'\n"
 # include "minishell.h"
 # include <term.h>
@@ -88,7 +88,7 @@ int		term_strlen_mas(char **s);
 char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line);
 int		file(char *str);
 void	terminal(int argc, char const *argv[], t_envp *sh_envp);
-int		file_mas(char **str, int i);
+int		file_mas(char **str, int i, t_for_in_terminal *t);
 void	from_file(t_for_in_terminal *t);
 void	*my_memmove(void *dst, const void *src, size_t len);
 size_t	my_strlen(const char *s);
