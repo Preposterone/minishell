@@ -159,7 +159,6 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 	int i;
 	int j;
 	char *str;
-	char *ex;
 
 	j = 0;
 	str = NULL;
@@ -168,14 +167,6 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 		if (s != NULL)
 			free(s);
 		return (NULL);
-	}
-	if (s[0] == '?')
-	{
-		ex = ft_itoa(g_all.exit_code);
-		str = term_strjoin(str, ex);
-		free(s);
-		free(ex);
-		return (str);
 	}
 	while (lex->envp[j] != NULL)
 	{
@@ -210,10 +201,10 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 	lex->i++;
 	(*par)->j = (*par)->j;
 	s = NULL;
-	if ((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122))
+	if ((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] == '-'))
 	{
 		lex->dollar = 1;
-		while((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57))
+		while((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57) || (lex->s[lex->i] == '-'))
 		{
 			s = lexer_charjoin(s, lex->s[lex->i]);
 			lex->i++;
@@ -221,7 +212,6 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 		s = find_in_envp(lex, s);
 		if (s != NULL)
 		{
-			//lex->line = s;
 			lex->line = term_strjoin(lex->line, s);
 			free(s);
 			s = NULL;
@@ -236,7 +226,6 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 			s = find_in_envp(lex, s);
 			if (s != NULL)
 			{
-				//lex->line = s;
 				lex->line = term_strjoin(lex->line, s);
 				free(s);
 				s = NULL;
@@ -248,7 +237,6 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 			s = term_strjoin(NULL, "him");
 			if (s != NULL)
 			{
-				//lex->line = s;
 				lex->line = term_strjoin(lex->line, s);
 				free(s);
 				s = NULL;
@@ -257,10 +245,9 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 		else if (lex->s[lex->i] == '?')
 		{
 			lex->i++;
-			s = term_strjoin(NULL, "0");
+			s = ft_itoa(g_all.exit_code);
 			if (s != NULL)
 			{
-				//lex->line = s;
 				lex->line = term_strjoin(lex->line, s);
 				free(s);
 				s = NULL;

@@ -100,6 +100,7 @@ void ft_signal_slesh()
 void ft_signal_c()
 {
 	g_all.key_signal = 1;
+	g_all.exit_code = 1;
 }
 
 void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
