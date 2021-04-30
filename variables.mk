@@ -8,7 +8,15 @@ LFT_DIR := ./libft
 
 OS_NAME := $(shell uname -s | tr A-Z a-z)
 
-LFLAGS	:= -L$(LIB_DIR)/ -lft -ltermcap
+LFLAGS	:= -L$(LIB_DIR)/ -lft
+
+ifeq ($(OS_NAME),darwin)	#OS_X
+	LFLAGS += -ltermcap
+	CFLAGS += -D LENCHECK='entry->d_namlen == len && '
+else						#LINUX
+	LFLAGS += -lncurses
+	CFLAGS += -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-error=empty-body
+endif
 
 #Sources
 #TODO: list .h files explicitly
@@ -17,7 +25,7 @@ HEADERS :=	$(addprefix $(INC_DIR)/, $(H_FILES))
 
 #compiler setup
 CC := gcc
-CFLAGS += -Wall -Werror -Wextra -g3 #todo: switch to o2
+CFLAGS += -Wall -Werror -Wextra -g3 #TODO: switch to o2
 IFLAGS += -I$(INC_DIR)/
 
 #Sources

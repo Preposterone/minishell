@@ -36,7 +36,7 @@ void	do_term(t_for_in_terminal *t)
 	if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
 	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
-		exit(0);//**********************************************************************************
+		ft_do_exit((char *[]){0, NULL}, t);
 	else if (!term_strcmp(t->str, "\4"))
 		write(1, "ctr+D", 0);
 	else if (!term_strcmp(t->str, "\e[B"))
@@ -195,7 +195,7 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 	{
 		terminal_while(&t, sh_envp);
 	}
-	write(1, "\n", 1);
-	file_mas(t.mas_his, t.peri, &t);
+	// write(1, "\n", 1);
+	// file_mas(t.mas_his, t.peri);	//moved to ft_do_exit
 	return ;
 }

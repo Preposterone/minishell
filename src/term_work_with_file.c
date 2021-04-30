@@ -1,4 +1,4 @@
-#include "termcap.h"
+#include "minishell.h"
 
 int	term_strcmp(const char *s1, const char *s2)
 {
