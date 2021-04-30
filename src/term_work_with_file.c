@@ -85,11 +85,9 @@ int	file_mas(char **str, int i, t_for_in_terminal *t)
 		i++;
 	}
 	close(fd);
-	tcgetattr(0, &t->term);
-	t->term.c_lflag |= ~(ECHO);
-	t->term.c_lflag |= ~(ICANON);
+	t->term.c_lflag |= (ECHO);
+	t->term.c_lflag |= (ICANON);
 	tcsetattr(0, TCSANOW, &t->term);
-	tgetent(0, t->term_name);
 	return (0);
 }
 

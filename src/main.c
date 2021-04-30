@@ -3,7 +3,7 @@
 t_all g_all;
 
 //gcc -g main.c work_with_file.c ft_strjoin_for_mas.c ft_strjoin_for_line.c  terminal_up_down_fun.c terminal_main_fun.c gnl.c  -ltermcap && ./a.out
-
+/*
 int main(int argc, char const *argv[], char const *envp[])
 {
 	t_envp	sh_envp;
@@ -14,6 +14,7 @@ int main(int argc, char const *argv[], char const *envp[])
 	terminal(argc, argv, &sh_envp);
 	return 0;
 }
+*/
 
 
 /* exectuor test
@@ -364,3 +365,92 @@ int main(int argc, char const *argv[], char *envp[]) {
 	return (0);
 }
  */
+
+//close useless pipes
+
+void ft_close_pipes(int pipes[][2], int skip_input, int skip_output, int total_pipes)
+{
+	int i = -1;
+
+	while(++i < total_pipes)
+	{
+		if (i != skip_input)
+			close(pipes[i][0]);
+		if (i != skip_output)
+			close(pipes[i][1]);
+	}
+}
+/*
+cat src/main.c | cat | grep g_all | grep --color -E '*.'
+*/
+#define NUM_CMDS 4
+
+#define CMD (char *[]){"cat","cat","grep","grep", NULL}
+#define CMD_PATHS (char *[]){"/bin/cat","/bin/cat","/usr/bin/grep","/usr/bin/grep", NULL}
+
+#define ARGS_CMD0 (char *[]){"cat","src/main.c",NULL}
+#define ARGS_CMD1 (char *[]){"cat", NULL}
+#define ARGS_CMD2 (char *[]){"grep", "g_all", NULL}
+#define ARGS_CMD3 (char *[]){"grep", "--color", "-E","'*.'",NULL}
+
+int main(int argc, char const *argv[], char *envp[]) {
+	(void)argv;
+	(void)argc;
+
+	int max = NUM_CMDS + 1;
+	int pipes[max][2]; //malloc ? beacuse of VLA norm exception?
+	int truefd[2];
+	int i = -1;
+	int p_id[NUM_CMDS];
+	char **cmd_args[] = {ARGS_CMD0, ARGS_CMD1, ARGS_CMD2, ARGS_CMD3, NULL};
+
+	dup2(0, truefd[0]);
+	dup2(1, truefd[1]);
+	while (++i < max)
+	{
+		pipe(pipes[i]);
+	}
+
+	i = -1;
+	while (++i < NUM_CMDS)
+	{
+		p_id[i] = fork();
+		if (p_id[i] == 0) //child code
+		{
+			dup2(pipes[i][0], 0);
+			dup2(pipes[i + 1][1], 1);
+			close(pipes[i][0]);
+			close(pipes[i + 1][1]);
+			ft_close_pipes(pipes, i, i + 1, max);
+			if (execve(CMD_PATHS[i], cmd_args[i], envp) == -1)
+			{
+				perror(cmd_args[i][0]);
+				perror("CMD NOT FOUND.");
+				exit(1);
+			}
+		}
+	}
+	ft_close_pipes(pipes, NUM_CMDS + 1, 0, max);
+	close(pipes[NUM_CMDS][1]);
+	close(pipes[0][0]);
+	// read(pipes[NUM_CMDS][0], );
+	printf("Reading output of child\n");
+	char *line;
+	line = NULL;
+	dup2(truefd[0],0);
+	dup2(truefd[1],1);
+	while (get_next_line(pipes[NUM_CMDS][1], &line) == 1)
+	{
+		printf("%s\n", line);
+	}
+	get_next_line(pipes[NUM_CMDS][1], &line);
+	printf("%s\n", line);
+
+	int j = -1;
+	while (++j < max)
+	{
+		wait(NULL);
+	}
+
+	return (0);
+}
