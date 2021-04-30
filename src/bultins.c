@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:39:34 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/29 12:01:00 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/04/30 15:19:54 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int ft_do_exit(char **args, t_for_in_terminal *t)
 			}
 		}
 	}
-	file_mas(t->mas_his, t->peri);
+	file_mas(t->mas_his, t->peri, t);
 	g_all.exit_code = reason;
 	exit (reason);
 }

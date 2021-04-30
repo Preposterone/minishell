@@ -13,7 +13,7 @@ LFLAGS	:= -L$(LIB_DIR)/ -lft
 ifeq ($(OS_NAME),darwin)	#OS_X
 	LFLAGS += -ltermcap
 	CFLAGS += -D LENCHECK='entry->d_namlen == len && '
-else
+else						#LINUX
 	LFLAGS += -lncurses
 	CFLAGS += -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-error=empty-body
 endif
