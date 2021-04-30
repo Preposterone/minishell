@@ -4,7 +4,7 @@ t_all g_all;
 
 //gcc -g main.c work_with_file.c ft_strjoin_for_mas.c ft_strjoin_for_line.c  terminal_up_down_fun.c terminal_main_fun.c gnl.c  -ltermcap && ./a.out
 
-int main(int argc, char const *argv[], char const *envp[])
+int main(int argc, char *argv[], char const *envp[])
 {
 	t_envp	sh_envp;
 

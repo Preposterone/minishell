@@ -13,7 +13,7 @@ typedef struct	s_envp
 typedef struct s_for_in_terminal
 {
 	int				argc;
-	char const		**argv;
+	char		**argv;
 	char			**envp;
 	int				l;
 	char			**mas_his;

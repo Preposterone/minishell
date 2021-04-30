@@ -163,18 +163,18 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 	t->i = t->j;
 }
 
-void	terminal(int argc, char const *argv[], t_envp *sh_envp)
+void	terminal(int argc, char *argv[], t_envp *sh_envp)
 {
 	t_for_in_terminal	t;
 
 	ft_bzero(&t, sizeof(t_for_in_terminal)); //зануление значений структуры
 	t.argc = argc;
 	g_all.exit_code = 0;
-	if (argc > 1)
+	/*if (argc > 1)
 	{
 		write(1, MANY_ARGS, term_strlen(MANY_ARGS));
 		exit(0);
-	}
+	}*/
 	t.argv = argv;
 	t.envp = sh_envp->sh_envp;
 	tcgetattr(0, &t.term);
@@ -191,6 +191,24 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 	t.peri = t.i;
 	// write(1, &t.str, 100);	//зачем?
 	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
+	int i = 2;
+	if (argc > 1)
+	{
+		if (!term_strcmp(argv[1], "-c"))
+		{
+			while (argv[i] != NULL)
+			{
+				//printf("\n1 =%s\n", argv[2]);
+				t.s = term_strjoin(NULL, argv[i]);
+				line_from_terminal_to_lexer(t.s, &t, sh_envp);
+				free(t.s);
+				t.s = NULL;
+				i++;
+			}
+			return ;
+		}
+	}
+
 	while (term_strcmp(t.str, "\4"))
 	{
 		terminal_while(&t, sh_envp);
