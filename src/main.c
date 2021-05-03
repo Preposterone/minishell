@@ -3,7 +3,6 @@
 t_all g_all;
 
 //gcc -g main.c work_with_file.c ft_strjoin_for_mas.c ft_strjoin_for_line.c  terminal_up_down_fun.c terminal_main_fun.c gnl.c  -ltermcap && ./a.out
-/*
 int main(int argc, char const *argv[], char const *envp[])
 {
 	t_envp	sh_envp;
@@ -14,8 +13,6 @@ int main(int argc, char const *argv[], char const *envp[])
 	terminal(argc, argv, &sh_envp);
 	return 0;
 }
-*/
-
 
 /* exectuor test
 int main(int argc, char const *argv[], char const *envp[])
@@ -33,10 +30,8 @@ int main(int argc, char const *argv[], char const *envp[])
 	executor(cmd, args, cmdpath, &sh_envp);
 	return (0);
 }*/
-
-
-// Pipe test
 /*
+// Pipe test
 int main(void) {
 	int fd[2];
 	// fd[0] - read
@@ -62,7 +57,8 @@ int main(void) {
 		printf("Got from child process %d\n", y);
 	}
 	return (0);
-} */
+}
+*/
 /*
 int main(void) {
 	int arr[] = {1,2,3,4,1,10, 70};
@@ -367,7 +363,7 @@ int main(int argc, char const *argv[], char *envp[]) {
  */
 
 //close useless pipes
-
+/*
 void ft_close_pipes(int pipes[][2], int skip_input, int skip_output, int total_pipes)
 {
 	int i = -1;
@@ -379,10 +375,12 @@ void ft_close_pipes(int pipes[][2], int skip_input, int skip_output, int total_p
 		if (i != skip_output)
 			close(pipes[i][1]);
 	}
-}
+} */
 /*
-cat src/main.c | cat | grep g_all | grep --color -E '*.'
+cat src/main.c | cat | grep g_all | grep g_all
+grep --color -E '.'
 */
+/*
 #define NUM_CMDS 4
 
 #define CMD (char *[]){"cat","cat","grep","grep", NULL}
@@ -391,7 +389,8 @@ cat src/main.c | cat | grep g_all | grep --color -E '*.'
 #define ARGS_CMD0 (char *[]){"cat","src/main.c",NULL}
 #define ARGS_CMD1 (char *[]){"cat", NULL}
 #define ARGS_CMD2 (char *[]){"grep", "g_all", NULL}
-#define ARGS_CMD3 (char *[]){"grep", "--color", "-E","'*.'",NULL}
+#define ARGS_CMD3 (char *[]){"grep", "g_all", NULL}
+// #define ARGS_CMD3 (char *[]){"grep", "--color", "-E","'*.'",NULL}
 
 int main(int argc, char const *argv[], char *envp[]) {
 	(void)argv;
@@ -403,25 +402,35 @@ int main(int argc, char const *argv[], char *envp[]) {
 	int i = -1;
 	int p_id[NUM_CMDS];
 	char **cmd_args[] = {ARGS_CMD0, ARGS_CMD1, ARGS_CMD2, ARGS_CMD3, NULL};
+	//char **cmd_args[] = {ARGS_CMD0, ARGS_CMD1, ARGS_CMD2, NULL};
 
 	dup2(0, truefd[0]);
 	dup2(1, truefd[1]);
-	while (++i < max)
-	{
+	while (++i < NUM_CMDS)
 		pipe(pipes[i]);
-	}
 
 	i = -1;
 	while (++i < NUM_CMDS)
 	{
 		p_id[i] = fork();
-		if (p_id[i] == 0) //child code
+		if (p_id[i] != 0)
+			close(pipes[i][1]);
+		if (p_id[i] == 0 ) //child code
 		{
-			dup2(pipes[i][0], 0);
-			dup2(pipes[i + 1][1], 1);
-			close(pipes[i][0]);
-			close(pipes[i + 1][1]);
-			ft_close_pipes(pipes, i, i + 1, max);
+			if (i > 0) {
+				dup2(pipes[i - 1][0], 0);
+				// close(pipes[i - 1][1]);
+				// close(pipes[i - 1][0]);
+			}
+			if (i < NUM_CMDS - 1){
+				dup2(pipes[i][1], 1);
+				// close(pipes[i][0]);
+				// close(pipes[i][1]);
+			} else {
+				dup2(truefd[1], 1);
+			}
+			// close(0);
+			ft_close_pipes(pipes, -1, -1, NUM_CMDS);
 			if (execve(CMD_PATHS[i], cmd_args[i], envp) == -1)
 			{
 				perror(cmd_args[i][0]);
@@ -430,27 +439,56 @@ int main(int argc, char const *argv[], char *envp[]) {
 			}
 		}
 	}
-	ft_close_pipes(pipes, NUM_CMDS + 1, 0, max);
-	close(pipes[NUM_CMDS][1]);
-	close(pipes[0][0]);
-	// read(pipes[NUM_CMDS][0], );
-	printf("Reading output of child\n");
-	char *line;
-	line = NULL;
-	dup2(truefd[0],0);
-	dup2(truefd[1],1);
-	while (get_next_line(pipes[NUM_CMDS][1], &line) == 1)
-	{
-		printf("%s\n", line);
-	}
-	get_next_line(pipes[NUM_CMDS][1], &line);
-	printf("%s\n", line);
-
+	ft_close_pipes(pipes, -1, -1, NUM_CMDS);
 	int j = -1;
-	while (++j < max)
+	while (++j < NUM_CMDS)
 	{
 		wait(NULL);
 	}
-
+	dup2(truefd[0], 0);
+	// while(true);
 	return (0);
 }
+ */
+/*
+#define CMD (char *[]){"cat","cat","grep","grep", NULL}
+#define CMD_PATHS (char *[]){"/bin/cat","/bin/cat","/usr/bin/grep","/usr/bin/grep", NULL}
+#define ARGS_CMD0 (char *[]){"cat","src/main.c",NULL}
+
+int main(int argc, char const *argv[], char *envp[]) {
+	(void)argv;
+	(void)argc;
+	int fd[2];
+	// fd[0] - read
+	// fd[1] - write
+	if (pipe(fd) == -1) {
+		printf("An error occured when opening the pipe \n");
+		return (1);
+	}
+	int id = fork();
+
+	if (id == 0) {
+		dup2(fd[1], 1);
+		close(fd[0]);
+		close(fd[1]);
+		// int x;
+		// printf("Input a num: ");
+		// scanf("%d", &x);
+		// write(fd[1], &x, sizeof(int));
+		// close(fd[1]);
+		execve(CMD_PATHS[0], ARGS_CMD0, envp);
+	} else {
+		close(fd[1]);
+
+		char *buf = NULL;
+		while (get_next_line(fd[0], &buf))
+		{
+			ft_putendl_fd(buf, 1);
+		}
+
+		close(fd[0]);
+		// printf("Got from child process %d\n", y);
+	}
+	return (0);
+}
+ */
