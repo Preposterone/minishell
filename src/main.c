@@ -430,7 +430,7 @@ int main(int argc, char const *argv[], char *envp[]) {
 				dup2(truefd[1], 1);
 			}
 			// close(0);
-			ft_close_pipes(pipes, -1, -1, NUM_CMDS);
+			ft_close_pipes(pipes, -1, -1, NUM_CMDS); //close all pipes
 			if (execve(CMD_PATHS[i], cmd_args[i], envp) == -1)
 			{
 				perror(cmd_args[i][0]);

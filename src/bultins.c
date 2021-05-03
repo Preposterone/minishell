@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:39:34 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/30 16:26:35 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/03 16:56:26 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int ft_do_unset(char **args, t_envp *sh_envp)
 	i = -1;
 	while (args[++i])
 	{
-		if (ft_isstralpha(args[i], ft_strlen(args[i])))
+		if (ft_isstralpha(args[i], ft_strlen(args[i]))
+			|| args[i][0] == '_')
 		{
 			ft_delete_envp_elem(args[i], sh_envp);
 		}
@@ -107,7 +108,8 @@ int ft_do_unset(char **args, t_envp *sh_envp)
 }
 /*
 	Mark each name to be passed to child processes in the environment.
-	The return status is zero unless an invalid option is supplied, one of the names is not a valid shell variable name. (only letters in key)
+	The return status is zero unless an invalid option is supplied,
+	one of the names is not a valid shell variable name.
 */
 int ft_do_export(char **args, t_envp *sh_envp)
 {
@@ -120,18 +122,24 @@ int ft_do_export(char **args, t_envp *sh_envp)
 	{
 		equalslocation = ft_strchr_index(args[i], '=') + 1;
 		// add check for alphabetic characters as key
-		if (equalslocation != -1)
+		if (equalslocation != -1 && (ft_isstralpha(args[i], equalslocation)
+			|| args[i][0] == '_'))
 		{
 			key = ft_strndup(args[i], equalslocation);
 			ft_update_envp_elem(key, &args[i][equalslocation], sh_envp);
 			free(key);
+		}
+		else
+		{
+			;	//TODO: print export error invalid arg
 		}
 	}
 	return (0);
 }
 /*
 	Print the absolute pathname of the current working directory.
-	The return status is zero unless an error is encountered while determining the name of the current directory or an invalid option is supplied.
+	The return status is zero unless an error is encountered while
+	determining the name of the current directory or an invalid option is supplied.
 */
 int ft_do_pwd(char **args)
 {
@@ -149,7 +157,9 @@ int ft_do_pwd(char **args)
 	return (0);
 }
 /*
-	Change the current working directory to directory. If directory is not supplied, the value of the HOME shell variable is used. Any additional 	arguments following directory are ignored.
+	Change the current working directory to directory.
+	If directory is not supplied, the value of the HOME shell variable is used.
+	Any additional 	arguments following directory are ignored.
 	The return status is zero if the directory is successfully changed, non-zero otherwise.
  */
 int ft_do_cd(char **args, t_envp *env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/23 16:16:56 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/03 18:03:52 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,17 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp,
 	{
 		cmd_abs = ft_build_command(cmd, cmdpath);
 		newargs = ft_argappend(args, cmd);
-		id = fork(); //waitpid?
+		id = fork();
 		if (id)
-			wait(&ret);
+			wait(&ret); //waitpid? WEXIT?
 		else
 		{
 			if (execve(cmd_abs, newargs, envp->sh_envp) == -1)
+			{
+				ft_putendl_fd(cmd, 2);
 				ft_putendl_fd("command not found", 2);
-			exit(0); //should it be?
+				exit(127);
+			}
 		}
 		ft_freematrix((void **)newargs);
 		free(cmd_abs);
@@ -91,16 +94,67 @@ int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp,
 	}
 	return (ret);
 }
+/**
+ * If no pipe => dups last argument
+ * else, dups "";
+ */
+
+void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp)
+{
+	int		i;
+	char	*buf;
+
+	buf = NULL;
+	if (par[0]->key != 1)// || par[0]->previous->arguments)
+		buf = NULL;
+	else
+	{
+		i = -1;
+		while (par[0]->arguments[++i])
+			buf = par[0]->arguments[i];
+	}
+	if (!buf)
+		buf = ft_strdup("");
+	else
+		buf = ft_strdup(buf);
+	ft_update_envp_elem("_=", buf, sh_envp);
+	free(buf);
+}
+
+int	ft_count_pipes(t_for_in_parser **par)
+{
+	int	ret;
+	t_for_in_parser *par_tmp;
+
+	ret = 0;
+	par_tmp = par[0]->previous;
+	while (par_tmp)
+	{
+		par_tmp = par_tmp->previous;
+		ret++;
+	}
+	return (ret);
+}
+
+//TODO: stuff for pipes, maybe think about remaking expander into substring replacement for PATH elements
 
 int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props)
 {
-	char *cmdpath;
+	char	*cmdpath;
+	int		i;
 
+	ft_update_last_arg(par, sh_envp);	//should this be done here?
+	// ft_putendl_fd(ft_get_envp_elem("_=", sh_envp), 1);	//print current last arg
+	// ft_print_arr(sh_envp->sh_envp);	//print current envp
+	i = ft_count_pipes(par);
 	if (par[0]->key == 1)
 	{
+		;	//if redirect, do dup2 of stdout, then dup2 back into true fd stdout
 		cmdpath = expander(par[0]->arguments[0], sh_envp->sh_path);
 		g_all.exit_code = executor(par[0]->arguments[0], &par[0]->arguments[1], cmdpath, sh_envp, term_props);
 	}
+	else
+		;	//do pipes
 	return (0);
 }
