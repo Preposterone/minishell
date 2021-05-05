@@ -163,7 +163,7 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 	char *str;
 
 	j = 0;
-	str = NULL;
+	str = (char *)ft_calloc(1, sizeof(char));
 	if (s == NULL || lex->envp == NULL)
 	{
 		if (s != NULL)
@@ -173,21 +173,26 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 	while (lex->envp[j] != NULL)
 	{
 		i = 0;
-		while (s[i] != '\0' && lex->envp[j][i] != '\0' && s[i] == lex->envp[j][i])
+		while (lex->envp[j][i] && lex->envp[j][i] != '=')
 		{
-			i++;
+			str = lexer_charjoin(str, lex->envp[j][i++]);
 		}
-		if (s[i] == '\0' && lex->envp[j][i])
+		if (!term_strcmp(str, s))
 		{
+			free(s);
+			free(str);
+			str = NULL;
 			while (lex->envp[j][++i])
 			{
 				str = lexer_charjoin(str, lex->envp[j][i]);
 			}
-			free(s);
 			return (str);
 		}
+		free(str);
+		str = (char *)ft_calloc(1, sizeof(char));
 		j++;
 	}
+	free(str);
 	free(s);
 	return (NULL);
 }
