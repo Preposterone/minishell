@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/03 18:03:52 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/05 12:55:09 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static char *ft_build_command(char *cmd, char *cmdpath)
 	return (ret);
 }
 
+//if output_fd != -1, do dup2(output_fd, 1); close (output_fd);
 int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp,
 			t_for_in_terminal *term_props)
 {
@@ -135,8 +136,14 @@ int	ft_count_pipes(t_for_in_parser **par)
 	}
 	return (ret);
 }
+/*
+void ft_pipes(int amount_of_pipes, t_for_in_parser **par, int output_fd)
+{
+	;
+} */
 
-//TODO: stuff for pipes, maybe think about remaking expander into substring replacement for PATH elements
+//TODO: stuff for pipes,
+//maybe think about remaking expander into substring replacement for PATH elements
 
 int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props)
@@ -147,12 +154,17 @@ int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	ft_update_last_arg(par, sh_envp);	//should this be done here?
 	// ft_putendl_fd(ft_get_envp_elem("_=", sh_envp), 1);	//print current last arg
 	// ft_print_arr(sh_envp->sh_envp);	//print current envp
+
+	// int output_fd =	open("out_file", O_CREAT | O_APPEND | O_RDWR, 00644);
 	i = ft_count_pipes(par);
 	if (par[0]->key == 1)
 	{
-		;	//if redirect, do dup2 of stdout, then dup2 back into true fd stdout
 		cmdpath = expander(par[0]->arguments[0], sh_envp->sh_path);
-		g_all.exit_code = executor(par[0]->arguments[0], &par[0]->arguments[1], cmdpath, sh_envp, term_props);
+		g_all.exit_code = executor(	par[0]->arguments[0],
+									&par[0]->arguments[1],
+									cmdpath,
+									sh_envp,
+									term_props);
 	}
 	else
 		;	//do pipes
