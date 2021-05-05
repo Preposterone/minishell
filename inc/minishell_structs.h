@@ -60,9 +60,9 @@ typedef struct s_for_in_lexer
 typedef struct s_for_in_parser
 {
 	char			**arguments;
-	char			**input;
-	char			**out;
-	char			**outend;
+	int				input;
+	int				out;
+	int				outend;
 	int				j;
 	struct s_for_in_parser		*next;
 	struct s_for_in_parser		*previous;

@@ -35,5 +35,9 @@ char	*lexer_charjoin(char *s1, char c);
 char	**strjoin_lex_mas(int len, t_for_in_lexer *t);
 void	del_mas(t_for_in_lexer *lex);
 char	**strjoin_pr_mas(int len, char **s, char *line);
+int		open_APPEND_file_redirect(char *s);
+int		open_TRUNC_file_redirect(char *s);
+void	del_settings_term(t_for_in_terminal *t);
+void	do_settings_term(t_for_in_terminal *t);
 
 #endif

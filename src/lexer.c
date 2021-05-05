@@ -96,19 +96,38 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			*par = (*par)->next;
 			(*par)->previous = t_p;
 			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
-			(*par)->out = (char **)ft_calloc(1, sizeof(char *));
-			(*par)->outend = (char **)ft_calloc(1, sizeof(char *));
-			(*par)->input = (char **)ft_calloc(1, sizeof(char *));
+			(*par)->out = 0;
+			(*par)->outend = 0;
+			(*par)->input = 0;
 			lex->pipe = 0;
 		}
 		if (lex->input == 1)
 		{
-			(*par)->input = strjoin_pr_mas(term_strlen_mas((*par)->input) + 1, (*par)->input, lex->line);
+			if ((*par)->input != 0)
+				close((*par)->input);
+			(*par)->input = open(lex->line, O_RDONLY);
+			if ((*par)->input != -1)
+			{
+				close((*par)->input);
+				(*par)->input = open_TRUNC_file_redirect(lex->line);
+			}
+			else
+				(*par)->input = open_APPEND_file_redirect(lex->line);
+			//close((*par)->input);
 			lex->input = 0;
 		}
 		else if (lex->out == 1)
 		{
-			(*par)->out = strjoin_pr_mas(term_strlen_mas((*par)->out) + 1, (*par)->out, lex->line);
+			if ((*par)->out != 0)
+				close((*par)->out);
+			(*par)->out = open(lex->line, O_RDONLY);
+			if ((*par)->out != -1)
+			{
+				close((*par)->out);
+				(*par)->out = open_TRUNC_file_redirect(lex->line);
+			}
+			else
+				(*par)->out = open_APPEND_file_redirect(lex->line);
 			lex->out = 0;
 		}
 		else if (lex->dollar == 1)
@@ -118,7 +137,16 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else if (lex->outend == 1)
 		{
-			(*par)->outend = strjoin_pr_mas(term_strlen_mas((*par)->outend) + 1, (*par)->outend, lex->line);
+			if ((*par)->outend != 0)
+				close((*par)->outend);
+			(*par)->outend = open(lex->line, O_RDONLY);
+			if ((*par)->outend != -1)
+			{
+				close((*par)->outend);
+				(*par)->outend = open_TRUNC_file_redirect(lex->line);
+			}
+			else
+				(*par)->outend = open_APPEND_file_redirect(lex->line);
 			lex->outend = 0;
 		}
 		else
@@ -384,24 +412,6 @@ void print_par(t_for_in_parser **par)
 			printf("arguments = %s\n", (*par)->arguments[i]);
 			i++;
 		}
-		i = 0;
-		while ((*par)->out != NULL && (*par)->out[i] != NULL)
-		{
-			printf("out = %s\n", (*par)->out[i]);
-			i++;
-		}
-		i = 0;
-		while ((*par)->outend != NULL && (*par)->outend[i] != NULL)
-		{
-			printf("outend = %s\n", (*par)->outend[i]);
-			i++;
-		}
-		i = 0;
-		while ((*par)->input != NULL && (*par)->input[i] != NULL)
-		{
-			printf("input = %s\n", (*par)->input[i]);
-			i++;
-		}
 		*par = (*par)->previous;
 	}
 }
@@ -422,31 +432,6 @@ void del_free_par(t_for_in_parser **par)
 			i++;
 		}
 		free((*par)->arguments);
-		i = 0;
-		while ((*par)->out != NULL && (*par)->out[i] != NULL)
-		{
-			free((*par)->out[i]);
-			(*par)->out[i] = NULL;
-			i++;
-		}
-		free((*par)->out);
-		i = 0;
-		while ((*par)->outend != NULL && (*par)->outend[i] != NULL)
-		{
-			free((*par)->outend[i]);
-			(*par)->outend[i] = NULL;
-			i++;
-		}
-		free((*par)->outend);
-		i = 0;
-		while ((*par)->input != NULL && (*par)->input[i] != NULL)
-		{
-			free((*par)->input[i]);
-			(*par)->input[i] = NULL;
-			i++;
-		}
-		free((*par)->input);
-
 		free((*par)->next);
 		*par = (*par)->previous;
 		j++;
@@ -495,9 +480,9 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	lex.flags_check = 0;
 
 	par->arguments = (char **)ft_calloc(1, sizeof(char *));
-	par->out = (char **)ft_calloc(1, sizeof(char *));
-	par->outend = (char **)ft_calloc(1, sizeof(char *));
-	par->input = (char **)ft_calloc(1, sizeof(char *));
+	par->out = 0;
+	par->outend = 0;
+	par->input = 0;
 	lexer(&lex, &par);
 
 	free(lex.flags_arg);

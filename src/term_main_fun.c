@@ -180,9 +180,7 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 	tcgetattr(0, &t.term);
 	from_file(&t);
 	t.i = term_strlen_mas(t.mas_his);
-	t.term.c_lflag &= ~(ECHO);
-	t.term.c_lflag &= ~(ICANON);
-	tcsetattr(0, TCSANOW, &t.term);
+	do_settings_term(&t);
 	t.term_name = sh_envp->sh_term;
 	tgetent(0, t.term_name);
 	t.n = 0;
