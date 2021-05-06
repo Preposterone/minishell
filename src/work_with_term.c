@@ -1,5 +1,7 @@
 #include "minishell.h"
-
+/**
+*
+*/
 void del_settings_term(t_for_in_terminal *t)
 {
 	t->term.c_lflag |= (ECHO);

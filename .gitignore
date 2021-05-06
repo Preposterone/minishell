@@ -1,7 +1,7 @@
 # IDE-specific files
 **/.vscode
 **/.idea
-/cmake-build-debug/
+./cmake-build-debug/
 
 # Temp files
 **/*.swp
