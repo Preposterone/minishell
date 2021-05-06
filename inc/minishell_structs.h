@@ -8,6 +8,9 @@ typedef struct	s_envp
 	char	**sh_envp;	//malloc, for set / unset
 	char	*sh_path;	//malloc, for executor logic
 	char	*sh_term;	//malloc, for termcap logic
+	int		truefd0;
+	int		truefd1;
+	// char	*sh_last_arg;	//malloc, stores last arg
 }				t_envp;
 
 typedef struct s_for_in_terminal

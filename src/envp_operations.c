@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 11:34:27 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/29 11:44:11 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/03 16:53:51 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ static void	ft_free_arr(char **arr)
 
 	i = -1;
 	while (arr[++i])
+	{
 		free(arr[i]);
+		arr[i] = NULL;
+	}
 	free(arr);
+	arr = NULL;
 }
 
 /**
@@ -41,18 +45,16 @@ void	ft_add_to_envp(char **envp, char *add, t_envp *sh_envp)
 	while (++j < i)
 		buf[j] = envp[j];
 	buf[j] = ft_strdup(add);
-	buf[j + 1] = NULL;
+	// buf[j + 1] = NULL;	//redundant?
 	free(envp);
 	ft_envp_cpy((const char **)buf, sh_envp);
 	ft_free_arr(buf);
-/* 	j = -1;
-	while (++j < i + 1)
-		free(buf[j]);
-	free(buf); */
 }
 
 /**
- *	Search for key in sh_envp struct, if found -> set to value, else, create new element of sh_envp
+ * Searches for key in sh_envp struct, if found -> set to value, else,
+ * create new element of sh_envp
+ * Key: "xxx=" or "_xxx="
  */
 
 void	ft_update_envp_elem(char *key, char *value, t_envp *sh_envp)

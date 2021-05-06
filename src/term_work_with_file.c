@@ -86,7 +86,6 @@ int	file_mas(char **str, int i, t_for_in_terminal *t)
 		i++;
 	}
 	close(fd);
-	t->l = 0;
 	del_settings_term(t);
 	return (0);
 }
