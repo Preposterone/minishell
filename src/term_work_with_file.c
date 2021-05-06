@@ -1,4 +1,4 @@
-#include "termcap.h"
+#include "minishell.h"
 
 int	term_strcmp(const char *s1, const char *s2)
 {
@@ -65,7 +65,8 @@ void	from_file(t_for_in_terminal *t)
 	close(fd);
 }
 
-int	file_mas(char **str, int i)
+
+int	file_mas(char **str, int i, t_for_in_terminal *t)
 {
 	int fd;
 
@@ -85,6 +86,7 @@ int	file_mas(char **str, int i)
 		i++;
 	}
 	close(fd);
+	del_settings_term(t);
 	return (0);
 }
 
@@ -113,4 +115,28 @@ char	*get_h_const(char *h_const)
 		h_const = NULL;
 	}
 	return (r);
+}
+
+int	open_APPEND_file_redirect(char *s)
+{
+	int fd;
+
+	if (!s)
+		return (0);
+	fd = open(s, O_CREAT | O_APPEND | O_RDWR, 00644);
+	if (fd == -1)
+		return (-1);
+	return (fd);
+}
+
+int	open_TRUNC_file_redirect(char *s)
+{
+	int fd;
+
+	if (!s)
+		return (0);
+	fd = open(s, O_CREAT | O_TRUNC | O_RDWR, 00644);
+	if (fd == -1)
+		return (-1);
+	return (fd);
 }

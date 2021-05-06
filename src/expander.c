@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/23 17:30:14 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/03 17:13:58 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ bool	ft_isbuiltin(char *cmd)
 
 /**
  * Copy of incoming enviroment variables
- * should be ran once at execution start
  */
 
 void	ft_envp_cpy(const char *envp[], t_envp *buf)
@@ -90,7 +89,7 @@ static bool	ft_isfileindir(char *filename, DIR *dir, int len)
 	ret = false;
 	while (entry)
 	{
-		if (entry->d_namlen == len && !ft_strcmp(entry->d_name, filename))
+		if (LENCHECK !ft_strcmp(entry->d_name, filename))
 		{
 			ret = true;
 			break ;
@@ -112,12 +111,12 @@ char	*expander(char *cmd, char *path)
 	i = -1;
 	if (ft_isbuiltin(cmd))
 	{
-		// printf("Running builtin\n");//todo: return cmd to executor
+		// printf("Running builtin\n");	//TODO: return cmd to executor
 		return cmd;
 	}
 	else if (!path)
 	{
-		printf("Path is NULL\n");//todo: print error and goto termcap
+		printf("Path is NULL\n");	//TODO: print error and goto termcap
 		return NULL;
 	}
 	split_path = ft_split(path, ':');

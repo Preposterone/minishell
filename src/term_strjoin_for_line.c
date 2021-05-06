@@ -117,7 +117,6 @@ char	*ter(char *s2, int i)
 	int len;
 
 	len = en(s2);
-	//r = (char *)malloc(sizeof(char) * (len + 1));
 	r = (char *)ft_calloc(len + 1, sizeof(char));
 	if (!r)
 		return (NULL);
@@ -166,15 +165,12 @@ char	**strjoin_pr_mas(int len, char **s, char *line)
 	int		i;
 
 	i = 0;
-	//par = (t_for_in_parser *)ft_calloc(2, sizeof(par));
 	lin = (char **)ft_calloc(len + 1, sizeof(char *));
-	//lin = (char **)malloc((len + 1) * sizeof(char *));
 	if (!lin)
 		return (NULL);
 	while (i < len - 1 && s && s != NULL && s[i] && s[i] != NULL)
 	{
 		lin[i] = ter(s[i], -1);
-		//printf("\nlin += |%s|\n", lin[i]);
 		if (s[i])
 		{
 			free(s[i]);
@@ -184,7 +180,6 @@ char	**strjoin_pr_mas(int len, char **s, char *line)
 		if (!s[i])
 			break ;
 	}
-	//printf("\n3'/++'\n");
 	lin[i++] = ter(line, -1);
 	lin[i] = NULL;
 	if (s)
@@ -192,7 +187,6 @@ char	**strjoin_pr_mas(int len, char **s, char *line)
 		free((void **)s);
 		s = NULL;
 	}
-	//printf("\n3''''''\n");
 	return (lin);
 }
 

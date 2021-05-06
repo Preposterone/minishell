@@ -14,7 +14,7 @@
 # define EXPANDER_H
 # include <dirent.h>
 
-# define BLT_IN (char *[]){"echo","cd","pwd","export","unset","set","exit",NULL}
+# define BLT_IN (char *[]){"echo","cd","pwd","export","unset","env","exit",NULL}
 # define ERR_CMD_NOT_FOUND ": command not found"
 
 void	ft_envp_cpy(const char *envp[], t_envp *buf);

@@ -35,6 +35,10 @@ void	do_term(t_for_in_terminal *t)
 	}
 	if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
+	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
+		ft_do_exit((char *[]){0, NULL}, t);
+	else if (!term_strcmp(t->str, "\4"))
+		write(1, "ctr+D", 0);
 	else if (!term_strcmp(t->str, "\e[B"))
 		down_term(t);
 	else if (term_strcmp(t->str, key_backspace) && !term_strcmp(t->str, "\177"))
@@ -45,6 +49,8 @@ void	do_term(t_for_in_terminal *t)
 		write(1, "right", 0);
 	else
 	{
+		//if (t->str[0] != 0)
+			//printf("\nd = %d\n", t->del_len);
 		if (t->str[0] == 0)
 			t->i = t->i;
 		else if (t->i == term_strlen_mas(t->mas_his))
@@ -100,6 +106,7 @@ void ft_signal_slesh()
 void ft_signal_c()
 {
 	g_all.key_signal = 1;
+	g_all.exit_code = 1;
 }
 
 void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
@@ -135,14 +142,11 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			break ;
 		}
 		else
+		{
 			do_term(t);
+		}
 		if (!term_strcmp(t->str, "\n\0"))
 			break ;
-		if (!term_strcmp(t->str, "\4"))
-		{
-			write(1, EXIT, term_strlen(EXIT));
-			return ;
-		}
 	}
 	while_enter_term(t, sh_envp);
 	if (t->s)
@@ -159,26 +163,24 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 	t->i = t->j;
 }
 
-void	terminal(int argc, char const *argv[], t_envp *sh_envp)
+void	terminal(int argc, char *argv[], t_envp *sh_envp)
 {
 	t_for_in_terminal	t;
 
 	ft_bzero(&t, sizeof(t_for_in_terminal)); //зануление значений структуры
 	t.argc = argc;
 	g_all.exit_code = 0;
-	if (argc > 1)
+	/*if (argc > 1)
 	{
 		write(1, MANY_ARGS, term_strlen(MANY_ARGS));
 		exit(0);
-	}
+	}*/
 	t.argv = argv;
 	t.envp = sh_envp->sh_envp;
 	tcgetattr(0, &t.term);
 	from_file(&t);
 	t.i = term_strlen_mas(t.mas_his);
-	t.term.c_lflag &= ~(ECHO);
-	t.term.c_lflag &= ~(ICANON);
-	tcsetattr(0, TCSANOW, &t.term);
+	do_settings_term(&t);
 	t.term_name = sh_envp->sh_term;
 	tgetent(0, t.term_name);
 	t.n = 0;
@@ -187,11 +189,29 @@ void	terminal(int argc, char const *argv[], t_envp *sh_envp)
 	t.peri = t.i;
 	// write(1, &t.str, 100);	//зачем?
 	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
+	int i = 2;
+	if (argc > 1)
+	{
+		if (!term_strcmp(argv[1], "-c"))
+		{
+			while (argv[i] != NULL)
+			{
+				//printf("\n1 =%s\n", argv[2]);
+				t.s = term_strjoin(NULL, argv[i]);
+				line_from_terminal_to_lexer(t.s, &t, sh_envp);
+				free(t.s);
+				t.s = NULL;
+				i++;
+			}
+			return ;
+		}
+	}
+
 	while (term_strcmp(t.str, "\4"))
 	{
 		terminal_while(&t, sh_envp);
 	}
-	write(1, "\n", 1);
-	file_mas(t.mas_his, t.peri);
+	// write(1, "\n", 1);
+	// file_mas(t.mas_his, t.peri);	//moved to ft_do_exit
 	return ;
 }

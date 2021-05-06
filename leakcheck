@@ -3,9 +3,12 @@
 MINISH=minishell;
 SLEEPFOR=2;
 
-while pgrep minishell
+# while pgrep minishell
+while true
 do
+	tput clear
 	leaks ${MINISH} | grep -A15 "for" | grep --color -E '^.*'
+	# lsof -c ${MINISH}
 	sleep ${SLEEPFOR}
 done
-#echo "${MINISH} has stopped."
+echo "${MINISH} has stopped."

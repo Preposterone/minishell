@@ -1,4 +1,4 @@
-#include "termcap.h"
+#include "minishell.h"
 
 size_t	my_strlen(const char *s)
 {
