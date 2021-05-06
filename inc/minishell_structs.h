@@ -61,8 +61,7 @@ typedef struct s_for_in_parser
 {
 	char			**arguments;
 	int				input;
-	int				out;
-	int				outend;
+	int				output;
 	int				j;
 	struct s_for_in_parser		*next;
 	struct s_for_in_parser		*previous;

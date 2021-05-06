@@ -96,8 +96,7 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			*par = (*par)->next;
 			(*par)->previous = t_p;
 			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
-			(*par)->out = 0;
-			(*par)->outend = 0;
+			(*par)->output = 0;
 			(*par)->input = 0;
 			lex->pipe = 0;
 		}
@@ -118,16 +117,16 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else if (lex->out == 1)
 		{
-			if ((*par)->out != 0)
-				close((*par)->out);
-			(*par)->out = open(lex->line, O_RDONLY);
-			if ((*par)->out != -1)
+			if ((*par)->output != 0)
+				close((*par)->output);
+			(*par)->output = open(lex->line, O_RDONLY);
+			if ((*par)->output != -1)
 			{
-				close((*par)->out);
-				(*par)->out = open_TRUNC_file_redirect(lex->line);
+				close((*par)->output);
+				(*par)->output = open_TRUNC_file_redirect(lex->line);
 			}
 			else
-				(*par)->out = open_APPEND_file_redirect(lex->line);
+				(*par)->output = open_APPEND_file_redirect(lex->line);
 			lex->out = 0;
 		}
 		else if (lex->dollar == 1)
@@ -137,16 +136,9 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else if (lex->outend == 1)
 		{
-			if ((*par)->outend != 0)
-				close((*par)->outend);
-			(*par)->outend = open(lex->line, O_RDONLY);
-			if ((*par)->outend != -1)
-			{
-				close((*par)->outend);
-				(*par)->outend = open_TRUNC_file_redirect(lex->line);
-			}
-			else
-				(*par)->outend = open_APPEND_file_redirect(lex->line);
+			if ((*par)->output != 0)
+				close((*par)->output);
+			(*par)->output = open_APPEND_file_redirect(lex->line);
 			lex->outend = 0;
 		}
 		else
@@ -480,8 +472,7 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	lex.flags_check = 0;
 
 	par->arguments = (char **)ft_calloc(1, sizeof(char *));
-	par->out = 0;
-	par->outend = 0;
+	par->output = 0;
 	par->input = 0;
 	lexer(&lex, &par);
 
