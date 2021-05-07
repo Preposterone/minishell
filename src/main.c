@@ -474,11 +474,6 @@ int main(int argc, char const *argv[], char *envp[]) {
 		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
-		// int x;
-		// printf("Input a num: ");
-		// scanf("%d", &x);
-		// write(fd[1], &x, sizeof(int));
-		// close(fd[1]);
 		execve(CMD_PATHS[0], ARGS_CMD0, envp);
 	} else {
 		close(fd[1]);

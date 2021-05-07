@@ -4,6 +4,10 @@
 # include <term.h>
 # include <sys/ioctl.h>
 
+#ifndef MAX_FD
+# define MAX_FD 100
+#endif
+
 typedef struct	s_envp
 {
 	char	**sh_envp;	//malloc, for set / unset
@@ -12,6 +16,14 @@ typedef struct	s_envp
 	int		truefd0;	//backup of stdin
 	int		truefd1;	//backup of stdout
 }				t_envp;
+
+typedef struct	s_pipe_data
+{
+	int		pipe_fd[MAX_FD][2];	//pipes
+	pid_t	ch_id[MAX_FD];		//proc-ids of forked processes
+	int		ch_index;			//index of a child in forked sub-process &
+	int		ch_total;			//total children
+}				t_pipe_data;
 
 typedef struct s_for_in_terminal
 {
