@@ -317,8 +317,6 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 
 void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_envp *sh_envp)
 {
-	t_for_in_parser *t_p;
-
 	while (lex->s[lex->i] != '\0')
 	{
 		if (lex->s[lex->i] == '"')
