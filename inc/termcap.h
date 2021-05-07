@@ -7,7 +7,7 @@
 # define TERMINALNAME "minishell$ "
 # define ERROR_LEXER "minishell: error\n"
 # define MANY_ARGS "minishell: too many arguments\n"
-# define EXIT "exit"
+# define EXIT "minishell: "
 # define NO_FILE_PUT "minishell: syntax error near unexpected token `newline'\n"
 # include "minishell.h"
 
@@ -40,5 +40,6 @@ int		open_TRUNC_file_redirect(char *s);
 int     open_RDONLY_file_redirect(char *s);
 void	del_settings_term(t_for_in_terminal *t);
 void	do_settings_term(t_for_in_terminal *t);
+void	exit_minishell(char *str, int ex);
 
 #endif

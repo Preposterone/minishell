@@ -172,8 +172,7 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 	g_all.exit_code = 0;
 	/*if (argc > 1)
 	{
-		write(1, MANY_ARGS, term_strlen(MANY_ARGS));
-		exit(0);
+		exit_minishell(MSH_MSG_TOO_MANY_ARGS, -1);
 	}*/
 	t.argv = argv;
 	t.envp = sh_envp->sh_envp;

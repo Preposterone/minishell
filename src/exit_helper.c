@@ -10,4 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error_management.h"
+#include "minishell.h"
+
+void    exit_minishell(char *str, int ex)
+{
+    printf("%s%s", MSH_MSG_GENERIC, str);
+    exit(ex);
+}
