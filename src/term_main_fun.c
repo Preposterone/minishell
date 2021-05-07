@@ -36,9 +36,11 @@ void	do_term(t_for_in_terminal *t)
 	if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
 	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
-		ft_do_exit((char *[]){0, NULL}, t);
+		ft_do_exit((char *[]){0, NULL}, t);//Что это значит? 
 	else if (!term_strcmp(t->str, "\4"))
-		write(1, "ctr+D", 0);
+	{
+		write(1, "ctr+D", 6);
+	}
 	else if (!term_strcmp(t->str, "\e[B"))
 		down_term(t);
 	else if (term_strcmp(t->str, key_backspace) && !term_strcmp(t->str, "\177"))
@@ -146,7 +148,9 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			do_term(t);
 		}
 		if (!term_strcmp(t->str, "\n\0"))
+		{
 			break ;
+		}
 	}
 	while_enter_term(t, sh_envp);
 	if (t->s)

@@ -24,6 +24,7 @@
 # define RED_WHERE "syntax error near unexpected token `newline'"
 # define M_QUOTES "The quotes are not closed"
 # define ERROR_E "Error"
+# define EXITT "exit"
 
 /* *******************************ERROR_CODES******************************** */
 

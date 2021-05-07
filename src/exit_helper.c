@@ -14,6 +14,6 @@
 
 void    exit_minishell(char *str, int ex)
 {
-    printf("%s%s", MSH_MSG_GENERIC, str);
+    printf("%s%s\n", MSH_MSG_GENERIC, str);
     exit(ex);
 }

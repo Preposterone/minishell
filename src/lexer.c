@@ -386,6 +386,9 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 		else if (lex->s[lex->i] == ';')
 		{
 			put_line_in_mas(lex, par);
+			/*(void)sh_envp;
+			(void)t;
+			(void)t_p;*/
 			del_settings_term(t);	//Восстанавливаем терминал
 			executor_secretary(par, sh_envp, t); //->
 			del_free_par(par); //Очистить par
