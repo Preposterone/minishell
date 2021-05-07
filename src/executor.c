@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/09 12:53:45 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/09 12:54:32 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ void	ft_exec_cmd_pipe(t_for_in_parser **par, t_envp *sh_envp,
 							cmdpath,					//executable filepath
 							sh_envp,					//settings for shell
 							term_props);				//props for exit (history)
+
 }
 
 //TODO: stuff for pipes,
