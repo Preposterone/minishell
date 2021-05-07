@@ -317,6 +317,8 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 
 void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_envp *sh_envp)
 {
+	t_for_in_parser *t_p;
+
 	while (lex->s[lex->i] != '\0')
 	{
 		if (lex->s[lex->i] == '"')
@@ -478,7 +480,6 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	free(lex.flags_arg);
 	// print_par(&par); //Для печати
 	// (void)sh_envp;
-	printf("go\n");
 	del_settings_term(t);	//Восстанавливаем терминал
 	executor_secretary(&par, sh_envp, t); //->
 	del_free_par(&par); //Очистить par
