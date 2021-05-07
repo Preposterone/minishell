@@ -1,0 +1,12 @@
+{
+	"makefile.launchConfigurations": [
+		{
+			"cwd": "/Users/aarcelia/42cursus/minishell",
+			"binaryPath": "/Users/aarcelia/42cursus/minishell/minishell",
+			"binaryArgs": []
+		}
+	],
+	"files.associations": {
+		"minishell.h": "c"
+	}
+}
