@@ -96,28 +96,29 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			*par = (*par)->next;
 			(*par)->previous = t_p;
 			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
-			(*par)->output = 0;
-			(*par)->input = 0;
+			(*par)->output = -2;
+			(*par)->input = -2;
 			lex->pipe = 0;
 		}
 		if (lex->input == 1)
 		{
-			if ((*par)->input != 0)
+			if ((*par)->input > 0)
 				close((*par)->input);
 			(*par)->input = open(lex->line, O_RDONLY);
 			if ((*par)->input != -1)
 			{
 				close((*par)->input);
-				(*par)->input = open_TRUNC_file_redirect(lex->line);
+				(*par)->input = open_RDONLY_file_redirect(lex->line);
+				if ((*par)->input < 0)
+					exit(0);
 			}
 			else
-				(*par)->input = open_APPEND_file_redirect(lex->line);
-			//close((*par)->input);
+				exit(0);
 			lex->input = 0;
 		}
 		else if (lex->out == 1)
 		{
-			if ((*par)->output != 0)
+			if ((*par)->output > 0)
 				close((*par)->output);
 			(*par)->output = open(lex->line, O_RDONLY);
 			if ((*par)->output != -1)
@@ -127,6 +128,8 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			}
 			else
 				(*par)->output = open_APPEND_file_redirect(lex->line);
+			if ((*par)->output < 0)
+				exit(0);
 			lex->out = 0;
 		}
 		else if (lex->dollar == 1)
@@ -472,16 +475,21 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	lex.flags_check = 0;
 
 	par->arguments = (char **)ft_calloc(1, sizeof(char *));
-	par->output = 0;
-	par->input = 0;
+	par->output = -2;
+	par->input = -2;
 	lexer(&lex, &par);
 
 	free(lex.flags_arg);
 	// print_par(&par); //Для печати
 	// (void)sh_envp;
+	printf("go\n");
 	del_settings_term(t);	//Восстанавливаем терминал
+	printf("go1\n");
 	executor_secretary(&par, sh_envp, t);
+	printf("go2\n");
 	del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
+	printf("go3\n");
 	do_settings_term(t);	//Ломаем терминал
+	printf("end\n");
 	free(t_p);
 }
