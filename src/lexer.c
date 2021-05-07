@@ -317,8 +317,6 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 
 void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_envp *sh_envp)
 {
-	t_for_in_parser *t_p;
-
 	while (lex->s[lex->i] != '\0')
 	{
 		if (lex->s[lex->i] == '"')
@@ -393,12 +391,13 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 			executor_secretary(par, sh_envp, t); //->
 			del_free_par(par); //Очистить par
 			do_settings_term(t);	//Ломаем терминал
+			free(lex->t_p);
 			(*par) = ft_calloc(1, sizeof(t_for_in_parser));
 			(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
-			t_p = *par;
+			lex->t_p = *par;
 			(*par) = (*par)->next;
 			(*par)->key = 1;
-			(*par)->previous = t_p;
+			(*par)->previous = lex->t_p;
 			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
 			(*par)->output = -2;
 			(*par)->input = -2;
@@ -437,7 +436,6 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 {
 	t_for_in_lexer lex;
 	t_for_in_parser *par;
-	t_for_in_parser *t_p;
 
 	lex.s = s;
 	int i;
@@ -461,10 +459,10 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 
 	par = ft_calloc(1, sizeof(t_for_in_parser));
 	par->next = ft_calloc(1, sizeof(t_for_in_parser));
-	t_p = par;
+	lex.t_p = par;
 	par = par->next;
 	par->key = 1;
-	par->previous = t_p;
+	par->previous = lex.t_p;
 	lex.flags_arg = (int *)ft_calloc(128, sizeof(int));
 	lex.i = 0;
 	while(lex.i < 127)
@@ -484,5 +482,5 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	executor_secretary(&par, sh_envp, t); //->
 	del_free_par(&par); //Очистить par
 	do_settings_term(t);	//Ломаем терминал
-	free(t_p);
+	free(lex.t_p);
 }
