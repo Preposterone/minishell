@@ -3,14 +3,14 @@
 
 # include <term.h>
 # include <sys/ioctl.h>
+
 typedef struct	s_envp
 {
 	char	**sh_envp;	//malloc, for set / unset
 	char	*sh_path;	//malloc, for executor logic
 	char	*sh_term;	//malloc, for termcap logic
-	int		truefd0;
-	int		truefd1;
-	// char	*sh_last_arg;	//malloc, stores last arg
+	int		truefd0;	//backup of stdin
+	int		truefd1;	//backup of stdout
 }				t_envp;
 
 typedef struct s_for_in_terminal
