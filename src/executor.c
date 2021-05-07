@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/07 16:43:00 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/07 18:37:05 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp)
 	free(buf);
 }
 
-void	ft_close_pipes(int pipe[][2], int pipe_fd)
+void	ft_close_all_pipes(int pipe[][2], int pipe_fd)
 {
 	int i;
 
@@ -203,8 +203,8 @@ void	ft_exec_cmd_pipe(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props, t_pipe_data *pipe_data)
 {
 	char	*cmdpath;
-
 	(void)pipe_data;
+	/*
 	if ((*par)->output > 0)
 	{
 		// replace stdout with output fd
@@ -217,12 +217,24 @@ void	ft_exec_cmd_pipe(t_for_in_parser **par, t_envp *sh_envp,
 		dup2((*par)->input, 0);
 		close((*par)->input);
 	}
+	*/
+	//reading contents of all the shit
+	// (void)term_props;
+	// (void)sh_envp;
+
+	fprintf(stderr, "Pipe data:\nchild index: %d, pipe_fds[0]:'%d'[1]:'%d'\n",pipe_data->ch_index, pipe_data->pipe_fd[pipe_data->ch_index][0],pipe_data->pipe_fd[pipe_data->ch_index][1]);
+	fprintf(stderr, "****\nParsed arguments:\n");
+	int i = -1;
+	while ((*par)->arguments[++i])
+		fprintf(stderr, "argument[%d]: '%s' ", i, (*par)->arguments[i]);
+	fprintf(stderr, "\n****\n");
 	cmdpath = expander((*par)->arguments[0], sh_envp->sh_path);
 	executor_pipe(	(*par)->arguments[0],	//cmd
 							&(*par)->arguments[1],		//args from cmdline
 							cmdpath,					//executable filepath
 							sh_envp,					//settings for shell
 							term_props);				//props for exit (history)
+
 }
 
 //TODO: stuff for pipes,
@@ -253,49 +265,54 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 				exit(0);
 			}
 		}	//populate pipes
-		par_head = (*par)->previous;
-		while (par_head->previous)
+		par_head = (*par);
+
+		while (par_head->key != 1)
 			par_head = par_head->previous;	//move head to 1st parsed command
-		i = -1;
-		while(++i < num_cmds)
+		// par_head = (*par)->previous;
+
+		pipe_data.ch_index = -1;
+		while(++pipe_data.ch_index < num_cmds)
 		{
-			pipe_data.ch_id[i] = fork();
-			if (pipe_data.ch_id[i] == 1)
+			pipe_data.ch_id[pipe_data.ch_index] = fork();
+			if (pipe_data.ch_id[pipe_data.ch_index] == -1)
 			{
 				perror("FORK FAILED");
 				exit(111);
 			}
-			else if (pipe_data.ch_id[i] == 0)
+			else if (pipe_data.ch_id[pipe_data.ch_index] == 0)
 			{	//child code
-				if (i > 0) {
-					dup2(pipe_data.pipe_fd[i - 1][0], 0);
-				}
-				if (i < num_cmds - 1)
+				if (pipe_data.ch_index > 0)
 				{
-					dup2(pipe_data.pipe_fd[i][1], 1);
+					dup2(pipe_data.pipe_fd[pipe_data.ch_index - 1][0], 0);
+				}
+				if (pipe_data.ch_index < num_cmds - 1)
+				{
+					dup2(pipe_data.pipe_fd[pipe_data.ch_index][1], 1);
 				}
 				else
 				{
-					dup2(sh_envp->truefd1, 1);
+					dup2(sh_envp->truefd1, 1);	//FIXME:
 				}
-				ft_close_pipes(pipe_data.pipe_fd, num_cmds);	//close all pipes
+				ft_close_all_pipes(pipe_data.pipe_fd, num_cmds);
 				//do execve here but without fork
 				ft_exec_cmd_pipe(&par_head, sh_envp, term_props, &pipe_data);
 				exit(0);
 			}
 			else
 			{
-				ft_close_pipes(pipe_data.pipe_fd, num_cmds);	//close all pipes
+				close(pipe_data.pipe_fd[pipe_data.ch_index][1]);
 			}
 			par_head = par_head->next;
 		}
+		ft_close_all_pipes(pipe_data.pipe_fd, num_cmds);
 		i = -1;
 		while (++i < num_cmds)
 		{
 			wait(NULL);
 		}
-		dup2(sh_envp->truefd0,0);
-		dup2(sh_envp->truefd1,1);
+		dup2(sh_envp->truefd0, 0);
+		dup2(sh_envp->truefd1, 1);
 	}
 	else {
 		ft_exec_cmd(par, sh_envp, term_props);
