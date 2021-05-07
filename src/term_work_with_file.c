@@ -129,6 +129,18 @@ int	open_APPEND_file_redirect(char *s)
 	return (fd);
 }
 
+int	open_RDONLY_file_redirect(char *s)
+{
+	int fd;
+
+	if (!s)
+		return (0);
+	fd = open(s, O_RDONLY, 00644);
+	if (fd == -1)
+		return (-1);
+	return (fd);
+}
+
 int	open_TRUNC_file_redirect(char *s)
 {
 	int fd;
