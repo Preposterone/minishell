@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/07 18:37:05 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/07 21:07:58 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,12 +222,7 @@ void	ft_exec_cmd_pipe(t_for_in_parser **par, t_envp *sh_envp,
 	// (void)term_props;
 	// (void)sh_envp;
 
-	fprintf(stderr, "Pipe data:\nchild index: %d, pipe_fds[0]:'%d'[1]:'%d'\n",pipe_data->ch_index, pipe_data->pipe_fd[pipe_data->ch_index][0],pipe_data->pipe_fd[pipe_data->ch_index][1]);
-	fprintf(stderr, "****\nParsed arguments:\n");
-	int i = -1;
-	while ((*par)->arguments[++i])
-		fprintf(stderr, "argument[%d]: '%s' ", i, (*par)->arguments[i]);
-	fprintf(stderr, "\n****\n");
+	// fprintf(stderr, "Pipe data:\nchild index: %d, pipe_fds[0]:'%d'[1]:'%d', cmd: '%s'\n",pipe_data->ch_index, pipe_data->pipe_fd[pipe_data->ch_index][0],pipe_data->pipe_fd[pipe_data->ch_index][1], (*par)->arguments[0]);
 	cmdpath = expander((*par)->arguments[0], sh_envp->sh_path);
 	executor_pipe(	(*par)->arguments[0],	//cmd
 							&(*par)->arguments[1],		//args from cmdline
@@ -292,7 +287,7 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 				}
 				else
 				{
-					dup2(sh_envp->truefd1, 1);	//FIXME:
+					dup2(sh_envp->truefd1, STDOUT_FILENO);
 				}
 				ft_close_all_pipes(pipe_data.pipe_fd, num_cmds);
 				//do execve here but without fork
