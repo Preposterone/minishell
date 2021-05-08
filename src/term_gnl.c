@@ -24,7 +24,7 @@ char	*my_strjoin(char const *s1, char const *s2)
 	s1_len = my_strlen((char *)s1);
 	s2_len = my_strlen((char *)s2);
 	all_len = s1_len + s2_len + 1;
-	r = (char *)malloc(sizeof(char) * all_len);
+	r = (char *)ft_calloc(all_len, sizeof(char));
 	if (!r)
 		return (NULL);
 	my_memmove(r, s1, s1_len);
@@ -64,7 +64,7 @@ char	*get_line(char *str)
 		return (NULL);
 	while (str[i] && str[i] != '\n')
 		i++;
-	r = (char *)malloc(sizeof(char) * (i + 1));
+	r = (char *)ft_calloc((i + 1), sizeof(char));
 	if (!r)
 		return (NULL);
 	i = 0;
@@ -84,7 +84,7 @@ int	term_get_next_line(int fd, char **line, int reader)
 
 	if (fd < 0 || !line || BUFFER_SIZE <= 0 || (read(fd, 0, 0) == -1))
 		return (0);
-	buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buff = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buff)
 		return (0);
 	while (!my_return(h_const) && reader != 0)

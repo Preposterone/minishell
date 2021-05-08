@@ -3,7 +3,7 @@
 
 char	*term_strjoin_n(char *s2, char *r, int i)
 {
-	r = (char *)malloc(sizeof(char) * (term_strlen(s2) + 1));
+	r = (char *)ft_calloc((term_strlen(s2) + 1), sizeof(char));
 	if (!r)
 		return (NULL);
 	i = -1;
@@ -25,7 +25,7 @@ char	*term_strjoin(char *s1, char *s2)
 	r = NULL;
 	if (!s1 || s1 == NULL)
 		return (term_strjoin_n(s2, r, i));
-	r = (char *)malloc(sizeof(char) * (term_strlen(s1) + term_strlen(s2) + 1));
+	r = (char *)ft_calloc((term_strlen(s1) + term_strlen(s2) + 1), sizeof(char));
 	if (!r)
 		return (NULL);
 	while (s1[i])
@@ -55,7 +55,7 @@ char	*str_delet_last_char(char *s1)
 
 	if (!s1 && strlen(s1) == 1)
 		return (NULL);
-	r = (char *)malloc(sizeof(char) * (strlen(s1)));
+	r = (char *)ft_calloc((strlen(s1)), sizeof(char));
 	if (!r)
 		return (NULL);
 	i = 0;
@@ -82,7 +82,7 @@ char *lexer_charjoin(char *s1, char c)
 	if ((!s1 || s1 == NULL) && !c)
 		return (NULL);
 	i = 0;
-	r = (char *)malloc(sizeof(char) * (term_strlen(s1) + 1 + 1));
+	r = (char *)ft_calloc((term_strlen(s1) + 1 + 1), sizeof(char));
 	if (!r)
 		return (NULL);
 	while (s1 != NULL && s1 && s1[i] != '\0' && s1[i] != '\n')
@@ -136,7 +136,7 @@ char	**strjoin_lex_mas(int len, t_for_in_lexer *lex)
 
 	i = 0;
 	lex->len = len;
-	lin = (char **)malloc((len + 1) * sizeof(char *));
+	lin = (char **)ft_calloc((len + 1), sizeof(char *));
 	if (!lin)
 		return (NULL);
 	while (lex->mas_line && lex->mas_line != NULL && lex->mas_line[i] && lex->mas_line[i] != NULL && i < len)

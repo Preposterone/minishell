@@ -38,13 +38,12 @@ char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line)
 	int		i;
 
 	i = 0;
-	lin = (char **)malloc((len + 1) * sizeof(char *));
+	lin = (char **)ft_calloc((len + 1), sizeof(char *));
 	if (!lin)
 		return (NULL);
 	while (t->mas_his && t->mas_his[i] != NULL && i < len) //just len - 1
 	{
 		lin[i] = term_strjoin(NULL, t->mas_his[i]);
-		//printf("\nlin = |%s|\n", lin[i]);
 		if (t->mas_his[i])
 		{
 			free(t->mas_his[i]);
@@ -53,7 +52,6 @@ char	**strjoin_for_mas(int len, t_for_in_terminal *t, char *line)
 		i++;
 	}
 	lin[i] = term_strjoin(NULL, line);
-	//printf("\nlin = |%s|\n", lin[i]);
 	lin[++i] = NULL;
 	if (t->mas_his)
 	{

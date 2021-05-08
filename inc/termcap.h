@@ -40,6 +40,6 @@ int		open_TRUNC_file_redirect(char *s);
 int     open_RDONLY_file_redirect(char *s);
 void	del_settings_term(t_for_in_terminal *t);
 void	do_settings_term(t_for_in_terminal *t);
-void	exit_minishell(char *str, int ex);
+void    exit_minishell(char *str, int ex, t_for_in_terminal *t);
 
 #endif

@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-void    exit_minishell(char *str, int ex)
+void    exit_minishell(char *str, int ex, t_for_in_terminal *t)
 {
+	del_settings_term(t);	//Восстанавливаем терминал
     printf("%s%s\n", MSH_MSG_GENERIC, str);
     exit(ex);
 }

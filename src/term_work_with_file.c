@@ -102,7 +102,7 @@ char	*get_h_const(char *h_const)
 		return (NULL);
 	while (h_const[i] && h_const[i] != '\n')
 		i++;
-	r = malloc(sizeof(char) * ((my_strlen(h_const) - i) + 1));
+	r = (char *)ft_calloc((my_strlen(h_const) - i) + 1, sizeof(char));
 	if (!r)
 		return (NULL);
 	i++;
