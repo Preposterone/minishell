@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/07 11:41:26 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/05 12:55:09 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,26 @@ void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp)
 	free(buf);
 }
 
+int	ft_count_pipes(t_for_in_parser **par)
+{
+	int	ret;
+	t_for_in_parser *par_tmp;
+
+	ret = 0;
+	par_tmp = par[0]->previous;
+	while (par_tmp)
+	{
+		par_tmp = par_tmp->previous;
+		ret++;
+	}
+	return (ret);
+}
+/*
+void ft_pipes(int amount_of_pipes, t_for_in_parser **par, int output_fd)
+{
+	;
+} */
+
 //TODO: stuff for pipes,
 //maybe think about remaking expander into substring replacement for PATH elements
 
@@ -136,31 +156,17 @@ int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	// ft_print_arr(sh_envp->sh_envp);	//print current envp
 
 	// int output_fd =	open("out_file", O_CREAT | O_APPEND | O_RDWR, 00644);
-	i = 0;
-	while (i < (*par)->key)
+	i = ft_count_pipes(par);
+	if (par[0]->key == 1)
 	{
-		if ((*par)->output > 0)
-		{
-			// replace stdout with output fd
-			dup2((*par)->output, 1);
-			close((*par)->output);
-		}
-		if ((*par)->input > 0)
-		{
-			// replace stdin with input fd
-			dup2((*par)->input, 0);
-			close((*par)->input);
-		}
-		cmdpath = expander(par[i]->arguments[0], sh_envp->sh_path);
-		g_all.exit_code = executor(	par[i]->arguments[0],	//cmd
-									&par[i]->arguments[1],	//args from cmdline
-									cmdpath,				//executable filepath
-									sh_envp,				//settings for shell
-									term_props);			//props for exit (history)
-		// restore stdin & stdout
-		dup2(sh_envp->truefd0,0);
-		dup2(sh_envp->truefd1,1);
-		i++;
+		cmdpath = expander(par[0]->arguments[0], sh_envp->sh_path);
+		g_all.exit_code = executor(	par[0]->arguments[0],
+									&par[0]->arguments[1],
+									cmdpath,
+									sh_envp,
+									term_props);
 	}
+	else
+		;	//do pipes
 	return (0);
 }

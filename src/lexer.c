@@ -110,6 +110,8 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 				close((*par)->input);
 				(*par)->input = open_TRUNC_file_redirect(lex->line);
 			}
+			else
+				(*par)->input = open_APPEND_file_redirect(lex->line);
 			//close((*par)->input);
 			lex->input = 0;
 		}
