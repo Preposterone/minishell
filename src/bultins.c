@@ -34,7 +34,7 @@ int ft_do_exit(char **args, t_for_in_terminal *t)
 
 	i = 0;
 	reason = 0;
-	ft_putendl_fd(EXIT, 1);
+	ft_putendl_fd(EXITT, 1);
 	while (args[i])
 		i++;
 	if (i > 1)

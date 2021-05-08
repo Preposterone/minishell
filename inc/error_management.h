@@ -12,12 +12,19 @@
 
 #ifndef ERROR_MANAGEMENT_H
 # define ERROR_MANAGEMENT_H
-
+# include <stdio.h>
 /* **********************************MESSAGES******************************** */
 
 # define MSH_MSG_GENERIC "minishell: "
 # define MSH_MSG_TOO_MANY_ARGS "too many arguments"
 # define MSH_MSG_EXIT_NUMERIC "numeric argument required"
+# define CANT_OPEN_FILE "could not open the file"
+# define FILE_DONT_REAL "No such file or directory"
+# define RED_WHERE "syntax error near unexpected token `newline'"
+# define RED_WHERE "syntax error near unexpected token `newline'"
+# define M_QUOTES "The quotes are not closed"
+# define ERROR_E "Error"
+# define EXITT "exit"
 
 /* *******************************ERROR_CODES******************************** */
 
