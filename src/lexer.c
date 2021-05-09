@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	exit_mistake()
-{
-	write(1, ERROR_LEXER, term_strlen(ERROR_LEXER));
-	exit(0);
-}
-
 char *free_null(char *l)
 {
 	if (l)
@@ -27,6 +21,30 @@ void del_masiv(char **l)
 		}
 		free(l);
 	}
+}
+
+void del_free_par(t_for_in_parser **par)
+{
+	int i;
+	int j;
+
+	j = 0;
+	while (*par != NULL)
+	{
+		i = 0;
+		while ((*par)->arguments != NULL && (*par)->arguments[i] != NULL)
+		{
+			free((*par)->arguments[i]);
+			(*par)->arguments[i] = NULL;
+			i++;
+		}
+		free((*par)->arguments);
+		free((*par)->next);
+		*par = (*par)->previous;
+		j++;
+
+	}
+	free(*par);
 }
 
 
@@ -82,7 +100,7 @@ void check_flags(t_for_in_lexer *lex)
 
 
 
-void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
+void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par, t_for_in_terminal *t)
 {
 	t_for_in_parser *t_p;
 
@@ -96,28 +114,29 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			*par = (*par)->next;
 			(*par)->previous = t_p;
 			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
-			(*par)->output = 0;
-			(*par)->input = 0;
+			(*par)->output = -2;
+			(*par)->input = -2;
 			lex->pipe = 0;
 		}
 		if (lex->input == 1)
 		{
-			if ((*par)->input != 0)
+			if ((*par)->input > 0)
 				close((*par)->input);
 			(*par)->input = open(lex->line, O_RDONLY);
 			if ((*par)->input != -1)
 			{
 				close((*par)->input);
-				(*par)->input = open_TRUNC_file_redirect(lex->line);
+				(*par)->input = open_RDONLY_file_redirect(lex->line);
+				if ((*par)->input < 0)
+					exit_minishell(CANT_OPEN_FILE, 1, t);
 			}
 			else
-				(*par)->input = open_APPEND_file_redirect(lex->line);
-			//close((*par)->input);
+				exit_minishell(FILE_DONT_REAL, 1, t);
 			lex->input = 0;
 		}
 		else if (lex->out == 1)
 		{
-			if ((*par)->output != 0)
+			if ((*par)->output > 0)
 				close((*par)->output);
 			(*par)->output = open(lex->line, O_RDONLY);
 			if ((*par)->output != -1)
@@ -127,6 +146,8 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			}
 			else
 				(*par)->output = open_APPEND_file_redirect(lex->line);
+			if ((*par)->output < 0)
+				exit_minishell(CANT_OPEN_FILE, 1, t);
 			lex->out = 0;
 		}
 		else if (lex->dollar == 1)
@@ -136,9 +157,11 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else if (lex->outend == 1)
 		{
-			if ((*par)->output != 0)
+			if ((*par)->output > 0)
 				close((*par)->output);
 			(*par)->output = open_APPEND_file_redirect(lex->line);
+			if ((*par)->output < 0)
+				exit_minishell(CANT_OPEN_FILE, 1, t);
 			lex->outend = 0;
 		}
 		else
@@ -155,8 +178,7 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 	}
 	else if (lex->outend == 1 || lex->out == 1 || lex->input == 1)
 	{
-		write(1, NO_FILE_PUT, term_strlen(NO_FILE_PUT));
-		exit(0);
+		exit_minishell(RED_WHERE, 1, t);
 	}
 }
 
@@ -293,7 +315,7 @@ void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
 
 
 
-void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
+void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_envp *sh_envp)
 {
 	while (lex->s[lex->i] != '\0')
 	{
@@ -310,13 +332,13 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 					if (lex->s[lex->i + 1] != '\0')
 						lex->line = lexer_charjoin(lex->line, lex->s[++lex->i]);
 					else
-						exit_mistake();
+						exit_minishell(ERROR_E, 1, t);
 				}
 				else
 					lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 			}
 			if (lex->s[lex->i] == '\0')
-				exit_mistake();
+				exit_minishell(M_QUOTES, 1, t);
 		}
 		else if (lex->s[lex->i] == 39)
 		{
@@ -325,7 +347,7 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 				lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 			}
 			if (lex->s[lex->i] == '\0')
-				exit_mistake();
+				exit_minishell(M_QUOTES, 1, t);
 		}
 		else if (lex->s[lex->i] == '$')
 		{
@@ -333,23 +355,23 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 		}
 		else if (lex->s[lex->i] == '|')
 		{
-			put_line_in_mas(lex, par);
+			put_line_in_mas(lex, par, t);
 			lex->pipe = 1;
 		}
 		else if (lex->s[lex->i] == '>' && lex->s[lex->i + 1] != '>')
 		{
-			put_line_in_mas(lex, par);
+			put_line_in_mas(lex, par, t);
 			lex->out = 1;
 		}
 		else if (lex->s[lex->i] == '>' && lex->s[lex->i + 1] == '>')
 		{
-			put_line_in_mas(lex, par);
+			put_line_in_mas(lex, par, t);
 			lex->outend = 1;
 			lex->i++;
 		}
 		else if (lex->s[lex->i] == '<')
 		{
-			put_line_in_mas(lex, par);
+			put_line_in_mas(lex, par, t);
 			lex->input = 1;
 		}
 		else if (lex->s[lex->i] == 92)
@@ -357,36 +379,38 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par)
 			if (lex->s[lex->i + 1] != '\0')
 				lex->line = lexer_charjoin(lex->line, lex->s[++lex->i]);
 			else
-				exit_mistake();
+				exit_minishell(ERROR_E, 1, t);
 		}
 		else if (lex->s[lex->i] == ';')
 		{
-			put_line_in_mas(lex, par);
-			//executor(par->arguments[0],&par->arguments[1],expander(par->arguments[0], sh_envp->sh_path), sh_envp);
-			//del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
-			/*par = ft_calloc(1, sizeof(t_for_in_parser));
-			par->next = ft_calloc(1, sizeof(t_for_in_parser));
-			par = par->next;
-			par->key = 1;
-			par->previous = t_p;
-
-			while(i < 127)
-				lex.flags_arg[i++] = 0;
-
-			par->arguments = (char **)ft_calloc(1, sizeof(char *));
-			par->out = (char **)ft_calloc(1, sizeof(char *));
-			par->outend = (char **)ft_calloc(1, sizeof(char *));
-			par->input = (char **)ft_calloc(1, sizeof(char *));*/
+			put_line_in_mas(lex, par, t);
+			/*(void)sh_envp;
+			(void)t;
+			(void)t_p;*/
+			del_settings_term(t);	//Восстанавливаем терминал
+			executor_secretary(par, sh_envp, t); //->
+			del_free_par(par); //Очистить par
+			do_settings_term(t);	//Ломаем терминал
+			free(lex->t_p);
+			(*par) = ft_calloc(1, sizeof(t_for_in_parser));
+			(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
+			lex->t_p = *par;
+			(*par) = (*par)->next;
+			(*par)->key = 1;
+			(*par)->previous = lex->t_p;
+			(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
+			(*par)->output = -2;
+			(*par)->input = -2;
 		}
 		else if (lex->s[lex->i] != ' ' && lex->s[lex->i] != 10)
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 		else if (lex->s[lex->i] == ' ' && lex->line && lex->line != NULL)
 		{
-			put_line_in_mas(lex, par);
+			put_line_in_mas(lex, par, t);
 		}
 		lex->i++;
 	}
-	put_line_in_mas(lex, par);
+	put_line_in_mas(lex, par, t);
 	(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
 }
 
@@ -408,35 +432,10 @@ void print_par(t_for_in_parser **par)
 	}
 }
 
-void del_free_par(t_for_in_parser **par)
-{
-	int i;
-	int j;
-
-	j = 0;
-	while (*par != NULL)
-	{
-		i = 0;
-		while ((*par)->arguments != NULL && (*par)->arguments[i] != NULL)
-		{
-			free((*par)->arguments[i]);
-			(*par)->arguments[i] = NULL;
-			i++;
-		}
-		free((*par)->arguments);
-		free((*par)->next);
-		*par = (*par)->previous;
-		j++;
-
-	}
-	free(*par);
-}
-
 void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 {
 	t_for_in_lexer lex;
 	t_for_in_parser *par;
-	t_for_in_parser *t_p;
 
 	lex.s = s;
 	int i;
@@ -460,10 +459,10 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 
 	par = ft_calloc(1, sizeof(t_for_in_parser));
 	par->next = ft_calloc(1, sizeof(t_for_in_parser));
-	t_p = par;
+	lex.t_p = par;
 	par = par->next;
 	par->key = 1;
-	par->previous = t_p;
+	par->previous = lex.t_p;
 	lex.flags_arg = (int *)ft_calloc(128, sizeof(int));
 	lex.i = 0;
 	while(lex.i < 127)
@@ -472,16 +471,16 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	lex.flags_check = 0;
 
 	par->arguments = (char **)ft_calloc(1, sizeof(char *));
-	par->output = 0;
-	par->input = 0;
-	lexer(&lex, &par);
+	par->output = -2;
+	par->input = -2;
+	lexer(&lex, &par, t, sh_envp);
 
 	free(lex.flags_arg);
 	// print_par(&par); //Для печати
 	// (void)sh_envp;
 	del_settings_term(t);	//Восстанавливаем терминал
-	executor_secretary(&par, sh_envp, t);
-	del_free_par(&par); //не запускать эту фунцию, когда есть функция печати
+	executor_secretary(&par, sh_envp, t); //->
+	del_free_par(&par); //Очистить par
 	do_settings_term(t);	//Ломаем терминал
-	free(t_p);
+	free(lex.t_p);
 }

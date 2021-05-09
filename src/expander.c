@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/03 17:13:58 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/07 13:18:25 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_envp_cpy(const char *envp[], t_envp *buf)
 	while (envp[i])
 		i++;
 	envp_cpy = (char **)ft_calloc(i + 1, sizeof(char *));
+	path = NULL;
 	i = -1;
 	while (envp[++i])
 	{
@@ -114,7 +115,7 @@ char	*expander(char *cmd, char *path)
 		// printf("Running builtin\n");	//TODO: return cmd to executor
 		return cmd;
 	}
-	else if (!path)
+	if (!path)
 	{
 		printf("Path is NULL\n");	//TODO: print error and goto termcap
 		return NULL;

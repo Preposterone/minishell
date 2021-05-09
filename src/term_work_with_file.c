@@ -102,7 +102,7 @@ char	*get_h_const(char *h_const)
 		return (NULL);
 	while (h_const[i] && h_const[i] != '\n')
 		i++;
-	r = malloc(sizeof(char) * ((my_strlen(h_const) - i) + 1));
+	r = (char *)ft_calloc((my_strlen(h_const) - i) + 1, sizeof(char));
 	if (!r)
 		return (NULL);
 	i++;
@@ -124,6 +124,18 @@ int	open_APPEND_file_redirect(char *s)
 	if (!s)
 		return (0);
 	fd = open(s, O_CREAT | O_APPEND | O_RDWR, 00644);
+	if (fd == -1)
+		return (-1);
+	return (fd);
+}
+
+int	open_RDONLY_file_redirect(char *s)
+{
+	int fd;
+
+	if (!s)
+		return (0);
+	fd = open(s, O_RDONLY, 00644);
 	if (fd == -1)
 		return (-1);
 	return (fd);

@@ -9,8 +9,11 @@ int main(int argc, char *argv[], char const *envp[])
 	t_envp	sh_envp;
 
 	ft_bzero(&g_all, sizeof(t_all));
+	sh_envp.truefd0 = -1;
+	sh_envp.truefd1 = -1;
+	dup2(0, sh_envp.truefd0);
+	dup2(1, sh_envp.truefd1);
 	ft_envp_cpy(envp, &sh_envp);
-
 	terminal(argc, argv, &sh_envp);
 	return 0;
 }
@@ -472,11 +475,6 @@ int main(int argc, char const *argv[], char *envp[]) {
 		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
-		// int x;
-		// printf("Input a num: ");
-		// scanf("%d", &x);
-		// write(fd[1], &x, sizeof(int));
-		// close(fd[1]);
 		execve(CMD_PATHS[0], ARGS_CMD0, envp);
 	} else {
 		close(fd[1]);

@@ -18,6 +18,7 @@
 # include "termcap.h"
 # include "expander.h"
 # include "executor.h"
+# include "error_management.h"
 # include <stdio.h>
 typedef struct	s_all
 {

@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:57:01 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/03 16:08:58 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/07 15:18:58 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 int	executor(char *cmd, char **args, char *cmdpath, t_envp *envp,
 			t_for_in_terminal *term_props);
-int	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
+void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props);
 
 /*
