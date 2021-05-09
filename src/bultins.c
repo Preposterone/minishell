@@ -25,7 +25,6 @@ void	ft_print_arr(char **arr)
 	Exit the shell, returning a status of n to the shell’s parent.
 	If n is omitted, the exit status is that of the last command executed
 	exit status = args[0] % 256
-	todo: add undo termcap flags
 */
 int ft_do_exit(char **args, t_for_in_terminal *t)
 {
@@ -39,7 +38,7 @@ int ft_do_exit(char **args, t_for_in_terminal *t)
 		i++;
 	if (i > 1)
 	{
-		perror("too many arguments"); //TODO: print error, don't actually exit, exit status = 1
+		ft_puterr_arr((char *[]){"exit: ", MSH_MSG_TOO_MANY_ARGS, NULL});
 		return (1);
 	}
 	else if (i == 1)
@@ -47,11 +46,11 @@ int ft_do_exit(char **args, t_for_in_terminal *t)
 		i = -1;
 		while (args[0][++i])
 		{
-			if (ft_isdigit(args[0][i]))
+			if (ft_isdigit(args[0][i])) //TODO: allow for exit with negative values and also prevent reason from overflow (MAX = 2^63 - 1)
 				reason = reason * 10 + args[0][i] - '0';
 			else
 			{
-				perror("numeric argument required");
+				ft_puterr_arr((char *[]){"exit: ", args[0], ": ", MSH_MSG_EXIT_NUMERIC, NULL});
 				reason = 1;
 			}
 		}

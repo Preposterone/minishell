@@ -40,12 +40,11 @@ void	ft_add_to_envp(char **envp, char *add, t_envp *sh_envp)
 		i++;
 	buf = (char **)ft_calloc(i + 2, sizeof(char *));
 	if (!buf)
-		; //TODO: exit with calloc error
+		exit_fatal(MSH_MALLOC_EXIT);
 	j = -1;
 	while (++j < i)
 		buf[j] = envp[j];
 	buf[j] = ft_strdup(add);
-	// buf[j + 1] = NULL;	//redundant?
 	free(envp);
 	ft_envp_cpy((const char **)buf, sh_envp);
 	ft_free_arr(buf);
@@ -104,7 +103,7 @@ static char **ft_envp_pop_elem(char **envp, int skip)
 		i++;
 	buf = (char **)ft_calloc(i, sizeof(char *));
 	if (!buf)
-		; //TODO: exit with calloc error
+		exit_fatal(MSH_MALLOC_EXIT);
 	j = 0;
 	k = 0;
 	while (j < i)
@@ -129,7 +128,7 @@ int	ft_delete_envp_elem(char *key, t_envp *sh_envp)
 
 	buf = ft_strjoin(key, "=");
 	if (!buf)
-		; //TODO: exit with calloc error
+		exit_fatal(MSH_MALLOC_EXIT);
 	cmplen = ft_strlen(buf);
 	index = ft_strstrchr1(buf, (const char **)sh_envp->sh_envp, cmplen);
 	if (index != -1)
