@@ -39,7 +39,7 @@ void	do_term(t_for_in_terminal *t)
 		ft_do_exit((char *[]){0, NULL}, t);//Что это значит? 
 	else if (!term_strcmp(t->str, "\4"))
 	{
-		write(1, "ctr+D", 6);
+		write(1, "ctr+D", 0);
 	}
 	else if (!term_strcmp(t->str, "\e[B"))
 		down_term(t);
@@ -51,8 +51,6 @@ void	do_term(t_for_in_terminal *t)
 		write(1, "right", 0);
 	else
 	{
-		//if (t->str[0] != 0)
-			//printf("\nd = %d\n", t->del_len);
 		if (t->str[0] == 0)
 			t->i = t->i;
 		else if (t->i == term_strlen_mas(t->mas_his))
@@ -191,7 +189,6 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 	t.j = t.i;
 	t.peri = t.i;
 	// write(1, &t.str, 100);	//зачем?
-	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
 	int i = 2;
 	if (argc > 1)
 	{
@@ -209,7 +206,7 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 			return ;
 		}
 	}
-
+	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
 	while (term_strcmp(t.str, "\4"))
 	{
 		terminal_while(&t, sh_envp);

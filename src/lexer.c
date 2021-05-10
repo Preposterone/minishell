@@ -100,7 +100,7 @@ void check_flags(t_for_in_lexer *lex)
 
 
 
-void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par, t_for_in_terminal *t)
+void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	t_for_in_parser *t_p;
 
@@ -128,10 +128,20 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par, t_for_in_termin
 				close((*par)->input);
 				(*par)->input = open_RDONLY_file_redirect(lex->line);
 				if ((*par)->input < 0)
-					exit_minishell(CANT_OPEN_FILE, 1, t);
+				{
+					lex->exit = 1;
+					ft_puterrln(CANT_OPEN_FILE);
+					lex->line = free_null(lex->line);
+					return ;
+				}
 			}
 			else
-				exit_minishell(FILE_DONT_REAL, 1, t);
+			{
+				lex->exit = 1;
+				ft_puterrln(FILE_DONT_REAL);
+				lex->line = free_null(lex->line);
+				return ;
+			}
 			lex->input = 0;
 		}
 		else if (lex->out == 1)
@@ -147,7 +157,12 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par, t_for_in_termin
 			else
 				(*par)->output = open_APPEND_file_redirect(lex->line);
 			if ((*par)->output < 0)
-				exit_minishell(CANT_OPEN_FILE, 1, t);
+			{
+				lex->exit = 1;
+				ft_puterrln(CANT_OPEN_FILE);
+				lex->line = free_null(lex->line);
+				return ;
+			}
 			lex->out = 0;
 		}
 		else if (lex->dollar == 1)
@@ -161,7 +176,12 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par, t_for_in_termin
 				close((*par)->output);
 			(*par)->output = open_APPEND_file_redirect(lex->line);
 			if ((*par)->output < 0)
-				exit_minishell(CANT_OPEN_FILE, 1, t);
+			{
+				lex->exit = 1;
+				ft_puterrln(CANT_OPEN_FILE);
+				lex->line = free_null(lex->line);
+				return ;
+			}
 			lex->outend = 0;
 		}
 		else
@@ -178,7 +198,9 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par, t_for_in_termin
 	}
 	else if (lex->outend == 1 || lex->out == 1 || lex->input == 1)
 	{
-		exit_minishell(RED_WHERE, 1, t);
+		lex->exit = 1;
+		ft_puterrln(RED_WHERE);
+		return ;
 	}
 }
 
@@ -332,13 +354,23 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 					if (lex->s[lex->i + 1] != '\0')
 						lex->line = lexer_charjoin(lex->line, lex->s[++lex->i]);
 					else
-						exit_minishell(ERROR_E, 1, t);
+					{
+						lex->exit = 1;
+						lex->line = free_null(lex->line);
+						ft_puterrln(ERROR_E);
+						return ;
+					}
 				}
 				else
 					lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 			}
 			if (lex->s[lex->i] == '\0')
-				exit_minishell(M_QUOTES, 1, t);
+			{
+				lex->exit = 1;
+				lex->line = free_null(lex->line);
+				ft_puterrln(M_QUOTES);
+				return ;
+			}
 		}
 		else if (lex->s[lex->i] == 39)
 		{
@@ -347,7 +379,12 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 				lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 			}
 			if (lex->s[lex->i] == '\0')
-				exit_minishell(M_QUOTES, 1, t);
+			{
+				lex->exit = 1;
+				lex->line = free_null(lex->line);
+				ft_puterrln(M_QUOTES);
+				return ;
+			}
 		}
 		else if (lex->s[lex->i] == '$')
 		{
@@ -355,23 +392,23 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 		}
 		else if (lex->s[lex->i] == '|')
 		{
-			put_line_in_mas(lex, par, t);
+			put_line_in_mas(lex, par);
 			lex->pipe = 1;
 		}
 		else if (lex->s[lex->i] == '>' && lex->s[lex->i + 1] != '>')
 		{
-			put_line_in_mas(lex, par, t);
+			put_line_in_mas(lex, par);
 			lex->out = 1;
 		}
 		else if (lex->s[lex->i] == '>' && lex->s[lex->i + 1] == '>')
 		{
-			put_line_in_mas(lex, par, t);
+			put_line_in_mas(lex, par);
 			lex->outend = 1;
 			lex->i++;
 		}
 		else if (lex->s[lex->i] == '<')
 		{
-			put_line_in_mas(lex, par, t);
+			put_line_in_mas(lex, par);
 			lex->input = 1;
 		}
 		else if (lex->s[lex->i] == 92)
@@ -379,11 +416,16 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 			if (lex->s[lex->i + 1] != '\0')
 				lex->line = lexer_charjoin(lex->line, lex->s[++lex->i]);
 			else
-				exit_minishell(ERROR_E, 1, t);
+			{
+				lex->exit = 1;
+				lex->line = free_null(lex->line);
+				ft_puterrln(ERROR_E);
+				return ;
+			}
 		}
 		else if (lex->s[lex->i] == ';')
 		{
-			put_line_in_mas(lex, par, t);
+			put_line_in_mas(lex, par);
 			/*(void)sh_envp;
 			(void)t;
 			(void)t_p;*/
@@ -406,12 +448,16 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 		else if (lex->s[lex->i] == ' ' && lex->line && lex->line != NULL)
 		{
-			put_line_in_mas(lex, par, t);
+			put_line_in_mas(lex, par);
 		}
+		if (lex->exit == 1)
+			return ;
 		lex->i++;
 	}
-	put_line_in_mas(lex, par, t);
+	put_line_in_mas(lex, par);
 	(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
+	if (lex->exit == 1)
+		return ;
 }
 
 
@@ -457,6 +503,8 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	lex.mas_line = NULL;
 	lex.line = NULL;
 
+	lex.exit = 0;
+	lex.line = (char *)ft_calloc(1, sizeof(char));
 	par = ft_calloc(1, sizeof(t_for_in_parser));
 	par->next = ft_calloc(1, sizeof(t_for_in_parser));
 	lex.t_p = par;
@@ -478,9 +526,12 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	free(lex.flags_arg);
 	// print_par(&par); //Для печати
 	// (void)sh_envp;
-	del_settings_term(t);	//Восстанавливаем терминал
-	executor_secretary(&par, sh_envp, t); //->
+	if (lex.exit == 0)
+	{
+		del_settings_term(t);	//Восстанавливаем терминал
+		executor_secretary(&par, sh_envp, t); //->
+		do_settings_term(t);	//Ломаем терминал
+	}
 	del_free_par(&par); //Очистить par
-	do_settings_term(t);	//Ломаем терминал
 	free(lex.t_p);
 }
