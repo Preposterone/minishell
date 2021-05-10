@@ -15,7 +15,7 @@
 # include <dirent.h>
 
 # define BLT_IN (char *[]){"echo","cd","pwd","export","unset","env","exit",NULL}
-# define ERR_CMD_NOT_FOUND ": command not found"
+//# define ERR_CMD_NOT_FOUND ": command not found"
 
 void	ft_envp_cpy(const char *envp[], t_envp *buf);
 bool	ft_isbuiltin(char *cmd);

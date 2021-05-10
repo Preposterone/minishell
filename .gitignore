@@ -18,5 +18,5 @@ minishell
 # Trash
 .DS_Store
 .minishell_history
-/*
-.vscode/settings.json
+#/*
+#.vscode/settings.json
