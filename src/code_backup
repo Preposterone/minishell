@@ -1,13 +1,13 @@
-#include "minishell.h"
 
-
+//TODO: actually merge into one function & logic?
 //if output_fd != -1, do dup2(output_fd, 1); close (output_fd);
 int	executor(char **args, char *cmdpath, t_envp *envp,
-				t_for_in_terminal *term_props)
+			t_for_in_terminal *term_props)
 {
 	int		ret;
 	char	*cmd_abs;
 	char	**newargs;
+	pid_t	id;
 
 	ret = 0;
 	if (!args[0])	//prevent segfault if no actual cmd is given
@@ -18,31 +18,41 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 	{
 		cmd_abs = ft_build_command(args[0], cmdpath);
 		newargs = ft_argappend(&args[1], args[0]);
-		if (execve(cmd_abs, newargs, envp->sh_envp) == -1)
-			exit_minishell(args[0], MSH_CMD_NOT_FOUND, term_props);
+		id = fork();
+		if (id)
+			wait(&ret); //waitpid? WEXIT?
+		else
+		{
+			if (execve(cmd_abs, newargs, envp->sh_envp) == -1)
+				exit_minishell(args[0], MSH_CMD_NOT_FOUND, term_props);
+		}
+		ft_freematrix((void **)newargs);
+		free(cmd_abs);
+		free(cmdpath);
 	}
 	return (ret);
 }
 
-void	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
-					t_for_in_terminal *term_props)
+void	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp, t_for_in_terminal *term_props)
 {
 	char	*cmdpath;
+
 	if ((*par)->output > 0)
 	{
+		// replace stdout with output fd
 		dup2((*par)->output, 1);
 		close((*par)->output);
 	}
 	if ((*par)->input > 0)
 	{
+		// replace stdin with input fd
 		dup2((*par)->input, 0);
 		close((*par)->input);
 	}
 	cmdpath = expander((*par)->arguments[0], sh_envp->sh_path);
-	executor(
-			&(*par)->arguments[0],        //args from cmdline
-			cmdpath,                    //executable filepath
-			sh_envp,                    //settings for shell
-			term_props);				//props for exit (history)
-
+	g_all.exit_code = executor(
+							&(*par)->arguments[0],		//args from cmdline
+							cmdpath,					//executable filepath
+							sh_envp,					//settings for shell
+							term_props);				//for exit (history)
 }

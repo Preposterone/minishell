@@ -22,25 +22,24 @@
 
 /* **********************************HELPERS********************************* */
 
-void	ft_freematrix(void **target);
 char	**ft_argappend(char **args, char *cmd);
 char	*ft_strstrjoin(char *cmd, char *cmdpath);
 char	*ft_build_command(char *cmd, char *cmdpath);
 
 /* **********************************FUNCTIONS******************************* */
-
+void	ft_run_pipes(t_for_in_parser **par, t_envp *sh_envp,
+					 t_for_in_terminal *term_props, t_pipe_data *pipe_data);
 void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props);
-int	executor_pipe(char **args, char *cmdpath, t_envp *envp,
-					 t_for_in_terminal *term_props);
-void	ft_exec_cmd_pipe(t_for_in_parser **par, t_envp *sh_envp,
-						 t_for_in_terminal *term_props, t_pipe_data *pipe_data);
+int		executor(char **args, char *cmdpath, t_envp *envp,
+					t_for_in_terminal *term_props);
+void	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
+					t_for_in_terminal *term_props);
 
 /* **********************************BUILTiINS******************************* */
 
 int	ft_do_builtin(char *cmd, char **args, t_envp *envp,
 			t_for_in_terminal *term_props);
-
 int ft_do_exit(char **args, t_for_in_terminal *term_props);
 int ft_do_env(char **args, char **envp_cpy);
 int ft_do_unset(char **args, t_envp *sh_envp);
