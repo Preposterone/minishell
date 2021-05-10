@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/09 15:26:39 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/10 17:16:29 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	ft_puterr_arr(char *s[]);
 # define MSH_EXIT_SUCCESS 0
 # define MSH_EXIT_FAIL 1
 # define MSH_CMD_NOT_FOUND 127
-
 
 /* ******************************FATAL_ERR_MSG******************************* */
 # define MSH_FATAL_GEN "\x1b[31mFATAL! \x1b[0m"

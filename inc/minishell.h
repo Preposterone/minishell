@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aarcelia <aarcelia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/18 15:00:07 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/23 14:12:52 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/10 17:24:17 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@
 # include "executor.h"
 # include "error_management.h"
 # include <stdio.h>
-typedef struct	s_all
+
+typedef struct s_all
 {
-	//t_envp				sh_envp;	//copy of envp
-	//t_for_in_terminal	termcap;	//struct for termcap
-    int                     key_signal;
-	int                     exit_code;
+	int			key_signal;
+	int			exit_code;
 }				t_all;
 
-extern t_all g_all;
+extern t_all	g_all;
 
 #endif

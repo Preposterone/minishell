@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/07 13:18:25 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/10 17:22:40 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@ bool	ft_isbuiltin(char *cmd)
 {
 	int		i;
 	bool	ret;
+	char	**blt_in;
 
 	i = -1;
 	ret = false;
+	blt_in = (char *[]){"echo","cd","pwd","export","unset","env","exit",NULL};
 	if (cmd)
 	{
-		while (BLT_IN[++i])
+		while (blt_in[++i])
 		{
-			if (!ft_strcmp(cmd, BLT_IN[i]))
+			if (!ft_strcmp(cmd, blt_in[i]))
 			{
 				ret = true;
 				break;

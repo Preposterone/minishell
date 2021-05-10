@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:03:42 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/19 16:17:41 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/10 17:22:50 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <ctype.h>
-#include <sys/types.h>
+# include <sys/types.h>
 
 typedef struct s_list
 {
