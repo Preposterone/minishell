@@ -23,8 +23,8 @@ void	ft_puterr_arr(char *s[]);
 /* **********************************MESSAGES******************************** */
 
 # define MSH_MSG_GENERIC "minishell: "
-# define MSH_MSG_TOO_MANY_ARGS "too many arguments"
-# define MSH_MSG_EXIT_NUMERIC "numeric argument required"
+# define MSH_EXT_ARGS "too many arguments"
+# define MSH_EXT_NUMER "numeric argument required"
 # define CANT_OPEN_FILE "could not open the file"
 # define FILE_DONT_REAL "No such file or directory"
 # define RED_WHERE "syntax error near unexpected token `newline'"

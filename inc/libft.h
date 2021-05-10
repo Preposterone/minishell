@@ -193,5 +193,6 @@ uint	ft_abs(int x);
 int		ft_min(int a, int b);
 int		ft_max(int a, int b);
 int		ft_tern(bool condition, int iftrue, int iffalse);
+int64_t	ft_atoll(char *s);
 
 #endif

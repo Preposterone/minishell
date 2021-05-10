@@ -21,51 +21,9 @@ void	ft_print_arr(char **arr)
 		ft_putendl_fd(arr[i], 1);
 }
 
-/*
-	Exit the shell, returning a status of n to the shell’s parent.
-	If n is omitted, the exit status is that of the last command executed
-	exit status = args[0] % 256
-*/
-int ft_do_exit(char **args, t_for_in_terminal *t)
+int ft_do_env(char **envp_cpy)
 {
-	long long int	reason;
-	int				i;
-
-	i = 0;
-	reason = 0;
-	ft_putendl_fd(EXITT, 1);
-	while (args[i])
-		i++;
-	if (i > 1)
-	{
-		ft_puterr_arr((char *[]){"exit: ", MSH_MSG_TOO_MANY_ARGS, NULL});
-		return (1);
-	}
-	else if (i == 1)
-	{
-		i = -1;
-		while (args[0][++i])
-		{
-			if (ft_isdigit(args[0][i])) //TODO: allow for exit with negative values and also prevent reason from overflow (MAX = 2^63 - 1)
-				reason = reason * 10 + args[0][i] - '0';
-			else
-			{
-				ft_puterr_arr((char *[]){"exit: ", args[0], ": ", MSH_MSG_EXIT_NUMERIC, NULL});
-				reason = 1;
-			}
-		}
-	}
-	file_mas(t->mas_his, t->peri, t);
-	g_all.exit_code = reason;
-	exit (reason);
-}
-
-int ft_do_env(char **args, char **envp_cpy)
-{
-	if (args[0])
-		; //invalid argument error or should there be this
-	else
-		ft_print_arr(envp_cpy);
+	ft_print_arr(envp_cpy);
 	return (0);
 }
 
@@ -229,7 +187,7 @@ int	ft_do_builtin(char *cmd, char **args, t_envp *envp,
 	if (sw == 4)
 		return (ft_do_unset(args, envp));
 	if (sw == 5)
-		return (ft_do_env(args, envp->sh_envp));
+		return (ft_do_env(envp->sh_envp));
 	if (sw == 6)
 		return (ft_do_exit(args, term_props));
 	return (0);
