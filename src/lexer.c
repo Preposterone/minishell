@@ -122,23 +122,10 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		{
 			if ((*par)->input > 0)
 				close((*par)->input);
-			(*par)->input = open(lex->line, O_RDONLY);
-			if ((*par)->input != -1)
-			{
-				close((*par)->input);
-				(*par)->input = open_RDONLY_file_redirect(lex->line);
-				if ((*par)->input < 0)
-				{
-					lex->exit = 1;
-					ft_puterrln(CANT_OPEN_FILE);
-					lex->line = free_null(lex->line);
-					return ;
-				}
-			}
-			else
+			(*par)->input = open_RDONLY_file_redirect(lex->line);
+			if ((*par)->input < 0)
 			{
 				lex->exit = 1;
-				ft_puterrln(FILE_DONT_REAL);
 				lex->line = free_null(lex->line);
 				return ;
 			}
@@ -148,18 +135,10 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 		{
 			if ((*par)->output > 0)
 				close((*par)->output);
-			(*par)->output = open(lex->line, O_RDONLY);
-			if ((*par)->output != -1)
-			{
-				close((*par)->output);
-				(*par)->output = open_TRUNC_file_redirect(lex->line);
-			}
-			else
-				(*par)->output = open_APPEND_file_redirect(lex->line);
+			(*par)->output = open_TRUNC_file_redirect(lex->line);
 			if ((*par)->output < 0)
 			{
 				lex->exit = 1;
-				ft_puterrln(CANT_OPEN_FILE);
 				lex->line = free_null(lex->line);
 				return ;
 			}
@@ -178,7 +157,6 @@ void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			if ((*par)->output < 0)
 			{
 				lex->exit = 1;
-				ft_puterrln(CANT_OPEN_FILE);
 				lex->line = free_null(lex->line);
 				return ;
 			}
@@ -480,6 +458,13 @@ void print_par(t_for_in_parser **par)
 
 void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 {
+	/*if(1 == 1)
+	{
+		open("src", O_RDWR);
+		printf("\n%s\n", strerror(errno));
+		return ;
+	}*/
+	//write(1, strerror(errno), strlen(strerror(errno)));
 	t_for_in_lexer lex;
 	t_for_in_parser *par;
 

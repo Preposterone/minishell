@@ -29,26 +29,26 @@ void	do_term(t_for_in_terminal *t)
 	ioctl(0, FIONREAD, &t->n);
 	t->l = read(0, t->str, t->n);
 	t->str[t->l] = 0;
-	if (t->str[0] == 9)
+	if (t->str[0] == 0)
+		return ;
+	if (t->str[0] == 9 && t->str[0] == 7)
 	{
 		t->str[0] = '\0';
 	}
-	if (!term_strcmp(t->str, "\e[A"))
+	else if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
 	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
 		ft_do_exit((char *[]){0, NULL}, t);//Что это значит? 
-	else if (!term_strcmp(t->str, "\4"))
-	{
-		write(1, "ctr+D", 0);
-	}
+	else if (!term_strcmp(t->str, "\4"));
+		//write(1, "ctr+D", 0);
 	else if (!term_strcmp(t->str, "\e[B"))
 		down_term(t);
 	else if (term_strcmp(t->str, key_backspace) && !term_strcmp(t->str, "\177"))
 		del_term(t);
-	else if (!term_strcmp(t->str, "\e[D"))
-		write(1, "left", 0);
-	else if (!term_strcmp(t->str, "\e[C"))
-		write(1, "right", 0);
+	else if (!term_strcmp(t->str, "\e[D"));
+		//write(1, "left", 0);
+	else if (!term_strcmp(t->str, "\e[C"));
+		//write(1, "right", 0);
 	else
 	{
 		if (t->str[0] == 0)
@@ -161,7 +161,7 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 		free((void *)t->sn);
 		t->sn = NULL;
 	}
-	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
+	write(1, TERMINALNAME, ft_strlen(TERMINALNAME));
 	t->i = t->j;
 }
 
@@ -188,7 +188,7 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 	t.del_len = 0;
 	t.j = t.i;
 	t.peri = t.i;
-	// write(1, &t.str, 100);	//зачем?
+	// write(1, &t.str, 100);//зачем?
 	int i = 2;
 	if (argc > 1)
 	{
