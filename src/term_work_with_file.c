@@ -124,8 +124,16 @@ int	open_APPEND_file_redirect(char *s)
 	if (!s)
 		return (0);
 	fd = open(s, O_CREAT | O_APPEND | O_RDWR, 00644);
-	if (fd == -1)
+	if (fd <= 0)
+	{
+		printf("\n%s ==%d\n", s, fd);
+		write(1, EXIT, strlen(EXIT));
+		write(1, s, strlen(s));
+		write(1, ": ", strlen(": "));
+		write(1, strerror(errno), strlen(strerror(errno)));
+		write(1, "\n", strlen("\n"));
 		return (-1);
+	}
 	return (fd);
 }
 
@@ -136,8 +144,16 @@ int	open_RDONLY_file_redirect(char *s)
 	if (!s)
 		return (0);
 	fd = open(s, O_RDONLY, 00644);
-	if (fd == -1)
+	if (fd <= 0)
+	{
+		printf("\n%s ==%d\n", s, fd);
+		write(1, EXIT, strlen(EXIT));
+		write(1, s, strlen(s));
+		write(1, ": ", strlen(": "));
+		write(1, strerror(errno), strlen(strerror(errno)));
+		write(1, "\n", strlen("\n"));
 		return (-1);
+	}
 	return (fd);
 }
 
@@ -148,7 +164,42 @@ int	open_TRUNC_file_redirect(char *s)
 	if (!s)
 		return (0);
 	fd = open(s, O_CREAT | O_TRUNC | O_RDWR, 00644);
-	if (fd == -1)
+	if (fd <= 0)
+	{
+		printf("\n%s ==%d\n", s, fd);
+		write(1, EXIT, strlen(EXIT));
+		write(1, s, strlen(s));
+		write(1, ": ", strlen(": "));
+		write(1, strerror(errno), strlen(strerror(errno)));
+		write(1, "\n", strlen("\n"));
 		return (-1);
+	}
 	return (fd);
+}
+
+int check_file(char *s, int x, int y)
+{
+	x = open(s, O_WRONLY);
+	if (x > 0)
+	{
+		close(x);
+		x = 1;
+	}
+	else
+		x = 0;
+	y = open(s, O_RDONLY);
+	if (y > 0)
+	{
+		close(y);
+		y = 1;
+	}
+	else
+		y = 0;
+	if (x == 1 && y == 1)
+		return 1;//фаил
+	else if (x == 0 && y == 0)
+		return 2;//не сущ
+	else if (x == 0 && y == 1)
+		return 3;//dir
+	return 0;
 }

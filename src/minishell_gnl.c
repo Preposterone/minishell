@@ -100,7 +100,7 @@ int					get_next_line(int fd, char **line)
 
 	buffer = NULL;
 	if ((fd < 0 || fd > 1024) != 0 || read(fd, buffer, 0) < 0
-		|| !line || !(buffer = (char*)malloc(BUFFER_SIZE + 1)))
+		|| !line || !(buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char))))
 		return (-1);
 	if (!rem)
 		rem = ft_strdup("");

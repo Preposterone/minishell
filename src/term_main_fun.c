@@ -161,7 +161,7 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 		free((void *)t->sn);
 		t->sn = NULL;
 	}
-	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
+	write(1, TERMINALNAME, ft_strlen(TERMINALNAME));
 	t->i = t->j;
 }
 
@@ -188,7 +188,7 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 	t.del_len = 0;
 	t.j = t.i;
 	t.peri = t.i;
-	// write(1, &t.str, 100);	//зачем?
+	// write(1, &t.str, 100);//зачем?
 	int i = 2;
 	if (argc > 1)
 	{
