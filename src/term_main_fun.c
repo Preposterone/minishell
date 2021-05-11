@@ -63,7 +63,8 @@ void	do_term(t_for_in_terminal *t)
 			t->del_len++;
 			t->sn = term_strjoin(t->sn, t->str);
 		}
-		write (1, t->str, t->l);
+		if (t->str[0] != '\n')
+			write (1, t->str, t->l);
 	}
 }
 
@@ -105,8 +106,10 @@ void ft_signal_slesh()
 
 void ft_signal_c()
 {
+	write(1, "\n", 1);
 	g_all.key_signal = 1;
 	g_all.exit_code = 1;
+
 }
 
 void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
@@ -120,7 +123,6 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 		{
 			if (t->del_len == 0)
 			{
-				write(1, "\n", 1);
 				t->s = (char *)ft_calloc(1, sizeof(char));
 				g_all.key_signal = 0;
 				break ;
@@ -138,7 +140,6 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 				t->sn = term_strjoin(NULL, "\0");
 			}
 			g_all.key_signal = 0;
-			write(1, "\n", 1);
 			break ;
 		}
 		else
@@ -147,10 +148,12 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 		}
 		if (!term_strcmp(t->str, "\n\0"))
 		{
+			write(1, "\n", 1);
 			break ;
 		}
 	}
 	while_enter_term(t, sh_envp);
+	write(1, TERMINALNAME, ft_strlen(TERMINALNAME));
 	if (t->s)
 	{
 		free((void *)t->s);
@@ -161,8 +164,8 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 		free((void *)t->sn);
 		t->sn = NULL;
 	}
-	write(1, TERMINALNAME, ft_strlen(TERMINALNAME));
 	t->i = t->j;
+	g_all.key_signal = 0;
 }
 
 void	terminal(int argc, char *argv[], t_envp *sh_envp)
