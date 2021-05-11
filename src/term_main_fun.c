@@ -29,26 +29,26 @@ void	do_term(t_for_in_terminal *t)
 	ioctl(0, FIONREAD, &t->n);
 	t->l = read(0, t->str, t->n);
 	t->str[t->l] = 0;
-	if (t->str[0] == 9)
+	if (t->str[0] == 0)
+		return ;
+	if (t->str[0] == 9 && t->str[0] == 7)
 	{
 		t->str[0] = '\0';
 	}
-	if (!term_strcmp(t->str, "\e[A"))
+	else if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
 	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
 		ft_do_exit((char *[]){0, NULL}, t);//Что это значит? 
-	else if (!term_strcmp(t->str, "\4"))
-	{
-		write(1, "ctr+D", 0);
-	}
+	else if (!term_strcmp(t->str, "\4"));
+		//write(1, "ctr+D", 0);
 	else if (!term_strcmp(t->str, "\e[B"))
 		down_term(t);
 	else if (term_strcmp(t->str, key_backspace) && !term_strcmp(t->str, "\177"))
 		del_term(t);
-	else if (!term_strcmp(t->str, "\e[D"))
-		write(1, "left", 0);
-	else if (!term_strcmp(t->str, "\e[C"))
-		write(1, "right", 0);
+	else if (!term_strcmp(t->str, "\e[D"));
+		//write(1, "left", 0);
+	else if (!term_strcmp(t->str, "\e[C"));
+		//write(1, "right", 0);
 	else
 	{
 		if (t->str[0] == 0)
