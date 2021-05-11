@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/09 15:26:39 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/10 17:16:29 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	ft_puterr_arr(char *s[]);
 /* **********************************MESSAGES******************************** */
 
 # define MSH_MSG_GENERIC "minishell: "
-# define MSH_MSG_TOO_MANY_ARGS "too many arguments"
-# define MSH_MSG_EXIT_NUMERIC "numeric argument required"
+# define MSH_EXT_ARGS "too many arguments"
+# define MSH_EXT_NUMER "numeric argument required"
 # define CANT_OPEN_FILE "could not open the file"
 # define FILE_DONT_REAL "No such file or directory"
 # define RED_WHERE "syntax error near unexpected token `newline'"
@@ -32,6 +32,7 @@ void	ft_puterr_arr(char *s[]);
 # define M_QUOTES "The quotes are not closed"
 # define ERROR_E "Error"
 # define MSG_CMD_NOT_FOUND ": command not found"
+# define MSH_ID_INV "': not a valid identifier"
 # define EXITT "exit"
 
 /* *******************************ERROR_CODES******************************** */
@@ -39,7 +40,6 @@ void	ft_puterr_arr(char *s[]);
 # define MSH_EXIT_SUCCESS 0
 # define MSH_EXIT_FAIL 1
 # define MSH_CMD_NOT_FOUND 127
-
 
 /* ******************************FATAL_ERR_MSG******************************* */
 # define MSH_FATAL_GEN "\x1b[31mFATAL! \x1b[0m"
