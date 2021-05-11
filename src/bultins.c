@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:39:34 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/10 17:20:52 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/11 17:20:51 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,6 @@ int	ft_do_builtin(char *cmd, char **args, t_envp *envp,
 	if (sw == 5)
 		return (ft_do_env(envp->sh_envp));
 	if (sw == 6)
-		return (ft_do_exit(args, term_props));
+		return (ft_do_exit(args, term_props, !envp->ispipe));
 	return (0);
 }

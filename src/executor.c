@@ -20,7 +20,8 @@ static void	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 
 	ret = 0;
 	if (ft_isbuiltin((*par)->arguments[0]))
-		ret = ft_do_builtin((*par)->arguments[0], &(*par)->arguments[1], sh_envp, term_props);
+//		ret = ft_do_builtin((*par)->arguments[0], &(*par)->arguments[1], sh_envp, term_props);
+		ft_exec_cmd(par, sh_envp, term_props);
 	else
 	{
 		id = fork();
@@ -75,6 +76,7 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	if (num_cmds > 1)
 	{
 		ft_bzero(&pipe_data, sizeof(pipe_data));
+		sh_envp->ispipe = 1;
 		ft_run_pipes(par, sh_envp, term_props, &pipe_data);
 		i = -1;
 		while (++i < pipe_data.ch_total)	//wait for pipes here
@@ -82,6 +84,7 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	}
 	else
 		ft_run_single(par, sh_envp, term_props);
+	sh_envp->ispipe = 0;
 	dup2(sh_envp->truefd0,0);
 	dup2(sh_envp->truefd1,1);
 }
