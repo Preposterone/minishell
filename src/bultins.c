@@ -85,33 +85,6 @@ int ft_do_pwd(char **args)
 	return (0);
 }
 /*
-	Change the current working directory to directory.
-	If directory is not supplied, the value of the HOME shell variable is used.
-	Any additional 	arguments following directory are ignored.
-	The return status is zero if the directory is successfully changed, non-zero otherwise.
- */
-
-int ft_do_cd(char **args, t_envp *env)
-{
-	char	*buf;
-	char	*dir;
-
-	buf = NULL;
-
-	dir = args[0];
-	if (!dir)
-		dir = ft_get_envp_elem("HOME=", env);
-	if (chdir(dir))
-		perror(strerror(errno));	//do i print it this way?
-	else
-	{
-		buf = getcwd(buf, 0);
-		ft_update_envp_elem("PWD=", buf, env);
-		free(buf);
-	}
-	return (0);
-}
-/*
 	Output the args, separated by spaces, terminated with a newline.
 	The return status is 0 unless a write error occurs
 */
