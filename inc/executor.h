@@ -51,6 +51,7 @@ int		ft_do_echo(char **args);
 /* *****************************BUILTI_HELPERS******************************* */
 
 bool	ft_isstralpha(char *s, int slen);
+bool	is_id_str_valid(char *id);
 
 /* **********************************ENVP_OPS******************************** */
 

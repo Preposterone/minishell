@@ -32,6 +32,7 @@ void	ft_puterr_arr(char *s[]);
 # define M_QUOTES "The quotes are not closed"
 # define ERROR_E "Error"
 # define MSG_CMD_NOT_FOUND ": command not found"
+# define MSH_ID_INV "': not a valid identifier"
 # define EXITT "exit"
 
 /* *******************************ERROR_CODES******************************** */

@@ -52,15 +52,21 @@ bool ft_isstralpha(char *s, int slen)
 int ft_do_unset(char **args, t_envp *sh_envp)
 {
 	int	i;
+	int	ret;
 
 	i = -1;
+	ret = 0;
 	while (args[++i])
 	{
-		if (ft_isstralpha(args[i], ft_strlen(args[i])) || args[i][0] == '_')
+		if (is_id_str_valid(args[i]))
 			ft_delete_envp_elem(args[i], sh_envp);
+		else
+		{
+			ft_puterr_arr((char *[]) {"unset: '", args[i], MSH_ID_INV, NULL});
+			ret = 1;
+		}
 	}
-
-	return (0);
+	return (ret);
 }
 
 /*
