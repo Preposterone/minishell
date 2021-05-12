@@ -33,14 +33,14 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 			t_for_in_terminal *term_props);
 int		executor(char **args, char *cmdpath, t_envp *envp,
 			t_for_in_terminal *term_props);
-void	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
+int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 			t_for_in_terminal *term_props);
 
 /* **********************************BUILTIINS******************************* */
 
 int		ft_do_builtin(char *cmd, char **args, t_envp *envp,
 			t_for_in_terminal *term_props);
-int		ft_do_exit(char **args, t_for_in_terminal *term_props);
+int		ft_do_exit(char **args, t_for_in_terminal *term_props, bool print);
 int		ft_do_env(char **envp_cpy);
 int		ft_do_unset(char **args, t_envp *sh_envp);
 int		ft_do_export(char **args, t_envp *sh_envp);

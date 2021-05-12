@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/12 10:52:12 by aarcelia          #+#    #+#             */
+/*   Updated: 2021/05/12 10:52:13 by aarcelia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static bool	iswrd_di(char *s)
@@ -37,16 +49,17 @@ static int	ft_exit_err(char *str)
  * Check if args[0] is all number (with or without '-'), if not - give error, don't exit
  * else check if there are more than 2 args
  */
-int ft_do_exit(char **args, t_for_in_terminal *t)
+int ft_do_exit(char **args, t_for_in_terminal *t, bool print)
 {
 	bool	do_exit;
 	int64_t	reason;
 	u_char	exit_code;
 	char	*arg;
 
-	ft_putendl_fd(EXITT, 1);
+	if (print)
+		ft_putendl_fd(EXITT, 1);
 	do_exit = true;
-	reason = 0;
+	reason = 0LL;
 	exit_code = 0;
 	arg = ft_strtrim(args[0], " ");
 	if (!args[0])

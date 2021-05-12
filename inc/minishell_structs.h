@@ -15,6 +15,7 @@ typedef struct s_envp
 	char		*sh_term;
 	int			truefd0;
 	int			truefd1;
+	int			ispipe;
 }				t_envp;
 
 typedef struct s_pipe_data

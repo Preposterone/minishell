@@ -38,7 +38,7 @@ void	do_term(t_for_in_terminal *t)
 	else if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
 	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
-		ft_do_exit((char *[]){0, NULL}, t);//Что это значит? 
+		ft_do_exit((char *[]){0, NULL}, t, 1);//Что это значит?
 	else if (!term_strcmp(t->str, "\4"));
 		//write(1, "ctr+D", 0);
 	else if (!term_strcmp(t->str, "\e[B"))
