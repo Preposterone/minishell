@@ -25,6 +25,7 @@ typedef struct s_all
 {
 	int			key_signal;
 	int			exit_code;
+	int			key_ctr;
 }				t_all;
 
 extern t_all	g_all;

@@ -4,6 +4,7 @@ void	del_term(t_for_in_terminal *t)
 {
 	if (t->del_len > 0 && t->i == term_strlen_mas(t->mas_his) && t->s)
 	{
+		printf("\n%s = del\n", t->s);
 		if (t->s[0] != 0 && t->s[0] != 10)
 		{
 			tputs(cursor_left, 1, term_putchar);
@@ -111,7 +112,8 @@ void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp)
 
 void ft_signal_slesh()
 {
-	write(1, "\n", 1);
+	if (g_all.key_ctr == 0)
+		write(1, "Quit: 3\n", ft_strlen("Quit: 3\n"));
 	g_all.key_signal = 2;
 }
 
@@ -126,8 +128,10 @@ void ft_signal_c()
 void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 {
 	tputs(save_cursor, 1, term_putchar);
+	g_all.key_ctr = 0;
 	while (1 == 1)
 	{
+		g_all.key_ctr = 1;
 		signal(SIGQUIT, ft_signal_slesh);
 		signal(SIGINT, ft_signal_c);
 		if (g_all.key_signal == 1)
@@ -163,6 +167,7 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			break ;
 		}
 	}
+	g_all.key_ctr = 0;
 	while_enter_term(t, sh_envp);
 	write(1, TERMINALNAME, ft_strlen(TERMINALNAME));
 	if (t->s)
