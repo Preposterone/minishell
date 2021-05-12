@@ -10,6 +10,11 @@ void	del_term(t_for_in_terminal *t)
 			tputs(tgetstr("dc", 0), 1, term_putchar);
 		}
 		t->s = str_delet_last_char(t->s);
+		if (t->del_len == 1)
+		{
+			free(t->s);
+			t->s = (char *)ft_calloc(1, sizeof(char));
+		}
 	}
 	else if (t->del_len > 0 && t->sn)
 	{
@@ -19,6 +24,11 @@ void	del_term(t_for_in_terminal *t)
 			tputs(tgetstr("dc", 0), 1, term_putchar);
 		}
 		t->sn = str_delet_last_char(t->sn);
+		if (t->del_len == 1)
+		{
+			free(t->sn);
+			t->sn = (char *)ft_calloc(1, sizeof(char));
+		}
 	}
 	if (t->del_len > 0)
 		t->del_len--;
@@ -31,7 +41,7 @@ void	do_term(t_for_in_terminal *t)
 	t->str[t->l] = 0;
 	if (t->str[0] == 0)
 		return ;
-	if (t->str[0] == 9 && t->str[0] == 7)
+	if (t->str[0] == 9 || t->str[0] == 7)
 	{
 		t->str[0] = '\0';
 	}
@@ -101,6 +111,7 @@ void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp)
 
 void ft_signal_slesh()
 {
+	write(1, "\n", 1);
 	g_all.key_signal = 2;
 }
 
