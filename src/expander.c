@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/10 17:22:40 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 17:11:26 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ bool	ft_isbuiltin(char *cmd)
 {
 	int		i;
 	bool	ret;
-	char	**blt_in;
+	char	**s;
 
 	i = -1;
 	ret = false;
-	blt_in = (char *[]){"echo","cd","pwd","export","unset","env","exit",NULL};
+	s = (char *[]){"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
 	if (cmd)
 	{
-		while (blt_in[++i])
+		while (s[++i])
 		{
-			if (!ft_strcmp(cmd, blt_in[i]))
+			if (!ft_strcmp(cmd, s[i]))
 			{
 				ret = true;
 				break;
@@ -103,25 +103,46 @@ static bool	ft_isfileindir(char *filename, DIR *dir, int len)
 	return (ret);
 }
 
+/*search locally for file named cmd if not found, return NULL*/
+static char *ft_perform_local_search(char *cmd)
+{
+	DIR		*dir;
+	char	*buf;
+	char	*ret;
+
+	buf = NULL;
+	dir = opendir(getcwd(buf, 0));
+	if (!dir || !buf)
+		exit_fatal(MSH_MALLOC_EXIT);
+	if (ft_isfileindir(cmd, dir, ft_strlen(cmd)))
+	{
+		fprintf(stderr, "Found file: '%s' locally\n", cmd);
+		ret = ft_strdup(buf);
+		free(buf);
+		closedir(dir);
+	}
+	else
+	{
+		fprintf(stderr, "Failed to find file: '%s' locally\n", cmd);
+		ret = NULL;
+	}
+	return (ret);
+}
+
+//TODO: if path == NULL, search locally for files
 char	*expander(char *cmd, char *path)
 {
-	DIR				*dir;
-	int				i;
-	int				len;
-	char			**split_path;
+	DIR		*dir;
+	int		i;
+	int		len;
+	char	**split_path;
 
 	len = (int)ft_strlen(cmd);
 	i = -1;
 	if (ft_isbuiltin(cmd))
-	{
-		// printf("Running builtin\n");	//TODO: return cmd to executor
-		return cmd;
-	}
+		return (cmd);
 	if (!path)
-	{
-		printf("Path is NULL\n");	//TODO: print error and goto termcap
-		return NULL;
-	}
+		return (ft_perform_local_search(cmd));
 	split_path = ft_split(path, ':');
 	while (split_path[++i])
 	{

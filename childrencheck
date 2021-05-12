@@ -1,0 +1,14 @@
+#!/bin/bash
+
+MINISH=minishell;
+SLEEPFOR=2;
+
+while true
+do
+	tput clear
+	PID=$(pgrep ${MINISH})
+#	echo ${PID}
+	pstree ${PID}
+	sleep ${SLEEPFOR}
+done
+echo "${MINISH} has stopped."

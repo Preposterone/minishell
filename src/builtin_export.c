@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:09 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 11:35:00 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 16:41:33 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ bool	is_id_str_valid(char *id)
 	The return status is zero unless an invalid option is supplied,
 	one of the names is not a valid shell variable name.
 */
-
+//TODO: fix return code
 int ft_do_export(char **args, t_envp *sh_envp)
 {
 	int		i;

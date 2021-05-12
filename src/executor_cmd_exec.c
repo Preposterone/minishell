@@ -6,12 +6,42 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:51:43 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 11:34:55 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 17:13:34 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
+**	if	cmd == '.' - print usage
+		cmd refers to directory: 'say it's a directory'
+		if envp->path is null == no such file or directory
+*/
+/*
+static int ft_cmdpath_null(char *cmd, t_envp *envp)
+{
+	int ret;
 
+	ret = 0;
+	if (ft_strcmp(cmd, ".") == 0)
+	{
+		ft_puterr_arr((char *[]){cmd, MSH_DOT_1, MSH_DOT_2, NULL});
+		ret = 2;
+	}
+	else if ((cmd[0] == '.' && ft_strcmp(cmd, "..") != 0 )|| cmd[0] == '/')
+	{
+		ft_puterrln("I dunno what to do atm");
+		ret = 126;
+	}
+	else if (envp->sh_path == NULL)
+	{
+		ft_puterr_arr((char *[]){cmd, MSH_NO_SUCH_F_DIR, NULL});
+		ret = 127;
+	}
+	exit(ret);
+	(void)envp;
+	// if (envp->ispipe)
+	// return (ret);
+} */
 
 //if output_fd != -1, do dup2(output_fd, 1); close (output_fd);
 int	executor(char **args, char *cmdpath, t_envp *envp,
@@ -21,6 +51,7 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 	char	*cmd_abs;
 	char	**newargs;
 
+	fprintf(stderr, "****\nRUNNING EXECUTOR WITH CMD: '%s', cmdpath: '%s'\n", args[0], cmdpath);
 	ret = 0;
 	if (!args[0])	//prevent segfault if no actual cmd is given
 		ret = 0;

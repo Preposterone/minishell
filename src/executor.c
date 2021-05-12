@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 15:16:49 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 17:13:27 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 		if (id == -1)
 			exit_fatal(MSH_FORK_EXIT);
 		else if (id == 0)
-			ft_exec_cmd(par, sh_envp, term_props);
+			ret = ft_exec_cmd(par, sh_envp, term_props);
 		else
 			wait(&ret);
 	}
@@ -92,6 +92,8 @@ void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp)
 }
 
 //TODO: case agnostic execution!
+//TODO: '.' '/' = invoke stat (?)
+//TODO: ; check for errorneos children
 
 void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props)
