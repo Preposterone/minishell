@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_cmd_exec.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/12 10:51:43 by aarcelia          #+#    #+#             */
+/*   Updated: 2021/05/12 11:34:55 by aarcelia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 
@@ -13,7 +25,10 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 	if (!args[0])	//prevent segfault if no actual cmd is given
 		ret = 0;
 	else if (ft_isbuiltin(args[0]))
+	{
 		ret = ft_do_builtin(args[0], &args[1], envp, term_props); //do builtin
+		exit (ret);
+	}
 	else
 	{
 		cmd_abs = ft_build_command(args[0], cmdpath);
@@ -24,7 +39,7 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 	return (ret);
 }
 
-int	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
+int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 					t_for_in_terminal *term_props)
 {
 	char	*cmdpath;

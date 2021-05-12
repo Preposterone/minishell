@@ -6,12 +6,30 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/09 16:31:41 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 11:34:48 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int ft_redirect_blt_in(t_for_in_parser **par, t_envp *sh_envp,
+					  t_for_in_terminal *term_props)
+{
+	int ret;
+
+	if ((*par)->output > 0)
+	{
+		dup2((*par)->output, 1);
+		close((*par)->output);
+	}
+	if ((*par)->input > 0)
+	{
+		dup2((*par)->input, 0);
+		close((*par)->input);
+	}
+	ret = ft_do_builtin((*par)->arguments[0], &(*par)->arguments[1], sh_envp, term_props);
+	return (ret);
+}
 static void	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 					  t_for_in_terminal *term_props)
 {
@@ -20,8 +38,8 @@ static void	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 
 	ret = 0;
 	if (ft_isbuiltin((*par)->arguments[0]))
-//		ret = ft_do_builtin((*par)->arguments[0], &(*par)->arguments[1], sh_envp, term_props);
-		ft_exec_cmd(par, sh_envp, term_props);
+		ret = ft_redirect_blt_in(par, sh_envp, term_props);
+		// ft_exec_cmd(par, sh_envp, term_props);
 	else
 	{
 		id = fork();
@@ -85,6 +103,6 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	else
 		ft_run_single(par, sh_envp, term_props);
 	sh_envp->ispipe = 0;
-	dup2(sh_envp->truefd0,0);
-	dup2(sh_envp->truefd1,1);
+	dup2(sh_envp->truefd0, 0);
+	dup2(sh_envp->truefd1, 1);
 }

@@ -8,8 +8,8 @@ int main(int argc, char *argv[], char const *envp[])
 	t_envp	sh_envp;
 
 	ft_bzero(&g_all, sizeof(t_all));
-	sh_envp.truefd0 = -1;
-	sh_envp.truefd1 = -1;
+	sh_envp.truefd0 = 3;
+	sh_envp.truefd1 = 4;
 	dup2(0, sh_envp.truefd0);
 	dup2(1, sh_envp.truefd1);
 	ft_envp_cpy(envp, &sh_envp);
