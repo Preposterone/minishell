@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 14:55:41 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 15:16:49 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,7 @@ static int	ft_fetch_exit_status(int status)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
-	{
-		ft_puterrln("SIGNAL EXIT TYPE");
 		return (MSH_EXIT_SIGNAL + WTERMSIG(status));
-	}
-	else
-	{
-		ft_puterrln("UNKNOWN EXIT TYPE");
-		printf("%d\n", status);
-	}
 	return (status);
 }
 
