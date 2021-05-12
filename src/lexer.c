@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+void find_in_envp2(t_for_in_lexer *lex, char *s)
+{}
+
 char *find_in_envp(t_for_in_lexer *lex, char *s)
 {
 	int i;
@@ -18,18 +21,14 @@ char *find_in_envp(t_for_in_lexer *lex, char *s)
 	{
 		i = 0;
 		while (lex->envp[j][i] && lex->envp[j][i] != '=')
-		{
 			str = lexer_charjoin(str, lex->envp[j][i++]);
-		}
 		if (!term_strcmp(str, s))
 		{
 			free(s);
 			free(str);
 			str = NULL;
 			while (lex->envp[j][++i])
-			{
 				str = lexer_charjoin(str, lex->envp[j][i]);
-			}
 			return (str);
 		}
 		free(str);

@@ -126,7 +126,6 @@ int	open_APPEND_file_redirect(char *s)
 	fd = open(s, O_CREAT | O_APPEND | O_RDWR, 00644);
 	if (fd <= 0)
 	{
-		printf("\n%s ==%d\n", s, fd);
 		write(1, EXIT, strlen(EXIT));
 		write(1, s, strlen(s));
 		write(1, ": ", strlen(": "));
@@ -146,7 +145,6 @@ int	open_RDONLY_file_redirect(char *s)
 	fd = open(s, O_RDONLY, 00644);
 	if (fd <= 0)
 	{
-		printf("\n%s ==%d\n", s, fd);
 		write(1, EXIT, strlen(EXIT));
 		write(1, s, strlen(s));
 		write(1, ": ", strlen(": "));
@@ -166,7 +164,6 @@ int	open_TRUNC_file_redirect(char *s)
 	fd = open(s, O_CREAT | O_TRUNC | O_RDWR, 00644);
 	if (fd <= 0)
 	{
-		printf("\n%s ==%d\n", s, fd);
 		write(1, EXIT, strlen(EXIT));
 		write(1, s, strlen(s));
 		write(1, ": ", strlen(": "));
