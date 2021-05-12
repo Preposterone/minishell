@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 15:55:00 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 14:06:51 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ void	ft_puterr_arr(char *s[]);
 # define MSG_CMD_NOT_FOUND ": command not found"
 # define MSH_ID_INV "': not a valid identifier"
 # define EXITT "exit"
-# define MSH_NO_SUCH_F_DIR ": no such file or directory"
-
-/* *************************EXECUTOR_ERR_MSGS******************************** */
-# define MSH_DOT_1 ": filename argument required\n"
-# define MSH_DOT_2 ".: usage: . filename [arguments]"
 
 /* *******************************ERROR_CODES******************************** */
 
