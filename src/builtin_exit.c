@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:12 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 14:55:29 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 15:06:43 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ int ft_do_exit(char **args, t_for_in_terminal *t, bool print)
 	free(arg);
 	if (do_exit)
 	{
-		exit(exit_code);
 		file_mas(t->mas_his, t->peri, t);
+		exit(exit_code);
 	}
 	return (exit_code);
 }
