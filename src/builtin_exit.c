@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:12 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 10:52:13 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 15:06:43 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ int ft_do_exit(char **args, t_for_in_terminal *t, bool print)
 	}
 	else
 		reason = ft_atoll(arg);
-	file_mas(t->mas_his, t->peri, t);
 	if (exit_code == 0)
 		exit_code = (u_char)reason;
 	g_all.exit_code = exit_code;
 	free(arg);
 	if (do_exit)
+	{
+		file_mas(t->mas_his, t->peri, t);
 		exit(exit_code);
+	}
 	return (exit_code);
 }

@@ -6,11 +6,22 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 11:34:48 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 15:16:49 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_fetch_exit_status(int status)
+{
+	if (status == 13)
+		status -= 13;
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (MSH_EXIT_SIGNAL + WTERMSIG(status));
+	return (status);
+}
 
 static int ft_redirect_blt_in(t_for_in_parser **par, t_envp *sh_envp,
 					  t_for_in_terminal *term_props)
@@ -30,7 +41,7 @@ static int ft_redirect_blt_in(t_for_in_parser **par, t_envp *sh_envp,
 	ret = ft_do_builtin((*par)->arguments[0], &(*par)->arguments[1], sh_envp, term_props);
 	return (ret);
 }
-static void	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
+static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 					  t_for_in_terminal *term_props)
 {
 	int	ret;
@@ -50,7 +61,7 @@ static void	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 		else
 			wait(&ret);
 	}
-	g_all.exit_code = ret;
+	return (ret);
 }
 
 /**
@@ -80,7 +91,7 @@ void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp)
 	free(buf);
 }
 
-//TODO: actual error management
+//TODO: case agnostic execution!
 
 void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props)
@@ -88,7 +99,9 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	int				i;
 	int				num_cmds;
 	t_pipe_data		pipe_data;
+	int				status;
 
+	status = 0;
 	ft_update_last_arg(par, sh_envp);	//should this be done here?
 	num_cmds = (*par)->key;
 	if (num_cmds > 1)
@@ -98,11 +111,13 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 		ft_run_pipes(par, sh_envp, term_props, &pipe_data);
 		i = -1;
 		while (++i < pipe_data.ch_total)	//wait for pipes here
-			wait(&g_all.exit_code);	//TODO: waitpid with exit status?
+			wait(&status);	//TODO: waitpid with exit status?
+
 	}
 	else
-		ft_run_single(par, sh_envp, term_props);
+		status = ft_run_single(par, sh_envp, term_props);
 	sh_envp->ispipe = 0;
+	g_all.exit_code = ft_fetch_exit_status(status);
 	dup2(sh_envp->truefd0, 0);
 	dup2(sh_envp->truefd1, 1);
 }
