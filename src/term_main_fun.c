@@ -101,6 +101,7 @@ void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp)
 
 void ft_signal_slesh()
 {
+	write(1, "\n", 1);
 	g_all.key_signal = 2;
 }
 
