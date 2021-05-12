@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 17:11:26 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 20:21:00 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,10 @@ static char *ft_perform_local_search(char *cmd)
 }
 
 //TODO: if path == NULL, search locally for files
+//TODO: if file found - check if it's a dir, if a dir = print error
+//TODO: if file not found - print not found
+//TODO: if permission denied = print permission denied
+//TODO: exit with correct codes!
 char	*expander(char *cmd, char *path)
 {
 	DIR		*dir;
