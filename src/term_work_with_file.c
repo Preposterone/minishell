@@ -126,12 +126,7 @@ int	open_APPEND_file_redirect(char *s)
 	fd = open(s, O_CREAT | O_APPEND | O_RDWR, 00644);
 	if (fd <= 0)
 	{
-		printf("\n%s ==%d\n", s, fd);
-		write(1, EXIT, strlen(EXIT));
-		write(1, s, strlen(s));
-		write(1, ": ", strlen(": "));
-		write(1, strerror(errno), strlen(strerror(errno)));
-		write(1, "\n", strlen("\n"));
+		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
 		return (-1);
 	}
 	return (fd);
@@ -146,12 +141,7 @@ int	open_RDONLY_file_redirect(char *s)
 	fd = open(s, O_RDONLY, 00644);
 	if (fd <= 0)
 	{
-		printf("\n%s ==%d\n", s, fd);
-		write(1, EXIT, strlen(EXIT));
-		write(1, s, strlen(s));
-		write(1, ": ", strlen(": "));
-		write(1, strerror(errno), strlen(strerror(errno)));
-		write(1, "\n", strlen("\n"));
+		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
 		return (-1);
 	}
 	return (fd);
@@ -166,12 +156,7 @@ int	open_TRUNC_file_redirect(char *s)
 	fd = open(s, O_CREAT | O_TRUNC | O_RDWR, 00644);
 	if (fd <= 0)
 	{
-		printf("\n%s ==%d\n", s, fd);
-		write(1, EXIT, strlen(EXIT));
-		write(1, s, strlen(s));
-		write(1, ": ", strlen(": "));
-		write(1, strerror(errno), strlen(strerror(errno)));
-		write(1, "\n", strlen("\n"));
+		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
 		return (-1);
 	}
 	return (fd);

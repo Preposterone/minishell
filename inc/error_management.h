@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/10 17:16:29 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/12 14:06:51 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ void	ft_puterr_arr(char *s[]);
 # define MSH_MALLOC_EXIT	111
 # define MSH_FORK_EXIT		112
 # define MSH_PIPE_EXIT		113
+# define MSH_EXIT_SIGNAL	128
 
 #endif
