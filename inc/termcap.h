@@ -42,5 +42,12 @@ int		open_RDONLY_file_redirect(char *s);
 void	del_settings_term(t_for_in_terminal *t);
 void	do_settings_term(t_for_in_terminal *t);
 void	exit_minishell(char *str, int reason, t_for_in_terminal *t);
+char *free_null(char *l);
+void del_masiv(char **l);
+void del_free_par(t_for_in_parser **par);
+void check_flags(t_for_in_lexer *lex);
+void del_mas(t_for_in_lexer *lex);
+void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par);
+void put5(t_for_in_lexer *lex, t_for_in_parser **par);
 
 #endif

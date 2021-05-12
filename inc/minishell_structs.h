@@ -86,4 +86,12 @@ typedef struct s_for_in_lexer
 	t_for_in_parser	*t_p;
 }					t_for_in_lexer;
 
+typedef struct s_for_in_lex_two
+{
+	char	*s;
+	int 	i;
+}				t_for_in_lex_two;
+
+
+
 #endif
