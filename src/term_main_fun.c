@@ -4,7 +4,6 @@ void	del_term(t_for_in_terminal *t)
 {
 	if (t->del_len > 0 && t->i == term_strlen_mas(t->mas_his) && t->s)
 	{
-		printf("\n%s = del\n", t->s);
 		if (t->s[0] != 0 && t->s[0] != 10)
 		{
 			tputs(cursor_left, 1, term_putchar);
@@ -16,6 +15,7 @@ void	del_term(t_for_in_terminal *t)
 			free(t->s);
 			t->s = (char *)ft_calloc(1, sizeof(char));
 		}
+		//printf("\n%s = del\n", t->s);
 	}
 	else if (t->del_len > 0 && t->sn)
 	{
@@ -30,6 +30,7 @@ void	del_term(t_for_in_terminal *t)
 			free(t->sn);
 			t->sn = (char *)ft_calloc(1, sizeof(char));
 		}
+		//printf("\n%s = del\n", t->sn);
 	}
 	if (t->del_len > 0)
 		t->del_len--;
@@ -42,11 +43,7 @@ void	do_term(t_for_in_terminal *t)
 	t->str[t->l] = 0;
 	if (t->str[0] == 0)
 		return ;
-	if (t->str[0] == 9 || t->str[0] == 7)
-	{
-		t->str[0] = '\0';
-	}
-	else if (!term_strcmp(t->str, "\e[A"))
+	if (!term_strcmp(t->str, "\e[A"))
 		up_terminal(t);
 	else if (!term_strcmp(t->str, "\4") && t->del_len == 0)
 		ft_do_exit((char *[]){0, NULL}, t, 1);//Что это значит?
@@ -60,6 +57,10 @@ void	do_term(t_for_in_terminal *t)
 		//write(1, "left", 0);
 	else if (!term_strcmp(t->str, "\e[C"));
 		//write(1, "right", 0);
+	else if (t->str[0] < 31 && t->str[0] != 10)
+	{
+		t->str[0] = '\0';
+	}
 	else
 	{
 		if (t->str[0] == 0)
@@ -168,6 +169,7 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 		}
 	}
 	g_all.key_ctr = 0;
+	//printf("term = %s\n", t->s);
 	while_enter_term(t, sh_envp);
 	write(1, TERMINALNAME, ft_strlen(TERMINALNAME));
 	if (t->s)
