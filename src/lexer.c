@@ -468,6 +468,7 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	t_for_in_lexer lex;
 	t_for_in_parser *par;
 
+	//printf("\ns = %s", s);
 	lex.s = s;
 	int i;
 	i = 0;
@@ -506,11 +507,12 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	par->arguments = (char **)ft_calloc(1, sizeof(char *));
 	par->output = -2;
 	par->input = -2;
+	//printf("\nstr = %s", lex.s);
 	lexer(&lex, &par, t, sh_envp);
 
 	free(lex.flags_arg);
-	// print_par(&par); //Для печати
-	// (void)sh_envp;
+	//print_par(&par); //Для печати
+	//(void)sh_envp;
 	if (lex.exit == 0)
 	{
 		del_settings_term(t);	//Восстанавливаем терминал
