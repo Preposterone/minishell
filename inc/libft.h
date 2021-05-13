@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/28 16:03:42 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/10 17:22:50 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:31:00 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,5 +194,10 @@ int		ft_min(int a, int b);
 int		ft_max(int a, int b);
 int		ft_tern(bool condition, int iftrue, int iffalse);
 int64_t	ft_atoll(char *s);
+
+/*
+** case agnostic strcmp
+*/
+int		ft_strcmpl(const char *s1, const char *s2);
 
 #endif
