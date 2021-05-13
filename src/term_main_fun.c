@@ -69,6 +69,22 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 	t.peri = t.i;
 	i = 2;
 	if (argc > 1)
+	{
+		if (!term_strcmp(argv[1], "-c"))
+		{
+			while (argv[i] != NULL)
+			{
+				//printf("\n1 =%s\n", argv[2]);
+				t.s = term_strjoin(NULL, argv[i]);
+				line_from_terminal_to_lexer(t.s, &t, sh_envp);
+				free(t.s);
+				t.s = NULL;
+				i++;
+			}
+			return ;
+		}
+	}
+	if (argc > 1)
 		exit_minishell(MANY_ARGS, -1, &t);
 	write(1, TERMINALNAME, term_strlen(TERMINALNAME));
 	while (term_strcmp(t.str, "\4"))
