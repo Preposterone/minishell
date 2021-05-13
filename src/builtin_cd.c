@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:15 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 10:52:17 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:35:23 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int ft_do_chdir(char *dir, t_envp *env)
 	if (chdir(dir) == -1)
 	{
 		ft_puterr_arr((char *[]) {"cd: ", dir, ": ", strerror(errno), NULL});
-		ret = errno;
+		ret = 1;
 	}
 	else
 	{

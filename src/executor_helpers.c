@@ -6,11 +6,34 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:01 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 11:34:53 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:21:26 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	ft_isbuiltin(char *cmd)
+{
+	int		i;
+	bool	ret;
+	char	**s;
+
+	i = -1;
+	ret = false;
+	s = (char *[]){"echo", "cd", "pwd", "export", "unset", "env", "exit", NULL};
+	if (cmd)
+	{
+		while (s[++i])
+		{
+			if (!ft_strcmp(cmd, s[i]))
+			{
+				ret = true;
+				break;
+			}
+		}
+	}
+	return (ret);
+}
 
 void	ft_freematrix(void **target)
 {

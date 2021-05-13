@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.h                                         :+:      :+:    :+:   */
+/*   ft_strcmpl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/20 15:39:04 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 12:56:58 by aarcelia         ###   ########.fr       */
+/*   Created: 2021/05/13 17:24:02 by aarcelia          #+#    #+#             */
+/*   Updated: 2021/05/13 17:34:22 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANDER_H
-# define EXPANDER_H
-# include <dirent.h>
-# include <sys/stat.h>
+#include "libft.h"
 
-void	ft_envp_cpy(const char *envp[], t_envp *buf);
-bool	ft_isbuiltin(char *cmd);
-char	*expander(char *cmd, char *path);
+int	ft_strcmpl(const char *s1, const char *s2)
+{
+	int		i;
+	u_char	c1;
+	u_char	c2;
 
-#endif
+	i = 0;
+	c1 = ft_tolower((u_char)s1[i]);
+	c2 = ft_tolower((u_char)s2[i]);
+	while (c1 == c2)
+	{
+		if (!c1)
+			return (c1 - c2);
+		i++;
+		c1 = ft_tolower((u_char)s1[i]);
+		c2 = ft_tolower((u_char)s2[i]);
+	}
+	return (c1 - c2);
+}

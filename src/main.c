@@ -1,34 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/13 17:19:46 by aarcelia          #+#    #+#             */
+/*   Updated: 2021/05/13 17:36:14 by aarcelia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "minishell.h"
+
+/**
+ * Copy of incoming enviroment variables
+ */
+
+void	ft_envp_cpy(const char *envp[], t_envp *buf)
+{
+	int		i;
+	char	**envp_cpy;
+	char	*path;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	envp_cpy = (char **)ft_calloc(i + 1, sizeof(char *));
+	path = NULL;
+	i = -1;
+	while (envp[++i])
+	{
+		envp_cpy[i] = ft_strdup(envp[i]);
+		if (!ft_strncmp(envp[i], "PATH=", 5))
+			path = &envp_cpy[i][5];
+		else if (!ft_strncmp(envp[i], "TERM=", 5))
+			buf->sh_term = &envp_cpy[i][5];
+	}
+	buf->sh_envp = envp_cpy;
+	buf->sh_path = path;
+}
+
 t_all g_all;
 
-//gcc -g main.c work_with_file.c ft_strjoin_for_mas.c ft_strjoin_for_line.c  terminal_up_down_fun.c terminal_main_fun.c gnl.c  -ltermcap && ./a.out
 int main(int argc, char *argv[], char const *envp[])
 {
 	t_envp	sh_envp;
 
 	ft_bzero(&g_all, sizeof(t_all));
+	ft_bzero(&sh_envp, sizeof(sh_envp));
 	sh_envp.truefd0 = 3;
 	sh_envp.truefd1 = 4;
 	dup2(0, sh_envp.truefd0);
 	dup2(1, sh_envp.truefd1);
 	ft_envp_cpy(envp, &sh_envp);
 	terminal(argc, argv, &sh_envp);
-	return 0;
+	return (0);
 }
 
 /*
-int main(int argc, char *argv[], char const *envp[])
+int main(void)
 {
-	(void )argc;
-	(void )argv;
-	(void )envp;
+	char *s1;
+	char *s2;
 
-	printf("%lld\n", ft_atoll("9223372036854775807"));
-	printf("%lld\n", ft_atoll("-9223372036854775807"));
-	printf("%lld\n", ft_atoll("-9223372036854775808"));
-	printf("%lld\n", ft_atoll("0"));
-	printf("%lld\n", ft_atoll("---1"));
-	printf("%lld\n", ft_atoll("-1a"));
+	s1 = ft_strdup("PePsi");
+	s2 = ft_strdup("Pepsi");
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	free(s1);
+	free(s2);
+
+	s1 = ft_strdup("pepsi");
+	s2 = ft_strdup("pepsi");
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	free(s1);
+	free(s2);
+	s1 = ft_strdup("PEPSI");
+	s2 = ft_strdup("pepsi");
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	free(s1);
+	free(s2);
+	s1 = ft_strdup("Cola");
+	s2 = ft_strdup("pEPsI");
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	free(s1);
+	free(s2);
+	return 0;
 }
 */

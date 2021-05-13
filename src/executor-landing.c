@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   executor-landing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 15:16:49 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:45:42 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_fetch_exit_status(int status)
+static int	ft_fetch_exit_status(int status, t_envp *sh_envp)
 {
 	if (status == 13)
 		status -= 13;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
+	else if (WIFSIGNALED(status) && !sh_envp->isb_in)
 		return (MSH_EXIT_SIGNAL + WTERMSIG(status));
 	return (status);
 }
@@ -41,6 +41,7 @@ static int ft_redirect_blt_in(t_for_in_parser **par, t_envp *sh_envp,
 	ret = ft_do_builtin((*par)->arguments[0], &(*par)->arguments[1], sh_envp, term_props);
 	return (ret);
 }
+
 static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 					  t_for_in_terminal *term_props)
 {
@@ -49,8 +50,10 @@ static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 
 	ret = 0;
 	if (ft_isbuiltin((*par)->arguments[0]))
+	{
+		sh_envp->isb_in = 1;
 		ret = ft_redirect_blt_in(par, sh_envp, term_props);
-		// ft_exec_cmd(par, sh_envp, term_props);
+	}
 	else
 	{
 		id = fork();
@@ -91,8 +94,6 @@ void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp)
 	free(buf);
 }
 
-//TODO: case agnostic execution!
-
 void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props)
 {
@@ -102,7 +103,7 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	int				status;
 
 	status = 0;
-	ft_update_last_arg(par, sh_envp);	//should this be done here?
+	ft_update_last_arg(par, sh_envp);
 	num_cmds = (*par)->key;
 	if (num_cmds > 1)
 	{
@@ -110,14 +111,15 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 		sh_envp->ispipe = 1;
 		ft_run_pipes(par, sh_envp, term_props, &pipe_data);
 		i = -1;
-		while (++i < pipe_data.ch_total)	//wait for pipes here
-			wait(&status);	//TODO: waitpid with exit status?
+		while (++i < pipe_data.ch_total)
+			wait(&status);
 
 	}
 	else
 		status = ft_run_single(par, sh_envp, term_props);
+	g_all.exit_code = ft_fetch_exit_status(status, sh_envp);
 	sh_envp->ispipe = 0;
-	g_all.exit_code = ft_fetch_exit_status(status);
+	sh_envp->isb_in = 0;
 	dup2(sh_envp->truefd0, 0);
 	dup2(sh_envp->truefd1, 1);
 }

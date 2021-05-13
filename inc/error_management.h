@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 14:06:51 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:44:52 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,23 @@ void	ft_puterr_arr(char *s[]);
 # define MSG_CMD_NOT_FOUND ": command not found"
 # define MSH_ID_INV "': not a valid identifier"
 # define EXITT "exit"
+# define MSH_NO_SUCH_F_DIR ": no such file or directory"
+
+/* *************************EXECUTOR_ERR_MSGS******************************** */
+# define MSH_DOT_1 ": filename argument required\n"
+# define MSH_DOT_2 ".: usage: . filename [arguments]"
+# define MSH_IS_DIR ": is a directory"
+# define MSH_NOT_DIR_MSG ": Not a directory"
+# define MSH_PERM_DENIED ": Permission denied"
 
 /* *******************************ERROR_CODES******************************** */
 
 # define MSH_EXIT_SUCCESS 0
 # define MSH_EXIT_FAIL 1
 # define MSH_CMD_NOT_FOUND 127
+# define MSH_DOT_EX 2
+# define MSH_IS_DIR_ERR 126
+# define MSH_NOT_DIR 399
 
 /* ******************************FATAL_ERR_MSG******************************* */
 # define MSH_FATAL_GEN "\x1b[31mFATAL! \x1b[0m"
