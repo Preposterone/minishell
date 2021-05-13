@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 17:45:42 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 14:00:20 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 		if (id == -1)
 			exit_fatal(MSH_FORK_EXIT);
 		else if (id == 0)
-			ft_exec_cmd(par, sh_envp, term_props);
+			ret = ft_exec_cmd(par, sh_envp, term_props);
 		else
 			wait(&ret);
 	}
