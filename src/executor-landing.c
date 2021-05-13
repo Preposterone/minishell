@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   executor-landing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 17:13:27 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 13:26:19 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 	ret = 0;
 	if (ft_isbuiltin((*par)->arguments[0]))
 		ret = ft_redirect_blt_in(par, sh_envp, term_props);
-		// ft_exec_cmd(par, sh_envp, term_props);
 	else
 	{
 		id = fork();

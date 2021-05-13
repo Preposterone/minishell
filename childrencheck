@@ -7,8 +7,9 @@ while true
 do
 	tput clear
 	PID=$(pgrep ${MINISH})
-	echo ${PID} \ \ \ ${MINISH}
-	ps h --ppid ${PID} -o pid,ppid,cmd
+	# echo ${PID} \ \ \ ${MINISH}
+	# ps h --ppid ${PID} -o pid,ppid,cmd
+	pstree ${PID}
 	sleep ${SLEEPFOR}
 done
 echo "${MINISH} has stopped."

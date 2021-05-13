@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:45:23 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 17:12:03 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 13:04:15 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exit_minishell(char *str, int reason, t_for_in_terminal *t)
 {
 	del_settings_term(t);	//Восстанавливаем терминал
 	if (reason == MSH_CMD_NOT_FOUND)
-		ft_puterr_arr((char *[]){str, ": ", strerror(errno), NULL});
+		ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
 	else
 		ft_puterrln(str);
 	//

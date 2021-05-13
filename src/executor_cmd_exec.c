@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:51:43 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 20:19:43 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 13:30:13 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ static int ft_cmdpath_null(char *cmd, t_envp *envp)
 	// return (ret);
 } */
 
-//if output_fd != -1, do dup2(output_fd, 1); close (output_fd);
+// fprintf(stderr, "[EXECUTOR]: RUNNING CMD: '%s', cmdpath: '%s'\n", args[0], cmdpath);
+// fprintf(stderr, "[EXECUTOR]: '/' found!\n");
+
 int	executor(char **args, char *cmdpath, t_envp *envp,
 				t_for_in_terminal *term_props)
 {
@@ -51,13 +53,14 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 	char	*cmd_abs;
 	char	**newargs;
 
-	fprintf(stderr, "****\nRUNNING EXECUTOR WITH CMD: '%s', cmdpath: '%s'\n", args[0], cmdpath);
 	ret = 0;
-	if (!args[0])	//prevent segfault if no actual cmd is given
+	if (!args[0])
 		ret = 0;
+	else if (!cmdpath && !ft_strchr(args[0], '/'))
+		exit_minishell(args[0], MSH_CMD_NOT_FOUND, term_props);
 	else if (ft_isbuiltin(args[0]))
 	{
-		ret = ft_do_builtin(args[0], &args[1], envp, term_props); //do builtin
+		ret = ft_do_builtin(args[0], &args[1], envp, term_props);
 		exit (ret);
 	}
 	else
@@ -92,9 +95,9 @@ int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 	}
 	cmdpath = expander((*par)->arguments[0], sh_envp->sh_path);
 	return (executor(
-			&(*par)->arguments[0],        //args from cmdline
-			cmdpath,                    //executable filepath
-			sh_envp,                    //settings for shell
-			term_props));				//props for exit (history)
+			&(*par)->arguments[0],				//args from cmdline
+			cmdpath,							//executable filepath
+			sh_envp,							//settings for shell
+			term_props));						//props for exit (history)
 
 }

@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 15:55:00 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 12:10:00 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	ft_puterr_arr(char *s[]);
 /* *************************EXECUTOR_ERR_MSGS******************************** */
 # define MSH_DOT_1 ": filename argument required\n"
 # define MSH_DOT_2 ".: usage: . filename [arguments]"
+# define MSH_IS_DIR ": is a directory"
+# define MSH_PERM_DENIED ": Permission denied"
 
 /* *******************************ERROR_CODES******************************** */
 

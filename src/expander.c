@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 20:21:00 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 13:26:16 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,26 @@ static bool	ft_isfileindir(char *filename, DIR *dir, int len)
 	closedir(dir);
 	return (ret);
 }
+/* If found file locally, check if it's a directory or can be executed */
+static char	*ft_validate_ret(char *file, char *dir)
+{
+	char		*abs_file;
+	struct stat	buf;
+
+	abs_file = ft_strstrjoin(file, dir);
+	stat(abs_file, &buf);
+	if ((buf.st_mode & S_IFMT) == S_IFDIR)
+	{
+		ft_puterr_arr((char *[]){file, MSH_IS_DIR, NULL});
+		exit(126);
+	}
+	else if (!(buf.st_mode & X_OK))
+	{
+		ft_puterr_arr((char *[]){file, MSH_PERM_DENIED, NULL});
+		exit(126);
+	}
+	return (dir);
+}
 
 /*search locally for file named cmd if not found, return NULL*/
 static char *ft_perform_local_search(char *cmd)
@@ -110,30 +130,21 @@ static char *ft_perform_local_search(char *cmd)
 	char	*buf;
 	char	*ret;
 
-	buf = NULL;
-	dir = opendir(getcwd(buf, 0));
-	if (!dir || !buf)
+	buf = getcwd(NULL, 0);
+	dir = opendir(buf);
+	if (!dir)
 		exit_fatal(MSH_MALLOC_EXIT);
 	if (ft_isfileindir(cmd, dir, ft_strlen(cmd)))
-	{
-		fprintf(stderr, "Found file: '%s' locally\n", cmd);
-		ret = ft_strdup(buf);
-		free(buf);
-		closedir(dir);
-	}
+		ret = ft_validate_ret(cmd, buf);
 	else
-	{
-		fprintf(stderr, "Failed to find file: '%s' locally\n", cmd);
 		ret = NULL;
-	}
 	return (ret);
 }
 
-//TODO: if path == NULL, search locally for files
-//TODO: if file found - check if it's a dir, if a dir = print error
-//TODO: if file not found - print not found
-//TODO: if permission denied = print permission denied
-//TODO: exit with correct codes!
+// fprintf(stderr, "[EXPANDER]: Path not null, searching in path for '%s'\
+// in '%s'\n", cmd, split_path[i]);
+// fprintf(stderr, "[EXPANDER]: File '%s' found!\n", cmd);
+
 char	*expander(char *cmd, char *path)
 {
 	DIR		*dir;
@@ -153,8 +164,8 @@ char	*expander(char *cmd, char *path)
 		dir = opendir(split_path[i]);
 		if (dir)
 		{
-			if (ft_isfileindir(cmd, dir, len))
-				break ;
+			if (ft_isfileindir(cmd, dir, len)){
+				break ;}
 		}
 	}
 	return (ft_freesplit_and_ret(split_path, i));
