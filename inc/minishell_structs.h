@@ -53,13 +53,13 @@ typedef struct s_for_in_terminal
 
 typedef struct s_for_in_parser
 {
-	char			**arguments;
-	int				input;
-	int				output;
-	int				j;
-	struct s_for_in_parser		*next;
-	struct s_for_in_parser		*previous;
-	int				key;
+	char					**arguments;
+	int						input;
+	int						output;
+	int						j;
+	struct s_for_in_parser	*next;
+	struct s_for_in_parser	*previous;
+	int						key;
 }					t_for_in_parser;
 
 typedef struct s_for_in_lexer
@@ -89,7 +89,7 @@ typedef struct s_for_in_lexer
 	int				c_i;
 	char			*c_s;
 	char			*k_s;
-	int 			k_i;
+	int				k_i;
 	int				nr;
 	char			*nr_str;
 	int				nr_i;

@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:09 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 16:57:46 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 18:38:53 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 static int	ft_print_arr_prepend(char **arr, char *prepend)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (arr[++i])
 	{
-		ft_putstr_fd(prepend,1);
+		ft_putstr_fd(prepend, 1);
 		ft_putendl_fd(arr[i], 1);
 	}
 	return (0);
@@ -52,7 +52,7 @@ bool	is_id_str_valid(char *id)
 	The return status is zero unless an invalid option is supplied,
 	one of the names is not a valid shell variable name.
 */
-int ft_do_export(char **args, t_envp *sh_envp)
+int	ft_do_export(char **args, t_envp *sh_envp)
 {
 	int		i;
 	int		equalslocation;
@@ -73,7 +73,7 @@ int ft_do_export(char **args, t_envp *sh_envp)
 			ft_update_envp_elem(key, &args[i][equalslocation + 1], sh_envp);
 		else
 		{
-			ft_puterr_arr((char *[]) {"export: '", args[i], MSH_ID_INV, NULL});
+			ft_puterr_arr((char *[]){"export: '", args[i], MSH_ID_INV, NULL});
 			ret = 1;
 		}
 		free(key);

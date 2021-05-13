@@ -49,22 +49,24 @@ void	del_mas(t_for_in_lexer *lex);
 void	del_free_par(t_for_in_parser **par);
 void	del_masiv(char **l);
 void	put5(t_for_in_lexer *lex, t_for_in_parser **par);
-char *find_in_envp(t_for_in_lexer *lex, char *s);
+char	*find_in_envp(t_for_in_lexer *lex, char *s);
 void	put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par);
-void dollar(t_for_in_lexer *lex, t_for_in_parser **par);
-void lexer6(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_envp *sh_envp);
-void lexer5(t_for_in_lexer *lex, t_for_in_parser **par);
-void lexer4(t_for_in_lexer *lex, t_for_in_parser **par);
-void 	lexer22(t_for_in_lexer *lex);
-void	ft_signal_c();
-void	ft_signal_slesh();
+void	dollar(t_for_in_lexer *lex, t_for_in_parser **par);
+void	lexer6(t_for_in_lexer *lex,
+			t_for_in_parser **par, t_for_in_terminal *t, t_envp *sh_envp);
+void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par);
+void	lexer4(t_for_in_lexer *lex, t_for_in_parser **par);
+void	lexer22(t_for_in_lexer *lex);
 void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp);
 void	while_enter_term2(t_for_in_terminal *t, t_envp *sh_envp);
 void	del_term(t_for_in_terminal *t);
 void	do_term(t_for_in_terminal *t);
-int	en(char *s);
+int		en(char *s);
 void	ch_line_par(t_for_in_parser **par, t_for_in_lexer *lex, char *s);
 void	put2(t_for_in_lexer *lex, t_for_in_parser **par);
 void	lexer7(t_for_in_lexer *lex, t_for_in_parser **par);
+void	terminal_while3(t_for_in_terminal *t, t_envp *sh_envp);
+void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp);
+void	terminal_while2(t_for_in_terminal *t);
 
 #endif

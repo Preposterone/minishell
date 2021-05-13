@@ -71,7 +71,7 @@ static char	*ft_validate_ret(char *file, char *dir)
 }
 
 /*search locally for file named cmd if not found, return NULL*/
-static char *ft_perform_local_search(char *cmd)
+static char	*ft_perform_local_search(char *cmd)
 {
 	DIR		*dir;
 	char	*buf;
@@ -88,7 +88,8 @@ static char *ft_perform_local_search(char *cmd)
 	return (ret);
 }
 
-// fprintf(stderr, "[EXPANDER]: Path not null search in path for '%s' in '%s'\n"\
+// fprintf(stderr, "[EXPANDER]: Path
+//not null search in path for '%s' in '%s'\n"\
 // , cmd, split_path[i]);
 // fprintf(stderr, "[EXPANDER]: File '%s' found!\n", cmd);
 

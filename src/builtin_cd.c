@@ -6,13 +6,13 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:15 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:16:00 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 18:18:44 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int ft_do_chdir(char *dir, t_envp *env)
+static int	ft_do_chdir(char *dir, t_envp *env)
 {
 	char	*buf;
 	int		ret;
@@ -20,7 +20,7 @@ static int ft_do_chdir(char *dir, t_envp *env)
 	buf = NULL;
 	if (chdir(dir) == -1)
 	{
-		ft_puterr_arr((char *[]) {"cd: ", dir, ": ", strerror(errno), NULL});
+		ft_puterr_arr((char *[]){"cd: ", dir, ": ", strerror(errno), NULL});
 		ret = 1;
 	}
 	else
@@ -53,10 +53,11 @@ static int	ft_do_cd_home(t_envp *env)
 	Change the current working directory to directory.
 	If directory is not supplied, the value of the HOME shell variable is used.
 	Any additional 	arguments following directory are ignored.
-	The return status is zero if the directory is successfully changed, non-zero otherwise.
+	The return status is zero if the directory is successfully changed,
+	non-zero otherwise.
  */
 
-int ft_do_cd(char **args, t_envp *env)
+int	ft_do_cd(char **args, t_envp *env)
 {
 	char	*dir;
 

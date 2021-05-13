@@ -47,26 +47,6 @@ void	terminal_while3(t_for_in_terminal *t, t_envp *sh_envp)
 	g_all.key_signal = 0;
 }
 
-void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
-{
-	tputs(save_cursor, 1, term_putchar);
-	g_all.key_ctr = 0;
-	t->key_main = 1;
-	while (t->key_main == 1)
-	{
-		g_all.key_ctr = 1;
-		signal(SIGQUIT, ft_signal_slesh);
-		signal(SIGINT, ft_signal_c);
-		terminal_while2(t);
-		if (!term_strcmp(t->str, "\n\0"))
-		{
-			write(1, "\n", 1);
-			t->key_main = 0;
-		}
-	}
-	terminal_while3(t, sh_envp);
-}
-
 void	terminal(int argc, char *argv[], t_envp *sh_envp)
 {
 	t_for_in_terminal	t;
