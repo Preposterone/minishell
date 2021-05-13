@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 17:36:12 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:46:11 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,23 @@ static char *ft_perform_local_search(char *cmd)
 
 char	*expander(char *cmd, char *path)
 {
-	DIR		*dir;
-	int		i;
-	int		len;
-	char	**split_path;
+	DIR				*dir;
+	int				i;
+	int				len;
+	char			**split_path;
 
 	len = (int)ft_strlen(cmd);
 	i = -1;
 	if (ft_isbuiltin(cmd))
-		return (cmd);
+	{
+		// printf("Running builtin\n");	//TODO: return cmd to executor
+		return cmd;
+	}
 	if (!path)
-		return (ft_perform_local_search(cmd));
+	{
+		printf("Path is NULL\n");	//TODO: print error and goto termcap
+		return NULL;
+	}
 	split_path = ft_split(path, ':');
 	while (split_path[++i])
 	{

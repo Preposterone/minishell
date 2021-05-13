@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:45:23 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 16:26:37 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 17:45:55 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	ft_puterrln(char *s)
 }
 
 // printf("%s%s\n", MSH_MSG_GENERIC, str);	//НУЖНО ПИСАТЬ ВО ВТОРОЙ ФД
-	// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
 void	exit_minishell(char *str, int reason, t_for_in_terminal *t)
 {
 	if (t)
