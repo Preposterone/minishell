@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:12 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 15:06:43 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 18:37:40 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 static bool	iswrd_di(char *s)
 {
-
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] && s[i] != ' ')
@@ -30,14 +29,24 @@ static int	ft_exit_err(char *str)
 {
 	if (!str)
 	{
-		ft_puterr_arr((char *[]) {"exit: ", MSH_EXT_ARGS, NULL});
+		ft_puterr_arr((char *[]){"exit: ", MSH_EXT_ARGS, NULL});
 		return (1);
 	}
 	else
 	{
-		ft_puterr_arr((char *[]) {"exit: ", str, ": ", MSH_EXT_NUMER, NULL});
+		ft_puterr_arr((char *[]){"exit: ", str, ": ", MSH_EXT_NUMER, NULL});
 		return (255);
 	}
+}
+
+static bool	ft_validate_ex_arg(char *arg)
+{
+	if ((arg[0] == '-' && ft_strlen(&arg[1]) > 19)
+		|| (arg[0] != '-' && ft_strlen(arg) > 19)
+		|| (arg[0] != '-' && !iswrd_di(arg))
+		|| (arg[0] != '-' && !iswrd_di(&arg[1])))
+		return (true);
+	return (false);
 }
 
 /*
@@ -46,10 +55,11 @@ static int	ft_exit_err(char *str)
 	exit status = args[0] % 256
 */
 /**
- * Check if args[0] is all number (with or without '-'), if not - give error, don't exit
+ * Check if args[0] is all number (with or without '-'),
+ * if not - give error, don't exit
  * else check if there are more than 2 args
  */
-int ft_do_exit(char **args, t_for_in_terminal *t, bool print)
+int	ft_do_exit(char **args, t_for_in_terminal *t, bool print)
 {
 	bool	do_exit;
 	int64_t	reason;
@@ -57,17 +67,14 @@ int ft_do_exit(char **args, t_for_in_terminal *t, bool print)
 	char	*arg;
 
 	if (print)
-		ft_putendl_fd(EXITT, 1);
+		ft_putendl_fd(EXITT, 2);
 	do_exit = true;
 	reason = 0LL;
 	exit_code = 0;
 	arg = ft_strtrim(args[0], " ");
 	if (!args[0])
 		reason = 0LL;
-	else if ((arg[0] == '-' && ft_strlen(&arg[1]) > 19)
-			|| (arg[0] != '-' && ft_strlen(arg) > 19)
-			|| (arg[0] != '-' && !iswrd_di(arg))
-			|| (arg[0] != '-' && !iswrd_di(&arg[1])))
+	else if (ft_validate_ex_arg(arg))
 		exit_code = ft_exit_err(args[0]);
 	else if (args[1])
 	{

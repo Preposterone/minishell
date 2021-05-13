@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:51:43 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 16:55:45 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 18:51:37 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	ft_is_path_dir(char *path)
 	return (false);
 }
 
-static int ft_validate_input(char **args, char *cmdpath, t_envp *envp,
+static int	ft_validate_input(char **args, char *cmdpath, t_envp *envp,
 				t_for_in_terminal *term_props)
 {
 	if (!args[0])
@@ -35,12 +35,13 @@ static int ft_validate_input(char **args, char *cmdpath, t_envp *envp,
 		exit_minishell(args[0], MSH_DOT_EX, term_props);
 	else if (ft_isbuiltin(args[0]))
 		exit(ft_do_builtin(args[0], &args[1], envp, term_props));
-	else if(ft_is_path_dir(args[0]))
+	else if (ft_is_path_dir(args[0]))
 		exit_minishell(args[0], MSH_IS_DIR_ERR, NULL);
 	return (1);
 }
 
-// fprintf(stderr, "[EXECUTOR]: RUNNING CMD: '%s', cmdpath: '%s'\n", args[0], cmdpath);
+// fprintf(stderr, "[EXECUTOR]: RUNNING CMD: '%s', cmdpath: '%s'\n", args[0],
+// cmdpath);
 // fprintf(stderr, "[EXECUTOR]: '/' found!\n");
 /* this is ran inside a child*/
 int	executor(char **args, char *cmdpath, t_envp *envp,
@@ -69,7 +70,7 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 }
 
 //TODO: case agnostic execution!
-int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
+int	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 					t_for_in_terminal *term_props)
 {
 	char	*cmdpath;
@@ -91,9 +92,8 @@ int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 	}
 	cmdpath = expander((*par)->arguments[0], sh_envp->sh_path);
 	return (executor(
-			&(*par)->arguments[0],				//args from cmdline
-			cmdpath,							//executable filepath
-			sh_envp,							//settings for shell
-			term_props));						//props for exit (history)
-
+			&(*par)->arguments[0],
+			cmdpath,
+			sh_envp,
+			term_props));
 }

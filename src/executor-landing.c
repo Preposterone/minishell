@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 14:00:20 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 18:49:20 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ static int	ft_fetch_exit_status(int status, t_envp *sh_envp)
 	return (status);
 }
 
-static int ft_redirect_blt_in(t_for_in_parser **par, t_envp *sh_envp,
+static int	ft_redirect_blt_in(t_for_in_parser **par, t_envp *sh_envp,
 					  t_for_in_terminal *term_props)
 {
-	int ret;
+	int	ret;
 
 	if ((*par)->output > 0)
 	{
@@ -38,7 +38,8 @@ static int ft_redirect_blt_in(t_for_in_parser **par, t_envp *sh_envp,
 		dup2((*par)->input, 0);
 		close((*par)->input);
 	}
-	ret = ft_do_builtin((*par)->arguments[0], &(*par)->arguments[1], sh_envp, term_props);
+	ret = ft_do_builtin((*par)->arguments[0], \
+		&(*par)->arguments[1], sh_envp, term_props);
 	return (ret);
 }
 
@@ -113,7 +114,6 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 		i = -1;
 		while (++i < pipe_data.ch_total)
 			wait(&status);
-
 	}
 	else
 		status = ft_run_single(par, sh_envp, term_props);
