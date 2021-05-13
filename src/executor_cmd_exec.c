@@ -6,46 +6,43 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:51:43 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 13:30:13 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:55:45 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-**	if	cmd == '.' - print usage
-		cmd refers to directory: 'say it's a directory'
-		if envp->path is null == no such file or directory
-*/
-/*
-static int ft_cmdpath_null(char *cmd, t_envp *envp)
-{
-	int ret;
 
-	ret = 0;
-	if (ft_strcmp(cmd, ".") == 0)
-	{
-		ft_puterr_arr((char *[]){cmd, MSH_DOT_1, MSH_DOT_2, NULL});
-		ret = 2;
-	}
-	else if ((cmd[0] == '.' && ft_strcmp(cmd, "..") != 0 )|| cmd[0] == '/')
-	{
-		ft_puterrln("I dunno what to do atm");
-		ret = 126;
-	}
-	else if (envp->sh_path == NULL)
-	{
-		ft_puterr_arr((char *[]){cmd, MSH_NO_SUCH_F_DIR, NULL});
-		ret = 127;
-	}
-	exit(ret);
-	(void)envp;
-	// if (envp->ispipe)
-	// return (ret);
-} */
+// ft_puterr_arr((char *[]){"stat error: ", strerror(errno), NULL});
+static bool	ft_is_path_dir(char *path)
+{
+	struct stat	buf;
+
+	if (stat(path, &buf) == -1 && errno == ENOTDIR)
+		exit_minishell(path, MSH_NOT_DIR, NULL);
+	else if ((buf.st_mode & S_IFMT) == S_IFDIR)
+		return (true);
+	return (false);
+}
+
+static int ft_validate_input(char **args, char *cmdpath, t_envp *envp,
+				t_for_in_terminal *term_props)
+{
+	if (!args[0])
+		exit(0);
+	else if (!cmdpath && !ft_strchr(args[0], '/'))
+		exit_minishell(args[0], MSH_CMD_NOT_FOUND, term_props);
+	else if (ft_strcmp(args[0], ".") == 0)
+		exit_minishell(args[0], MSH_DOT_EX, term_props);
+	else if (ft_isbuiltin(args[0]))
+		exit(ft_do_builtin(args[0], &args[1], envp, term_props));
+	else if(ft_is_path_dir(args[0]))
+		exit_minishell(args[0], MSH_IS_DIR_ERR, NULL);
+	return (1);
+}
 
 // fprintf(stderr, "[EXECUTOR]: RUNNING CMD: '%s', cmdpath: '%s'\n", args[0], cmdpath);
 // fprintf(stderr, "[EXECUTOR]: '/' found!\n");
-
+/* this is ran inside a child*/
 int	executor(char **args, char *cmdpath, t_envp *envp,
 				t_for_in_terminal *term_props)
 {
@@ -54,25 +51,24 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 	char	**newargs;
 
 	ret = 0;
-	if (!args[0])
-		ret = 0;
-	else if (!cmdpath && !ft_strchr(args[0], '/'))
-		exit_minishell(args[0], MSH_CMD_NOT_FOUND, term_props);
-	else if (ft_isbuiltin(args[0]))
-	{
-		ret = ft_do_builtin(args[0], &args[1], envp, term_props);
-		exit (ret);
-	}
-	else
+	if (ft_validate_input(args, cmdpath, envp, term_props))
 	{
 		cmd_abs = ft_build_command(args[0], cmdpath);
 		newargs = ft_argappend(&args[1], args[0]);
 		if (execve(cmd_abs, newargs, envp->sh_envp) == -1)
-			exit_minishell(args[0], MSH_CMD_NOT_FOUND, term_props);
+		{
+			ft_puterr_arr((char *[]){args[0], ": ", strerror(errno), NULL});
+			if (errno == EACCES)
+				ret = 2;
+			else
+				ret = 1;
+			exit(MSH_EXIT_SIGNAL - ret);
+		}
 	}
 	return (ret);
 }
 
+//TODO: case agnostic execution!
 int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 					t_for_in_terminal *term_props)
 {

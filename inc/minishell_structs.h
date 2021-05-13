@@ -16,6 +16,7 @@ typedef struct s_envp
 	int			truefd0;
 	int			truefd1;
 	int			ispipe;
+	int			isb_in;
 }				t_envp;
 
 typedef struct s_pipe_data

@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:58:17 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 13:26:16 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:55:59 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ static char	*ft_validate_ret(char *file, char *dir)
 	abs_file = ft_strstrjoin(file, dir);
 	stat(abs_file, &buf);
 	if ((buf.st_mode & S_IFMT) == S_IFDIR)
-	{
-		ft_puterr_arr((char *[]){file, MSH_IS_DIR, NULL});
-		exit(126);
-	}
+		exit_minishell(file, MSH_IS_DIR_ERR, NULL);
 	else if (!(buf.st_mode & X_OK))
 	{
 		ft_puterr_arr((char *[]){file, MSH_PERM_DENIED, NULL});

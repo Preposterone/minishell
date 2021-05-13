@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:45:23 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 13:04:15 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:26:37 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,20 @@ void	ft_puterrln(char *s)
 	// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
 void	exit_minishell(char *str, int reason, t_for_in_terminal *t)
 {
-	del_settings_term(t);	//Восстанавливаем терминал
+	if (t)
+		del_settings_term(t);	//Восстанавливаем терминал
 	if (reason == MSH_CMD_NOT_FOUND)
-		ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
+		ft_puterr_arr((char *[]){str, ": ", strerror(errno), NULL});
+		// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
+	else if (reason == MSH_DOT_EX)
+		ft_puterr_arr((char *[]){str, MSH_DOT_1, MSH_DOT_2, NULL});
+	else if (reason == MSH_IS_DIR_ERR)
+		ft_puterr_arr((char *[]){str, MSH_IS_DIR, NULL});
+	else if (reason == MSH_NOT_DIR)
+	{
+		ft_puterr_arr((char *[]){str, MSH_NOT_DIR_MSG, NULL});
+		exit(MSH_IS_DIR_ERR);
+	}
 	else
 		ft_puterrln(str);
 	//

@@ -6,44 +6,11 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:09 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/12 16:41:33 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 16:57:46 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-void swap(const char **a, const char **b)
-{
-	const char *temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-void		ft_quicksort_recursive(char **str, int first, int last)
-{
-	int			pivot;
-	int			i;
-	int			j;
-
-	if (first < last)
-	{
-		pivot = first;
-		i = first;
-		j = last;
-		while (i < j)
-		{
-			while (str[i].dist >= str[pivot].dist && i < last)
-				i++;
-			while (str[j].dist < str[pivot].dist)
-				j--;
-			if (i < j)
-				ft_swaps(str, i, j);
-		}
-		ft_swaps(str, pivot, j);
-		ft_quicksort_recursive(str, first, j - 1);
-		ft_quicksort_recursive(str, j + 1, last);
-	}
-}*/
 
 static int	ft_print_arr_prepend(char **arr, char *prepend)
 {
@@ -85,7 +52,6 @@ bool	is_id_str_valid(char *id)
 	The return status is zero unless an invalid option is supplied,
 	one of the names is not a valid shell variable name.
 */
-//TODO: fix return code
 int ft_do_export(char **args, t_envp *sh_envp)
 {
 	int		i;
@@ -94,6 +60,7 @@ int ft_do_export(char **args, t_envp *sh_envp)
 	int		ret;
 
 	i = -1;
+	ret = 0;
 	if (!args[0])
 		return (ft_print_arr_prepend(sh_envp->sh_envp, "declare -x "));
 	while (args[++i])
@@ -103,10 +70,7 @@ int ft_do_export(char **args, t_envp *sh_envp)
 		if (!key)
 			exit_fatal(MSH_MALLOC_EXIT);
 		else if (is_id_str_valid(key) && equalslocation != -1)
-		{
 			ft_update_envp_elem(key, &args[i][equalslocation + 1], sh_envp);
-			ret = 0;
-		}
 		else
 		{
 			ft_puterr_arr((char *[]) {"export: '", args[i], MSH_ID_INV, NULL});

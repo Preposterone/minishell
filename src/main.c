@@ -7,6 +7,7 @@ int main(int argc, char *argv[], char const *envp[])
 	t_envp	sh_envp;
 
 	ft_bzero(&g_all, sizeof(t_all));
+	ft_bzero(&sh_envp, sizeof(sh_envp));
 	sh_envp.truefd0 = 3;
 	sh_envp.truefd1 = 4;
 	dup2(0, sh_envp.truefd0);
@@ -21,8 +22,36 @@ int main(int argc, char *argv[], char const *envp[])
 	(void )argc;
 	(void )argv;
 	(void )envp;
-	char **newargs = (char *[]){"./src/main.c", NULL};
-	if (execve("./src/main.c", newargs, (char **)envp) == -1)
-		printf("%s\n", strerror(errno));
+	struct stat buf;
+	char *place  = ft_strdup("./");
+	stat(place, &buf);
+	if ((buf.st_mode & S_IFMT) == S_IFDIR)
+		printf("'%s' is a dir\n", place);
+	free(place);
+	place  = ft_strdup("/bin");
+	stat(place, &buf);
+	if ((buf.st_mode & S_IFMT) == S_IFDIR)
+		printf("'%s' is a dir\n", place);
+	free(place);
+	place  = ft_strdup("../bin");
+	stat(place, &buf);
+	if ((buf.st_mode & S_IFMT) == S_IFDIR)
+		printf("'%s' is a dir\n", place);
+	free(place);
+	place  = ft_strdup(".");
+	stat(place, &buf);
+	if ((buf.st_mode & S_IFMT) == S_IFDIR)
+		printf("'%s' is a dir\n", place);
+	free(place);
+	place  = ft_strdup("./src/main.c");
+	stat(place, &buf);
+	if ((buf.st_mode & S_IFMT) != S_IFDIR)
+		printf("'%s' is not a dir\n", place);
+	free(place);
+	place  = ft_strdup("./stuff");
+	stat(place, &buf);
+	if ((buf.st_mode & S_IFMT) == S_IFDIR)
+		printf("'%s' is a dir\n", place);
+	free(place);
 }
  */
