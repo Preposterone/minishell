@@ -28,7 +28,7 @@ bool	ft_isbuiltin(char *cmd)
 			if (!ft_strcmp(cmd, s[i]))
 			{
 				ret = true;
-				break;
+				break ;
 			}
 		}
 	}
@@ -37,7 +37,7 @@ bool	ft_isbuiltin(char *cmd)
 
 void	ft_freematrix(void **target)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (target[++i])
@@ -74,7 +74,7 @@ char	*ft_strstrjoin(char *cmd, char *cmdpath)
 
 char	*ft_build_command(char *cmd, char *cmdpath)
 {
-	char *ret;
+	char	*ret;
 
 	ret = NULL;
 	if (ft_strchr(cmd, '/') || !cmdpath)

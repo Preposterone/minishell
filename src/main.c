@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 /**
@@ -41,9 +40,9 @@ void	ft_envp_cpy(const char *envp[], t_envp *buf)
 	buf->sh_path = path;
 }
 
-t_all g_all;
+t_all	g_all;
 
-int main(int argc, char *argv[], char const *envp[])
+int	main(int argc, char *argv[], char const *envp[])
 {
 	t_envp	sh_envp;
 
@@ -66,23 +65,27 @@ int main(void)
 
 	s1 = ft_strdup("PePsi");
 	s2 = ft_strdup("Pepsi");
-	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison:
+	'%d'\n", s1, s2, ft_strcmpl(s1, s2));
 	free(s1);
 	free(s2);
 
 	s1 = ft_strdup("pepsi");
 	s2 = ft_strdup("pepsi");
-	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison:
+	'%d'\n", s1, s2, ft_strcmpl(s1, s2));
 	free(s1);
 	free(s2);
 	s1 = ft_strdup("PEPSI");
 	s2 = ft_strdup("pepsi");
-	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison:
+	'%d'\n", s1, s2, ft_strcmpl(s1, s2));
 	free(s1);
 	free(s2);
 	s1 = ft_strdup("Cola");
 	s2 = ft_strdup("pEPsI");
-	printf("S1: '%s'\tS2: '%s'\tResult of comparison: '%d'\n", s1, s2, ft_strcmpl(s1, s2));
+	printf("S1: '%s'\tS2: '%s'\tResult of comparison:
+	'%d'\n", s1, s2, ft_strcmpl(s1, s2));
 	free(s1);
 	free(s2);
 	return 0;

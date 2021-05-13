@@ -29,7 +29,6 @@ static void	ft_generate_pipes(t_pipe_data *pipe_data)
 	int	i;
 
 	i = -1;
-
 	while (++i < pipe_data->ch_total)
 	{
 		if (pipe(pipe_data->pipe_fd[i]) == -1)
@@ -50,7 +49,7 @@ static void	ft_connect_pipes(t_pipe_data *pipe_data, t_envp *sh_envp)
 void	ft_run_pipes(t_for_in_parser **par, t_envp *sh_envp,
 					 t_for_in_terminal *term_props, t_pipe_data *pipe_data)
 {
-	t_for_in_parser *par_head;
+	t_for_in_parser	*par_head;
 
 	pipe_data->ch_total = (*par)->key;
 	par_head = (*par);
@@ -58,7 +57,7 @@ void	ft_run_pipes(t_for_in_parser **par, t_envp *sh_envp,
 	while (par_head->key != 1)
 		par_head = par_head->previous;
 	pipe_data->ch_index = -1;
-	while(++pipe_data->ch_index < pipe_data->ch_total)
+	while (++pipe_data->ch_index < pipe_data->ch_total)
 	{
 		pipe_data->ch_id[pipe_data->ch_index] = fork();
 		if (pipe_data->ch_id[pipe_data->ch_index] == -1)
