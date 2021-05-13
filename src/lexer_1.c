@@ -39,62 +39,57 @@ void	del_free_par(t_for_in_parser **par)
 	free(*par);
 }
 
-void	check_flags3(t_for_in_lexer *lex, t_for_in_lex_two *k)
+void	check_flags2(t_for_in_lexer *lex)
 {
-	if (lex->line[k->i] < 127
-		&& lex->flags_arg[(int)lex->line[k->i]] == 0)
-		k->s = lexer_charjoin(k->s, lex->line[k->i]);
-	if ((int)lex->line[k->i] < 127)
-		lex->flags_arg[(int)lex->line[k->i]] = 1;
-	return ;
-}
-
-void	check_flags2(t_for_in_lexer *lex, t_for_in_lex_two *k)
-{
-	if (lex->line[0] == '-' && lex->line[1] != '-' && lex->line[1] != '\0')
-	{
-		k->i++;
-		k->s = lexer_charjoin(k->s, lex->line[k->i]);
-		while (lex->line[++k->i])
-		{
-			if ((lex->line[k->i] >= 65 && lex->line[k->i] <= 90)
-				|| (lex->line[k->i] >= 97 && lex->line[k->i] <= 122))
-				check_flags3(lex, k);
-			else
-			{
-				k->s = free_null(k->s);
-				lex->nr = 1;
-				return ;
-			}
-		}
-	}
-	else
+	if (lex->c_i == -1)
 	{
 		lex->flags_check = 0;
-		k->s = free_null(k->s);
-		lex->nr = 1;
-	}
-}
-
-void	check_flags(t_for_in_lexer *lex)
-{
-	t_for_in_lex_two	k;
-
-	k.i = 0;
-	if (!lex->line)
+		free(lex->c_s);
+		lex->c_s = NULL;
 		return ;
-	k.s = (char *)ft_calloc(1, sizeof(char));
-	k.i = -1;
-	lex->nr = 0;
-	check_flags2(lex, &k);
-	if (lex->nr != 1 && k.s[1] == '\0')
+	}
+	if (lex->c_s[1] == '\0')
 	{
-		free(k.s);
-		k.s = NULL;
-		k.s = (char *)ft_calloc(1, sizeof(char));
+		free(lex->c_s);
+		lex->c_s = NULL;
+		lex->c_s = (char *)ft_calloc(1, sizeof(char));
 	}
 	lex->flags_check = 1;
 	free(lex->line);
 	lex->line = NULL;
-	lex->line = k.s;
+	lex->line = lex->c_s;
+}
+
+void	check_flags3(t_for_in_lexer *lex)
+{
+	if (lex->line[lex->c_i] < 127
+		&& lex->flags_arg[(int)lex->line[lex->c_i]] == 0)
+		lex->c_s = lexer_charjoin(lex->c_s, lex->line[lex->c_i]);
+	if ((int)lex->line[lex->c_i] < 127)
+		lex->flags_arg[(int)lex->line[lex->c_i]] = 1;
+}
+
+void	check_flags(t_for_in_lexer *lex)
+{
+	if (!lex->line)
+		return ;
+	lex->c_s = (char *)ft_calloc(1, sizeof(char));
+	lex->c_i = -1;
+	if (lex->line[0] == '-' && lex->line[1] != '-' && lex->line[1] != '\0')
+	{
+		lex->c_i++;
+		lex->c_s = lexer_charjoin(lex->c_s, lex->line[lex->c_i]);
+		while (lex->line[++lex->c_i])
+		{
+			if ((lex->line[lex->c_i] >= 65 && lex->line[lex->c_i] <= 90)
+				|| (lex->line[lex->c_i] >= 97 && lex->line[lex->c_i] <= 122))
+				check_flags3(lex);
+			else
+			{
+				lex->c_s = free_null(lex->c_s);
+				return ;
+			}
+		}
+	}
+	check_flags2(lex);
 }

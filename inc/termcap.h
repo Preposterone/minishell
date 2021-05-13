@@ -8,6 +8,8 @@
 # define ERROR_LEXER "minishell: error\n"
 # define MANY_ARGS "minishell: too many arguments\n"
 # define EXIT "minishell: "
+# define TOCHKA_M "minishell: syntax error near unexpected token `;'"
+# define PIPE_M "minishell: syntax error near unexpected token `|'"
 # define NO_FILE_PUT "minishell: syntax error near unexpected token `newline'\n"
 # include "minishell.h"
 
@@ -42,14 +44,26 @@ int		open_RDONLY_file_redirect(char *s);
 void	del_settings_term(t_for_in_terminal *t);
 void	do_settings_term(t_for_in_terminal *t);
 void	exit_minishell(char *str, int reason, t_for_in_terminal *t);
-char *free_null(char *l);
-void del_masiv(char **l);
-void del_free_par(t_for_in_parser **par);
-void check_flags(t_for_in_lexer *lex);
-void del_mas(t_for_in_lexer *lex);
-void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par);
-void put5(t_for_in_lexer *lex, t_for_in_parser **par);
+void	check_flags(t_for_in_lexer *lex);
+char	*free_null(char *l);
+void	del_mas(t_for_in_lexer *lex);
+void	del_free_par(t_for_in_parser **par);
+void	del_masiv(char **l);
+void	put5(t_for_in_lexer *lex, t_for_in_parser **par);
 char *find_in_envp(t_for_in_lexer *lex, char *s);
+void	put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par);
 void dollar(t_for_in_lexer *lex, t_for_in_parser **par);
+void lexer6(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_envp *sh_envp);
+void lexer5(t_for_in_lexer *lex, t_for_in_parser **par);
+void lexer4(t_for_in_lexer *lex, t_for_in_parser **par);
+void 	lexer22(t_for_in_lexer *lex);
+void	ft_signal_c();
+void	ft_signal_slesh();
+void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp);
+void	while_enter_term2(t_for_in_terminal *t, t_envp *sh_envp);
+void	del_term(t_for_in_terminal *t);
+void	do_term(t_for_in_terminal *t);
+int	en(char *s);
+void	ch_line_par(t_for_in_parser **par, t_for_in_lexer *lex, char *s);
 
 #endif
