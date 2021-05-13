@@ -49,5 +49,7 @@ void check_flags(t_for_in_lexer *lex);
 void del_mas(t_for_in_lexer *lex);
 void put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par);
 void put5(t_for_in_lexer *lex, t_for_in_parser **par);
+char *find_in_envp(t_for_in_lexer *lex, char *s);
+void dollar(t_for_in_lexer *lex, t_for_in_parser **par);
 
 #endif

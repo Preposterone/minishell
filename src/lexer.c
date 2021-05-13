@@ -1,118 +1,5 @@
 #include "minishell.h"
 
-void find_in_envp2(t_for_in_lexer *lex, char *s)
-{}
-
-char *find_in_envp(t_for_in_lexer *lex, char *s)
-{
-	int i;
-	int j;
-	char *str;
-
-	j = 0;
-	str = (char *)ft_calloc(1, sizeof(char));
-	if (s == NULL || lex->envp == NULL)
-	{
-		if (s != NULL)
-			free(s);
-		return (NULL);
-	}
-	while (lex->envp[j] != NULL)
-	{
-		i = 0;
-		while (lex->envp[j][i] && lex->envp[j][i] != '=')
-			str = lexer_charjoin(str, lex->envp[j][i++]);
-		if (!term_strcmp(str, s))
-		{
-			free(s);
-			free(str);
-			str = NULL;
-			while (lex->envp[j][++i])
-				str = lexer_charjoin(str, lex->envp[j][i]);
-			return (str);
-		}
-		free(str);
-		str = (char *)ft_calloc(1, sizeof(char));
-		j++;
-	}
-	free(str);
-	free(s);
-	return (NULL);
-}
-
-
-
-
-
-void dollar(t_for_in_lexer *lex, t_for_in_parser **par)
-{
-	char *s;
-
-	lex->i++;
-	(*par)->j = (*par)->j;
-	s = NULL;
-	if ((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] == '_'))
-	{
-		lex->dollar = 1;
-		while((lex->s[lex->i] >= 65 && lex->s[lex->i] <= 90) || (lex->s[lex->i] >= 97 && lex->s[lex->i] <= 122) || (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57) || (lex->s[lex->i] == '_'))
-		{
-			s = lexer_charjoin(s, lex->s[lex->i]);
-			lex->i++;
-		}
-		s = find_in_envp(lex, s);
-		if (s != NULL)
-		{
-			lex->line = term_strjoin(lex->line, s);
-			free(s);
-			s = NULL;
-		}
-	}
-	else
-	{
-		if (lex->s[lex->i] >= 48 && lex->s[lex->i] <= 57)
-		{
-			s = lexer_charjoin(s, lex->s[lex->i]);
-			lex->i++;
-			s = find_in_envp(lex, s);
-			if (s != NULL)
-			{
-				lex->line = term_strjoin(lex->line, s);
-				free(s);
-				s = NULL;
-			}
-		}
-		else if (lex->s[lex->i] == '-')
-		{
-			lex->i++;
-			s = term_strjoin(NULL, "him");
-			if (s != NULL)
-			{
-				lex->line = term_strjoin(lex->line, s);
-				free(s);
-				s = NULL;
-			}
-		}
-		else if (lex->s[lex->i] == '?')
-		{
-			lex->i++;
-			s = ft_itoa(g_all.exit_code);
-			if (s != NULL)
-			{
-				lex->line = term_strjoin(lex->line, s);
-				free(s);
-				s = NULL;
-			}
-		}
-		else if (lex->s[lex->i] == '*')
-		{
-			lex->i++;
-		}
-		else
-			lex->line = lexer_charjoin(lex->line, lex->s[lex->i - 1]);
-	}
-	lex->i--;
-}
-
 
 
 
@@ -224,7 +111,9 @@ void lexer(t_for_in_lexer *lex, t_for_in_parser **par,  t_for_in_terminal *t, t_
 			(*par)->input = -2;
 		}
 		else if (lex->s[lex->i] != ' ' && lex->s[lex->i] != 10)
+		{
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
+		}
 		else if (lex->s[lex->i] == ' ' && lex->line && lex->line != NULL)
 		{
 			put_line_in_mas(lex, par);
@@ -257,24 +146,20 @@ void print_par(t_for_in_parser **par)
 	}
 }
 
+
+/*void lexer_null(t_for_in_lexer *lex, char *s, t_for_in_terminal *t)
+{
+
+}*/
+
 void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 {
-	/*if(1 == 1)
-	{
-		open("src", O_RDWR);
-		printf("\n%s\n", strerror(errno));
-		return ;
-	}*/
-	//write(1, strerror(errno), strlen(strerror(errno)));
 	t_for_in_lexer lex;
 	t_for_in_parser *par;
 
-	//printf("\ns = %s", s);
-	lex.s = s;
-	int i;
-	i = 0;
 	t->i = t->i;
-	lex.envp = t->envp;
+	lex.envp = sh_envp->sh_envp;
+	lex.s = s;
 	lex.i = 0;
 	lex.j = 0;
 	lex.fd = 0;
@@ -309,7 +194,6 @@ void line_from_terminal_to_lexer(char *s, t_for_in_terminal *t, t_envp *sh_envp)
 	par->output = -2;
 	par->input = -2;
 	lexer(&lex, &par, t, sh_envp);
-	//printf("\nstr = %s", lex.s);
 	free(lex.flags_arg);
 	//print_par(&par); //Для печати
 	//(void)sh_envp;

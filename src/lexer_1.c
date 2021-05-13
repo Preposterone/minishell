@@ -59,12 +59,11 @@ void	check_flags2(t_for_in_lexer *lex, t_for_in_lex_two *k)
 		{
 			if ((lex->line[k->i] >= 65 && lex->line[k->i] <= 90)
 				|| (lex->line[k->i] >= 97 && lex->line[k->i] <= 122))
-			{
 				check_flags3(lex, k);
-			}
 			else
 			{
 				k->s = free_null(k->s);
+				lex->nr = 1;
 				return ;
 			}
 		}
@@ -73,7 +72,7 @@ void	check_flags2(t_for_in_lexer *lex, t_for_in_lex_two *k)
 	{
 		lex->flags_check = 0;
 		k->s = free_null(k->s);
-		return ;
+		lex->nr = 1;
 	}
 }
 
@@ -86,8 +85,9 @@ void	check_flags(t_for_in_lexer *lex)
 		return ;
 	k.s = (char *)ft_calloc(1, sizeof(char));
 	k.i = -1;
+	lex->nr = 0;
 	check_flags2(lex, &k);
-	if (k.s[1] == '\0')
+	if (lex->nr != 1 && k.s[1] == '\0')
 	{
 		free(k.s);
 		k.s = NULL;

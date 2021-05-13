@@ -161,30 +161,3 @@ int	open_TRUNC_file_redirect(char *s)
 	}
 	return (fd);
 }
-
-int check_file(char *s, int x, int y)
-{
-	x = open(s, O_WRONLY);
-	if (x > 0)
-	{
-		close(x);
-		x = 1;
-	}
-	else
-		x = 0;
-	y = open(s, O_RDONLY);
-	if (y > 0)
-	{
-		close(y);
-		y = 1;
-	}
-	else
-		y = 0;
-	if (x == 1 && y == 1)
-		return 1;//фаил
-	else if (x == 0 && y == 0)
-		return 2;//не сущ
-	else if (x == 0 && y == 1)
-		return 3;//dir
-	return 0;
-}

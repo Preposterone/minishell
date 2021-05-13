@@ -83,6 +83,11 @@ typedef struct s_for_in_lexer
 	int				*flags_arg;
 	int				flags_check;
 	int				exit;
+	int				nr;
+	char			*nr_str;
+	int				nr_i;
+	int				nr_j;
+	char			*dol_str;
 	t_for_in_parser	*t_p;
 }					t_for_in_lexer;
 
