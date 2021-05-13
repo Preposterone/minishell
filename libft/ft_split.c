@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/03 10:00:08 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/04/19 17:08:22 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 18:14:40 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static char	**ft_dosplit(const char *s, int i, int words, char c)
 	}
 	return (ret);
 }
-
 
 char	**ft_split(char const *s, char c)
 {

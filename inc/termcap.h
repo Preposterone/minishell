@@ -8,9 +8,8 @@
 # define ERROR_LEXER "minishell: error\n"
 # define MANY_ARGS "minishell: too many arguments\n"
 # define EXIT "minishell: "
-# define TOCHKA_M "minishell: syntax error near unexpected token `;'"
-# define PIPE_M "minishell: syntax error near unexpected token `|'"
-# define NO_FILE_PUT "minishell: syntax error near unexpected token `newline'\n"
+# define TOCHKA_M "syntax error near unexpected token `;'"
+# define PIPE_M "syntax error near unexpected token `|'"
 # include "minishell.h"
 
 int		term_get_next_line(int fd, char **line, int reader);

@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 16:56:47 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 18:13:50 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_puterr_arr(char *s[]);
 # define MSH_EXT_NUMER "numeric argument required"
 # define CANT_OPEN_FILE "could not open the file"
 # define FILE_DONT_REAL "No such file or directory"
-# define RED_WHERE "syntax error near unexpected token `newline'"
 # define RED_WHERE "syntax error near unexpected token `newline'"
 # define M_QUOTES "The quotes are not closed"
 # define ERROR_E "Error"
