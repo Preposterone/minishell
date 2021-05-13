@@ -15,7 +15,7 @@
 //output into stderr: 'minishell: %s%s%s\n'
 void	ft_puterr_arr(char *s[])
 {
-	int i;
+	int	i;
 
 	i = 0;
 	ft_putstr_fd(MSH_MSG_GENERIC, 2);
@@ -33,13 +33,13 @@ void	ft_puterrln(char *s)
 
 // printf("%s%s\n", MSH_MSG_GENERIC, str);	//НУЖНО ПИСАТЬ ВО ВТОРОЙ ФД
 	// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
+// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
 void	exit_minishell(char *str, int reason, t_for_in_terminal *t)
 {
 	if (t)
-		del_settings_term(t);	//Восстанавливаем терминал
+		del_settings_term(t);
 	if (reason == MSH_CMD_NOT_FOUND)
 		ft_puterr_arr((char *[]){str, ": ", strerror(errno), NULL});
-		// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
 	else if (reason == MSH_DOT_EX)
 		ft_puterr_arr((char *[]){str, MSH_DOT_1, MSH_DOT_2, NULL});
 	else if (reason == MSH_IS_DIR_ERR)
@@ -51,7 +51,6 @@ void	exit_minishell(char *str, int reason, t_for_in_terminal *t)
 	}
 	else
 		ft_puterrln(str);
-	//
 	exit(reason);
 }
 
