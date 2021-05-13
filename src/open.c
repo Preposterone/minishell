@@ -2,7 +2,7 @@
 
 int	open_APPEND_file_redirect(char *s)
 {
-	int fd;
+	int	fd;
 
 	if (!s)
 		return (0);
@@ -17,7 +17,7 @@ int	open_APPEND_file_redirect(char *s)
 
 int	open_RDONLY_file_redirect(char *s)
 {
-	int fd;
+	int	fd;
 
 	if (!s)
 		return (0);
@@ -32,7 +32,7 @@ int	open_RDONLY_file_redirect(char *s)
 
 int	open_TRUNC_file_redirect(char *s)
 {
-	int fd;
+	int	fd;
 
 	if (!s)
 		return (0);

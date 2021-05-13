@@ -2,8 +2,8 @@
 
 char	*ter(char *s2, int i)
 {
-	char *r;
-	int len;
+	char	*r;
+	int		len;
 
 	len = en(s2);
 	r = (char *)ft_calloc(len + 1, sizeof(char));
@@ -15,6 +15,15 @@ char	*ter(char *s2, int i)
 	}
 	r[i] = '\0';
 	return (r);
+}
+
+void	strj_lex_mas2(t_for_in_lexer *lex)
+{
+	if (lex->mas_line)
+	{
+		free((void **)lex->mas_line);
+		lex->mas_line = NULL;
+	}
 }
 
 char	**strjoin_lex_mas(int len, t_for_in_lexer *lex)
@@ -41,11 +50,7 @@ char	**strjoin_lex_mas(int len, t_for_in_lexer *lex)
 	}
 	lin[i++] = ter(lex->line, -1);
 	lin[i] = NULL;
-	if (lex->mas_line)
-	{
-		free((void **)lex->mas_line);
-		lex->mas_line = NULL;
-	}
+	strj_lex_mas2(lex);
 	return (lin);
 }
 

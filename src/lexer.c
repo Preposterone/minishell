@@ -9,6 +9,8 @@ void	lexer(t_for_in_lexer *lex, t_for_in_parser **par,
 		lexer4(lex, par);
 		lexer5(lex, par);
 		lexer6(lex, par, t, sh_envp);
+		if (lex->exit == 1)
+			return ;
 		if (lex->if_i == 0 && lex->s[lex->i] == ' '
 			&& lex->line && lex->line != NULL)
 		{

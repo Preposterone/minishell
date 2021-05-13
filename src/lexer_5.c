@@ -15,6 +15,7 @@ void	lexer2(t_for_in_lexer *lex, t_for_in_parser **par)
 				lex->exit = 1;
 				lex->line = free_null(lex->line);
 				ft_puterrln(ERROR_E);
+				g_all.exit_code = 258;
 				return ;
 			}
 		}
@@ -36,6 +37,7 @@ void	lexer3(t_for_in_lexer *lex)
 		lex->if_i = 1;
 		lex->line = free_null(lex->line);
 		ft_puterrln(M_QUOTES);
+		g_all.exit_code = 258;
 		return ;
 	}
 	lex->if_i = 1;
@@ -87,6 +89,7 @@ void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par)
 			lex->exit = 1;
 			lex->line = free_null(lex->line);
 			ft_puterrln(ERROR_E);
+			g_all.exit_code = 258;
 			return ;
 		}
 		lex->if_i = 1;
@@ -100,23 +103,17 @@ void	lexer6(t_for_in_lexer *lex, t_for_in_parser **par,
 	{
 		ch_line_par(par, lex, TOCHKA_M);
 		if (lex->exit == 1)
+		{
+			free(lex->line);
 			return ;
+		}
 		put_line_in_mas(lex, par);
 		del_settings_term(t);
 		executor_secretary(par, sh_envp, t);
 		del_free_par(par);
 		do_settings_term(t);
 		free(lex->t_p);
-		(*par) = ft_calloc(1, sizeof(t_for_in_parser));
-		(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
-		lex->t_p = *par;
-		(*par) = (*par)->next;
-		(*par)->key = 1;
-		(*par)->previous = lex->t_p;
-		(*par)->arguments = (char **)ft_calloc(1, sizeof(char *));
-		(*par)->output = -2;
-		(*par)->input = -2;
-		lex->if_i = 1;
+		lexer7(lex, par);
 	}
 	if (lex->if_i == 0 && lex->s[lex->i] != ' ' && lex->s[lex->i] != 10)
 	{

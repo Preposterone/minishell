@@ -65,10 +65,9 @@ void	from_file(t_for_in_terminal *t)
 	close(fd);
 }
 
-
 int	file_mas(char **str, int i, t_for_in_terminal *t)
 {
-	int fd;
+	int	fd;
 
 	if (!str)
 		return (0);
@@ -116,5 +115,3 @@ char	*get_h_const(char *h_const)
 	}
 	return (r);
 }
-
-

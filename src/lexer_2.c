@@ -43,6 +43,7 @@ void 	lexer22(t_for_in_lexer *lex)
 		lex->exit = 1;
 		lex->line = free_null(lex->line);
 		ft_puterrln(M_QUOTES);
+		g_all.exit_code = 258;
 		return ;
 	}
 	lex->if_i = 1;
@@ -50,9 +51,11 @@ void 	lexer22(t_for_in_lexer *lex)
 
 void	ch_line_par(t_for_in_parser **par, t_for_in_lexer *lex, char *s)
 {
-	if ((*par)->arguments[0] == NULL && (*par)->input == -2 && (*par)->output == -2)
+	if ((*par)->arguments[0] == NULL
+		&& (*par)->input == -2 && (*par)->output == -2)
 	{
 		lex->exit = 1;
 		ft_puterrln(s);
+		g_all.exit_code = 258;
 	}
 }

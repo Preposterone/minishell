@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 char	*term_strjoin_n(char *s2, char *r, int i)
 {
 	r = (char *)ft_calloc((term_strlen(s2) + 1), sizeof(char));
@@ -13,21 +12,11 @@ char	*term_strjoin_n(char *s2, char *r, int i)
 	return (r);
 }
 
-char	*term_strjoin(char *s1, char *s2)
+char	*str_term2(char *s1, char *s2, unsigned int i, char *r)
 {
-	char			*r;
-	unsigned int	i;
-	unsigned int	j;
+	int	j;
 
-	if ((!s1 || s1 == NULL) && !s2)
-		return (NULL);
-	i = 0;
-	r = NULL;
-	if (!s1 || s1 == NULL)
-		return (term_strjoin_n(s2, r, i));
-	r = (char *)ft_calloc((term_strlen(s1) + term_strlen(s2) + 1), sizeof(char));
-	if (!r)
-		return (NULL);
+	j = -1;
 	while (s1[i])
 	{
 		if (s1[i] == '\n' && s1[i + 1] == '\0')
@@ -43,6 +32,23 @@ char	*term_strjoin(char *s1, char *s2)
 		r[i++] = s2[j];
 	}
 	r[i] = '\0';
+	return (r);
+}
+
+char	*term_strjoin(char *s1, char *s2)
+{
+	char			*r;
+
+	if ((!s1 || s1 == NULL) && !s2)
+		return (NULL);
+	r = NULL;
+	if (!s1 || s1 == NULL)
+		return (term_strjoin_n(s2, r, 0));
+	r = (char *)ft_calloc((term_strlen(s1)
+				+ term_strlen(s2) + 1), sizeof(char));
+	if (!r)
+		exit_fatal(MSH_MALLOC_EXIT);
+	r = str_term2(s1, s2, 0, r);
 	if (s1 && s1 != NULL)
 		free(s1);
 	return (r);
@@ -73,8 +79,7 @@ char	*str_delet_last_char(char *s1)
 	return (r);
 }
 
-
-char *lexer_charjoin(char *s1, char c)
+char	*lexer_charjoin(char *s1, char c)
 {
 	char			*r;
 	unsigned int	i;
@@ -96,19 +101,3 @@ char *lexer_charjoin(char *s1, char c)
 		free(s1);
 	return (r);
 }
-
-int	en(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s || s == NULL || !s[i] || s[i] == '\0')
-		return (0);
-	while (s && s[i] && s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-

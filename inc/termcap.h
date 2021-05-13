@@ -65,5 +65,7 @@ void	del_term(t_for_in_terminal *t);
 void	do_term(t_for_in_terminal *t);
 int	en(char *s);
 void	ch_line_par(t_for_in_parser **par, t_for_in_lexer *lex, char *s);
+void	put2(t_for_in_lexer *lex, t_for_in_parser **par);
+void	lexer7(t_for_in_lexer *lex, t_for_in_parser **par);
 
 #endif
