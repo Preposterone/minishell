@@ -65,10 +65,9 @@ void	from_file(t_for_in_terminal *t)
 	close(fd);
 }
 
-
 int	file_mas(char **str, int i, t_for_in_terminal *t)
 {
-	int fd;
+	int	fd;
 
 	if (!str)
 		return (0);
@@ -115,76 +114,4 @@ char	*get_h_const(char *h_const)
 		h_const = NULL;
 	}
 	return (r);
-}
-
-int	open_APPEND_file_redirect(char *s)
-{
-	int fd;
-
-	if (!s)
-		return (0);
-	fd = open(s, O_CREAT | O_APPEND | O_RDWR, 00644);
-	if (fd <= 0)
-	{
-		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
-		return (-1);
-	}
-	return (fd);
-}
-
-int	open_RDONLY_file_redirect(char *s)
-{
-	int fd;
-
-	if (!s)
-		return (0);
-	fd = open(s, O_RDONLY, 00644);
-	if (fd <= 0)
-	{
-		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
-		return (-1);
-	}
-	return (fd);
-}
-
-int	open_TRUNC_file_redirect(char *s)
-{
-	int fd;
-
-	if (!s)
-		return (0);
-	fd = open(s, O_CREAT | O_TRUNC | O_RDWR, 00644);
-	if (fd <= 0)
-	{
-		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
-		return (-1);
-	}
-	return (fd);
-}
-
-int check_file(char *s, int x, int y)
-{
-	x = open(s, O_WRONLY);
-	if (x > 0)
-	{
-		close(x);
-		x = 1;
-	}
-	else
-		x = 0;
-	y = open(s, O_RDONLY);
-	if (y > 0)
-	{
-		close(y);
-		y = 1;
-	}
-	else
-		y = 0;
-	if (x == 1 && y == 1)
-		return 1;//фаил
-	else if (x == 0 && y == 0)
-		return 2;//не сущ
-	else if (x == 0 && y == 1)
-		return 3;//dir
-	return 0;
 }

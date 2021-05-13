@@ -48,6 +48,7 @@ typedef struct s_for_in_terminal
 	int				peri;
 	int				len;
 	int				del_len;
+	int				key_main;
 }					t_for_in_terminal;
 
 typedef struct s_for_in_parser
@@ -79,11 +80,22 @@ typedef struct s_for_in_lexer
 	int				out;
 	int				outend;
 	int				pipe;
+	int				pipe_ch;
 	int				dollar;
 	int				l;
 	int				*flags_arg;
 	int				flags_check;
 	int				exit;
+	int				c_i;
+	char			*c_s;
+	char			*k_s;
+	int 			k_i;
+	int				nr;
+	char			*nr_str;
+	int				nr_i;
+	int				nr_j;
+	char			*dol_str;
+	int				if_i;
 	t_for_in_parser	*t_p;
 }					t_for_in_lexer;
 
