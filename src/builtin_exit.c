@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:12 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:37:40 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/13 19:00:45 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ static bool	ft_validate_ex_arg(char *arg)
 	return (false);
 }
 
+static void	ft_exit_final(u_char exit_code, int64_t reason, bool do_exit,
+				t_for_in_terminal *t)
+{
+	if (exit_code == 0)
+		exit_code = (u_char)reason;
+	g_all.exit_code = exit_code;
+	if (do_exit)
+	{
+		file_mas(t->mas_his, t->peri, t);
+		exit(exit_code);
+	}
+}
+
 /*
 	Exit the shell, returning a status of n to the shell’s parent.
 	If n is omitted, the exit status is that of the last command executed
@@ -83,14 +96,7 @@ int	ft_do_exit(char **args, t_for_in_terminal *t, bool print)
 	}
 	else
 		reason = ft_atoll(arg);
-	if (exit_code == 0)
-		exit_code = (u_char)reason;
-	g_all.exit_code = exit_code;
 	free(arg);
-	if (do_exit)
-	{
-		file_mas(t->mas_his, t->peri, t);
-		exit(exit_code);
-	}
+	ft_exit_final(exit_code, reason, do_exit, t);
 	return (exit_code);
 }
