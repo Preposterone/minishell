@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 17:19:46 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/14 13:53:33 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 19:03:46 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,19 @@ void	ft_envp_cpy(const char *envp[], t_envp *buf)
 			path = &envp_cpy[i][5];
 		else if (!ft_strncmp(envp[i], "TERM=", 5))
 			buf->sh_term = &envp_cpy[i][5];
+		else if (!ft_strncmp(envp[i], "SHLVL=", 6))
+			buf->sh_lvl = &envp_cpy[i][6];
 	}
 	buf->sh_envp = envp_cpy;
 	buf->sh_path = path;
 }
 
 t_all	g_all;
+
+static char	*ft_extract_execname(char *exec)
+{
+	return (ft_strdup(ft_strrchr(exec, '/') + 1));
+}
 
 int	main(int argc, char *argv[], char const *envp[])
 {
@@ -50,10 +57,12 @@ int	main(int argc, char *argv[], char const *envp[])
 	ft_bzero(&sh_envp, sizeof(sh_envp));
 	sh_envp.truefd0 = 3;
 	sh_envp.truefd1 = 4;
-	g_all.sh_lvl = 1;
 	dup2(0, sh_envp.truefd0);
 	dup2(1, sh_envp.truefd1);
 	ft_envp_cpy(envp, &sh_envp);
+	sh_envp.sh_name = ft_extract_execname(argv[0]);
+	g_all.sh_lvl = ft_atoi(sh_envp.sh_lvl);
+	g_all.max_depth = g_all.sh_lvl;
 	terminal(argc, argv, &sh_envp);
 	return (0);
 }

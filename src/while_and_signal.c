@@ -47,11 +47,8 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 	while (t->key_main == 1)
 	{
 		g_all.key_ctr = 1;
-		if (g_all.sh_lvl == 1)
-		{
-			signal(SIGQUIT, ft_signal_slesh);
-			signal(SIGINT, ft_signal_c);
-		}
+		signal(SIGQUIT, ft_signal_slesh);
+		signal(SIGINT, ft_signal_c);
 		terminal_while2(t);
 		if (!term_strcmp(t->str, "\n\0"))
 		{
@@ -59,23 +56,27 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			t->key_main = 0;
 		}
 	}
-	signal(SIGQUIT, ft_signal_slesh);
-	signal(SIGINT, ft_signal_c);
 	terminal_while3(t, sh_envp);
 }
 
 void	ft_signal_slesh(int sig)
 {
-	if (g_all.key_ctr == 0)
-		write(1, "Quit: 3\n", ft_strlen("Quit: 3\n"));
-	g_all.key_signal = 2;
-	sig = 1;
+	if (g_all.sh_lvl == g_all.max_depth)
+	{
+		if (g_all.key_ctr == 0)
+			write(1, "Quit: 3\n", ft_strlen("Quit: 3\n"));
+		g_all.key_signal = 2;
+		sig = 1;
+	}
 }
 
 void	ft_signal_c(int sig)
 {
-	write(1, "\n", 1);
-	g_all.key_signal = 1;
-	sig = 1;
-	g_all.exit_code = 1;
+	if (g_all.sh_lvl == g_all.max_depth)
+	{
+		write(1, "\n", 1);
+		g_all.key_signal = 1;
+		sig = 1;
+		g_all.exit_code = 1;
+	}
 }

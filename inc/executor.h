@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:57:01 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/14 16:25:19 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 18:31:39 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		executor(char **args, char *cmdpath, t_envp *envp,
 			t_for_in_terminal *term_props);
 int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 			t_for_in_terminal *term_props);
+void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp);
 
 /* **********************************BUILTIINS******************************* */
 

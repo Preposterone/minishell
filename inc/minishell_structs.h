@@ -13,6 +13,8 @@ typedef struct s_envp
 	char		**sh_envp;
 	char		*sh_path;
 	char		*sh_term;
+	char		*sh_name;
+	char		*sh_lvl;
 	int			truefd0;
 	int			truefd1;
 	int			ispipe;
