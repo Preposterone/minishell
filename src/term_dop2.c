@@ -32,6 +32,7 @@ int	lexer62(t_for_in_lexer *lex)
 {
 	if (lex->exit == 1)
 	{
+		free(lex->line);
 		return (1);
 	}
 	if (lex->ex_red != 0)
