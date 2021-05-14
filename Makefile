@@ -43,11 +43,6 @@ debugsetup: dclean
 	@echo "*********BEGIN DEBUG*********"
 	@tput sgr 0
 
-a.out:
-	$(CC) $(CFLAGS) $(IFLAGS) $(SRC_FILES) $(LFLAGS)
-
-debug: a.out
-
 #extra
 norm:
 	@make norm -C $(LFT_DIR)

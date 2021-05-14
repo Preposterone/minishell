@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/14 19:43:52 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 20:25:04 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,15 @@
 
 static int	ft_fetch_exit_status(int status, t_envp *sh_envp)
 {
+	char	*val;
+
 	if (g_all.sh_lvl != g_all.max_depth)
+	{
 		g_all.max_depth--;
+		val = ft_itoa(g_all.max_depth);
+		ft_update_envp_elem("SHLVL=", val, sh_envp);
+		free(val);
+	}
 	if (status == 13)
 		status -= 13;
 	if (WIFEXITED(status))
@@ -78,6 +85,7 @@ static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 static void	ft_check_for_execname(char *cmd, char *exec, t_envp *sh_envp)
 {
 	char	*tmp;
+	char	*val;
 
 	tmp = ft_strjoin("./", exec);
 	if (cmd)
@@ -85,11 +93,13 @@ static void	ft_check_for_execname(char *cmd, char *exec, t_envp *sh_envp)
 		if (!ft_strcmp(cmd, tmp) || (ft_strrchr(cmd, '/')
 				&& cmd[ft_strlen(cmd)] != '/'
 				&& ft_strlen(cmd) > ft_strlen(exec)
-				&& ft_strcmp(ft_strrchr(cmd, '/'), exec))
+				&& !ft_strcmp(ft_strrchr(cmd, '/'), exec))
 			|| (!sh_envp->sh_path && !ft_strcmp(cmd, exec)))
 		{
 			g_all.max_depth = g_all.sh_lvl + 1;
-			ft_update_envp_elem("SHLVL=", ft_itoa(g_all.max_depth), sh_envp);
+			val = ft_itoa(g_all.max_depth);
+			ft_update_envp_elem("SHLVL=", val, sh_envp);
+			free(val);
 		}
 	}
 	free(tmp);
