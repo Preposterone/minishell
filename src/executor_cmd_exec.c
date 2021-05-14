@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:51:43 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:51:37 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 17:40:21 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,16 @@ int	executor(char **args, char *cmdpath, t_envp *envp,
 	return (ret);
 }
 
-//TODO: case agnostic execution!
 int	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 					t_for_in_terminal *term_props)
 {
 	char	*cmdpath;
 
-	if (!(*par)->arguments[0])
+	if (!(*par)->arguments[0] || !ft_strcmp("", (*par)->arguments[0]))
 	{
 		close((*par)->output);
 		close((*par)->input);
+		exit(0);
 	}
 	if ((*par)->output > 0 && (*par)->arguments[0])
 	{
@@ -91,9 +91,7 @@ int	ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 		close((*par)->input);
 	}
 	cmdpath = expander((*par)->arguments[0], sh_envp->sh_path);
-	return (executor(
-			&(*par)->arguments[0],
-			cmdpath,
-			sh_envp,
-			term_props));
+	if (ft_strcmp("", (*par)->arguments[0]))
+		return (executor(&(*par)->arguments[0], cmdpath, sh_envp, term_props));
+	return (0);
 }

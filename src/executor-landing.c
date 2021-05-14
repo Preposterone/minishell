@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:49:20 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 19:06:18 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	ft_fetch_exit_status(int status, t_envp *sh_envp)
 {
+	if (g_all.sh_lvl != g_all.max_depth)
+		g_all.max_depth--;
 	if (status == 13)
 		status -= 13;
 	if (WIFEXITED(status))
@@ -68,31 +70,23 @@ static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 	return (ret);
 }
 
-/**
- * If no pipe => dups last argument
- * else, dups "";
- */
-
-void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp)
+static void	ft_check_for_execname(char *cmd, char *exec, t_envp *sh_envp)
 {
-	int		i;
-	char	*buf;
+	char	*tmp;
 
-	buf = NULL;
-	if (par[0]->key != 1)
-		buf = NULL;
-	else
+	tmp = ft_strjoin("./", exec);
+	if (cmd)
 	{
-		i = -1;
-		while (par[0]->arguments[++i])
-			buf = par[0]->arguments[i];
+		if (!ft_strcmp(cmd, tmp) || (cmd[ft_strlen(cmd)] != '/'
+				&& ft_strlen(cmd) > ft_strlen(exec)
+				&& ft_strcmp(ft_strrchr(cmd, '/') - 1, exec))
+			|| (!sh_envp->sh_path && !ft_strcmp(cmd, exec)))
+		{
+			g_all.max_depth = g_all.sh_lvl + 1;
+			ft_update_envp_elem("SHLVL=", ft_itoa(g_all.max_depth), sh_envp);
+		}
 	}
-	if (!buf)
-		buf = ft_strdup("");
-	else
-		buf = ft_strdup(buf);
-	ft_update_envp_elem("_=", buf, sh_envp);
-	free(buf);
+	free(tmp);
 }
 
 void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
@@ -106,6 +100,7 @@ void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 	status = 0;
 	ft_update_last_arg(par, sh_envp);
 	num_cmds = (*par)->key;
+	ft_check_for_execname((*par)->arguments[0], sh_envp->sh_name, sh_envp);
 	if (num_cmds > 1)
 	{
 		ft_bzero(&pipe_data, sizeof(pipe_data));

@@ -47,10 +47,26 @@ void	terminal_while3(t_for_in_terminal *t, t_envp *sh_envp)
 	g_all.key_signal = 0;
 }
 
+/* 	if (argc > 1)
+	{
+		if (!term_strcmp(argv[1], "-c"))
+		{
+			while (argv[i] != NULL)
+			{
+				t.s = term_strjoin(NULL, argv[i]);
+				line_from_terminal_to_lexer(t.s, &t, sh_envp);
+				free(t.s);
+				t.s = NULL;
+				i++;
+			}
+			return ;
+		}
+	}
+*/
+
 void	terminal(int argc, char *argv[], t_envp *sh_envp)
 {
 	t_for_in_terminal	t;
-	int					i;
 
 	ft_bzero(&t, sizeof(t_for_in_terminal));
 	t.argc = argc;
@@ -67,22 +83,6 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 	t.del_len = 0;
 	t.j = t.i;
 	t.peri = t.i;
-	i = 2;
-	if (argc > 1)
-	{
-		if (!term_strcmp(argv[1], "-c"))
-		{
-			while (argv[i] != NULL)
-			{
-				t.s = term_strjoin(NULL, argv[i]);
-				line_from_terminal_to_lexer(t.s, &t, sh_envp);
-				free(t.s);
-				t.s = NULL;
-				i++;
-			}
-			return ;
-		}
-	}
 	if (argc > 1)
 		exit_minishell(MANY_ARGS, -1, &t);
 	write(1, TERMINALNAME, term_strlen(TERMINALNAME));

@@ -6,7 +6,7 @@
 #    By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/27 16:31:52 by aarcelia          #+#    #+#              #
-#    Updated: 2021/05/14 12:44:26 by aarcelia         ###   ########.fr        #
+#    Updated: 2021/05/14 19:16:52 by aarcelia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS =	ft_atoi.c	ft_isprint.c	ft_lstlast.c ft_memcpy.c	ft_split.c	ft_nputnbr_fd.
 OBJS	=	${SRCS:.c=.o}
 
 CC	= gcc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra -o2
 
 all:	${NAME}
 
