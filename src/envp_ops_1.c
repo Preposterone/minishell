@@ -6,13 +6,13 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 11:34:27 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:45:01 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 11:51:31 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_free_arr(char **arr)
+void	ft_free_arr(char **arr)
 {
 	int	i;
 
@@ -24,6 +24,28 @@ static void	ft_free_arr(char **arr)
 	}
 	free(arr);
 	arr = NULL;
+}
+
+/**
+ * @param args is a key=value pair
+ * where @key has syntax:	xx123=
+ * 							xxxxx=
+ * 							_123x=
+ * 							_x123=
+ */
+bool	is_id_str_valid(char *id)
+{
+	int		i;
+
+	i = -1;
+	if (!ft_isalpha(id[0]) && id[0] != '_')
+		return (false);
+	while (id[++i] && id[i] != '=')
+	{
+		if (!ft_isalnum(id[i]) && id[i] != '_' && id[i] != '=')
+			return (false);
+	}
+	return (true);
 }
 
 /**

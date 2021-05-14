@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:09 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:38:53 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 13:52:17 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,53 @@ static int	ft_print_arr_prepend(char **arr, char *prepend)
 	return (0);
 }
 
-/**
- * @param args is a key=value pair
- * where @key has syntax:	xx123=
- * 							xxxxx=
- * 							_123x=
- * 							_x123=
- */
-bool	is_id_str_valid(char *id)
+static char	*ft_insert_quotes(char *s)
 {
+	char	*ret;
+	char	*value;
+	char	*tmp;
+	int		equals;
+
+	equals = ft_strchr_index(s, '=');
+	value = ft_strdup(&s[equals + 1]);
+	tmp = ft_strjoin("\"", value);
+	free(value);
+	value = ft_strjoin(tmp, "\"");
+	free(tmp);
+	tmp = ft_strndup(s, equals + 1);
+	ret = ft_strjoin(tmp, value);
+	free(tmp);
+	free(value);
+	return (ret);
+}
+
+static char	**ft_add_quotes(char **envp)
+{
+	char	**ret;
+	int		count;
 	int		i;
 
+	i = 0;
+	while (envp[i])
+		i++;
+	count = i;
+	ret = ft_calloc(count + 1, sizeof(char *));
 	i = -1;
-	if (!ft_isalpha(id[0]) && id[0] != '_')
-		return (false);
-	while (id[++i] && id[i] != '=')
-	{
-		if (!ft_isalnum(id[i]) && id[i] != '_' && id[i] != '=')
-			return (false);
-	}
-	return (true);
+	while (++i < count)
+		ret[i] = ft_insert_quotes(envp[i]);
+	ft_quicksort_char_arr(ret, (uint)i);
+	return (ret);
+}
+
+/*split by key*/
+static int	ft_run_export_print(t_envp *sh_envp)
+{
+	char	**buf;
+
+	buf = ft_add_quotes(sh_envp->sh_envp);
+	ft_print_arr_prepend(buf, "declare -x ");
+	ft_free_arr(buf);
+	return (1);
 }
 
 /*
@@ -62,7 +89,7 @@ int	ft_do_export(char **args, t_envp *sh_envp)
 	i = -1;
 	ret = 0;
 	if (!args[0])
-		return (ft_print_arr_prepend(sh_envp->sh_envp, "declare -x "));
+		return (ft_run_export_print(sh_envp));
 	while (args[++i])
 	{
 		equalslocation = ft_strchr_index(args[i], '=');
