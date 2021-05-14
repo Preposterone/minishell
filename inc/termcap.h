@@ -69,5 +69,6 @@ void	terminal_while3(t_for_in_terminal *t, t_envp *sh_envp);
 void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp);
 void	terminal_while2(t_for_in_terminal *t);
 void	put8(t_for_in_lexer *lex, t_for_in_parser **par);
+void	free_par_one(t_for_in_lexer *lex, t_for_in_parser **par, int i);
 
 #endif

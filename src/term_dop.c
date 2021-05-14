@@ -50,9 +50,26 @@ void	put8(t_for_in_lexer *lex, t_for_in_parser **par)
 	(*par)->input = open_RDONLY_file_redirect(lex->line);
 	if ((*par)->input < 0)
 	{
-		lex->exit = 1;
+		lex->ex_red = 1;
 		lex->line = free_null(lex->line);
 		return ;
 	}
 	lex->input = 0;
+}
+
+void	free_par_one(t_for_in_lexer *lex, t_for_in_parser **par, int i)
+{
+	if ((*par)->input > 0)
+		close((*par)->input);
+	if ((*par)->output > 0)
+		close((*par)->output);
+	(*par)->input = -2;
+	(*par)->output = -2;
+	while ((*par)->arguments != NULL && (*par)->arguments[i] != NULL)
+	{
+		free((*par)->arguments[i]);
+		(*par)->arguments[i] = NULL;
+		i++;
+	}
+	lex->exit = lex->exit;
 }

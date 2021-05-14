@@ -4,9 +4,11 @@ void	put4(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	if (term_strlen_mas((*par)->arguments) == 1 || lex->flags_check == 1)
 		check_flags(lex);
-	if (lex->line != NULL && lex->line[0] != '\0')
+	if (lex->line != NULL)
+	{
 		(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments)
 				+ 1, (*par)->arguments, lex->line);
+	}
 }
 
 void	put3(t_for_in_lexer *lex, t_for_in_parser **par)
@@ -16,7 +18,7 @@ void	put3(t_for_in_lexer *lex, t_for_in_parser **par)
 	(*par)->output = open_TRUNC_file_redirect(lex->line);
 	if ((*par)->output < 0)
 	{
-		lex->exit = 1;
+		lex->ex_red = 1;
 		lex->line = free_null(lex->line);
 		return ;
 	}

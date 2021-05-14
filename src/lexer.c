@@ -41,6 +41,7 @@ void	lexer_null(t_for_in_lexer *lex, char *s, t_for_in_terminal *t)
 	lex->out = 0;
 	lex->outend = 0;
 	lex->pipe = 0;
+	lex->ex_red = 0;
 	lex->dollar = 0;
 	lex->mas_line = NULL;
 	lex->line = NULL;

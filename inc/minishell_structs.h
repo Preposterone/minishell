@@ -96,6 +96,7 @@ typedef struct s_for_in_lexer
 	int				nr_j;
 	char			*dol_str;
 	int				if_i;
+	int				ex_red;
 	t_for_in_parser	*t_p;
 }					t_for_in_lexer;
 
