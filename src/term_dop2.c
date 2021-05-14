@@ -2,7 +2,8 @@
 
 void	lex22(t_for_in_lexer *lex)
 {
-	if (lex->s[lex->i - 1] == '"' && lex->s[lex->i] == '"')
+	if (lex->s[lex->i - 1] == '"' && lex->s[lex->i] == '"'
+		&& lex->line == NULL)
 	{
 		lex->line = lexer_charjoin(lex->line, '1');
 		lex->line[0] = '\0';
@@ -27,16 +28,16 @@ void	lexer42(t_for_in_lexer *lex, t_for_in_parser **par)
 	}
 }
 
-void	lexer62(t_for_in_lexer *lex)
+int	lexer62(t_for_in_lexer *lex)
 {
 	if (lex->exit == 1)
 	{
-		free(lex->line);
-		return ;
+		return (1);
 	}
 	if (lex->ex_red != 0)
 	{
 		lex->ex_red = 0;
-		return ;
+		return (1);
 	}
+	return (0);
 }

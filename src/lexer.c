@@ -22,7 +22,8 @@ void	lexer(t_for_in_lexer *lex, t_for_in_parser **par,
 		lex->i++;
 		lex->if_i = 0;
 	}
-	put_line_in_mas(lex, par);
+	if (lex->ex_red == 0)
+		put_line_in_mas(lex, par);
 	(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
 	if (lex->exit == 1)
 		return ;

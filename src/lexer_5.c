@@ -29,7 +29,8 @@ void	lexer3(t_for_in_lexer *lex)
 {
 	while (lex->s[++lex->i] != '\0' && lex->s[lex->i] != 39)
 		lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
-	if (lex->s[lex->i - 1] == 39 && lex->s[lex->i] == 39)
+	if (lex->s[lex->i - 1] == 39 && lex->s[lex->i] == 39
+		&& lex->line == NULL)
 	{
 		lex->line = lexer_charjoin(lex->line, '1');
 		lex->line[0] = '\0';
@@ -56,7 +57,7 @@ void	lexer4(t_for_in_lexer *lex, t_for_in_parser **par)
 		dollar(lex, par);
 	if (lex->if_i == 0 && lex->s[lex->i] == '|')
 	{
-		if (lex->ex_red == 1)
+		if (lex->ex_red == 0)
 			put_line_in_mas(lex, par);
 		lex->pipe = 1;
 		lex->if_i = 1;
@@ -92,10 +93,14 @@ void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par)
 void	lexer6(t_for_in_lexer *lex, t_for_in_parser **par,
 			t_for_in_terminal *t, t_envp *sh_envp)
 {
+	int	i;
+
 	if (lex->if_i == 0 && lex->s[lex->i] == ';')
 	{
 		ch_line_par(par, lex, TOCHKA_M);
-		lexer62(lex);
+		i = lexer62(lex);
+		if (i == 1)
+			return ;
 		put_line_in_mas(lex, par);
 		del_settings_term(t);
 		executor_secretary(par, sh_envp, t);

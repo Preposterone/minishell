@@ -72,6 +72,6 @@ void	put8(t_for_in_lexer *lex, t_for_in_parser **par);
 void	free_par_one(t_for_in_lexer *lex, t_for_in_parser **par, int i);
 void	lex22(t_for_in_lexer *lex);
 void	lexer42(t_for_in_lexer *lex, t_for_in_parser **par);
-void	lexer62(t_for_in_lexer *lex);
+int		lexer62(t_for_in_lexer *lex);
 
 #endif
