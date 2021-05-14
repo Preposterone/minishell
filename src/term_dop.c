@@ -42,3 +42,17 @@ void	lexer7(t_for_in_lexer *lex, t_for_in_parser **par)
 	(*par)->input = -2;
 	lex->if_i = 1;
 }
+
+void	put8(t_for_in_lexer *lex, t_for_in_parser **par)
+{
+	if ((*par)->input > 0)
+		close((*par)->input);
+	(*par)->input = open_RDONLY_file_redirect(lex->line);
+	if ((*par)->input < 0)
+	{
+		lex->exit = 1;
+		lex->line = free_null(lex->line);
+		return ;
+	}
+	lex->input = 0;
+}

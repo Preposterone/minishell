@@ -26,7 +26,7 @@ void	put3(t_for_in_lexer *lex, t_for_in_parser **par)
 void	put1(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	if (lex->input == 1)
-		put2(lex, par);
+		put8(lex, par);
 	else if (lex->out == 1)
 		put3(lex, par);
 	else if (lex->dollar == 1)
