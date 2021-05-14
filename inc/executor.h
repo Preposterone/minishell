@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:57:01 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/14 13:51:46 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 16:25:19 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		ft_do_exit(char **args, t_for_in_terminal *term_props, bool print);
 int		ft_do_env(char **envp_cpy);
 int		ft_do_unset(char **args, t_envp *sh_envp);
 int		ft_do_export(char **args, t_envp *sh_envp);
-int		ft_do_pwd(void);
+int		ft_do_pwd(t_envp *sh_envp);
 int		ft_do_cd(char **args, t_envp *env);
 int		ft_do_echo(char **args);
 

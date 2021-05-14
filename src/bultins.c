@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:39:34 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:46:41 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 16:52:13 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_do_unset(char **args, t_envp *sh_envp)
 	determining the name of the current directory or an invalid option is supplied.
 */
 
-int	ft_do_pwd(void)
+int	ft_do_pwd(t_envp *envp)
 {
 	char	*buf;
 
@@ -70,6 +70,16 @@ int	ft_do_pwd(void)
 	{
 		ft_putendl_fd(buf, 1);
 		free(buf);
+	}
+	else
+	{
+		buf = ft_get_envp_elem("PWD=", envp);
+		if (!ft_strcmp(ft_get_envp_elem("_=", envp), ".."))
+		{
+			buf = ft_strjoin(buf, "..");
+			free(buf);
+		}
+		ft_putendl_fd(buf, 1);
 	}
 	return (0);
 }
@@ -117,7 +127,7 @@ int	ft_do_builtin(char *cmd, char **args, t_envp *envp,
 	else if (sw == 1)
 		return (ft_do_cd(args, envp));
 	if (sw == 2)
-		return (ft_do_pwd());
+		return (ft_do_pwd(envp));
 	if (sw == 3)
 		return (ft_do_export(args, envp));
 	if (sw == 4)
