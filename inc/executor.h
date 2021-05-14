@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:57:01 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:46:43 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 13:51:46 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ int		ft_do_pwd(void);
 int		ft_do_cd(char **args, t_envp *env);
 int		ft_do_echo(char **args);
 
-/* *****************************BUILTI_HELPERS******************************* */
+/* ****************************BUILTIN_HELPERS******************************* */
 
 bool	ft_isstralpha(char *s, int slen);
 bool	is_id_str_valid(char *id);
+void	ft_free_arr(char **arr);
+void	ft_quicksort_char_arr(char *arr[], uint length);
 
 /* **********************************ENVP_OPS******************************** */
 
