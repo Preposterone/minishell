@@ -22,12 +22,7 @@ void	lexer2(t_for_in_lexer *lex, t_for_in_parser **par)
 		else
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 	}
-	if (lex->s[lex->i - 1] == '"' && lex->s[lex->i] == '"')
-	{
-		lex->line = lexer_charjoin(lex->line, '1');
-		lex->line[0] = '\0';
-	}
-	lexer22(lex);
+	lex22(lex);
 }
 
 void	lexer3(t_for_in_lexer *lex)
@@ -62,26 +57,12 @@ void	lexer4(t_for_in_lexer *lex, t_for_in_parser **par)
 	if (lex->if_i == 0 && lex->s[lex->i] == '|')
 	{
 		if (lex->ex_red == 1)
-		{
 			put_line_in_mas(lex, par);
-		}
 		lex->pipe = 1;
 		lex->if_i = 1;
 		lex->ex_red = 0;
 	}
-	if (lex->if_i == 0 && lex->s[lex->i] == '>' && lex->s[lex->i + 1] != '>')
-	{
-		put_line_in_mas(lex, par);
-		lex->out = 1;
-		lex->if_i = 1;
-	}
-	if (lex->if_i == 0 && lex->s[lex->i] == '>' && lex->s[lex->i + 1] == '>')
-	{
-		put_line_in_mas(lex, par);
-		lex->outend = 1;
-		lex->if_i = 1;
-		lex->i++;
-	}
+	lexer42(lex, par);
 }
 
 void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par)
@@ -114,16 +95,7 @@ void	lexer6(t_for_in_lexer *lex, t_for_in_parser **par,
 	if (lex->if_i == 0 && lex->s[lex->i] == ';')
 	{
 		ch_line_par(par, lex, TOCHKA_M);
-		if (lex->exit == 1)
-		{
-			free(lex->line);
-			return ;
-		}
-		if (lex->ex_red != 0)
-		{
-			lex->ex_red = 0;
-			return ;
-		}
+		lexer62(lex);
 		put_line_in_mas(lex, par);
 		del_settings_term(t);
 		executor_secretary(par, sh_envp, t);

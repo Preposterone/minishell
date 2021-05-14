@@ -74,7 +74,6 @@ void	terminal(int argc, char *argv[], t_envp *sh_envp)
 		{
 			while (argv[i] != NULL)
 			{
-				//printf("\n1 =%s\n", argv[2]);
 				t.s = term_strjoin(NULL, argv[i]);
 				line_from_terminal_to_lexer(t.s, &t, sh_envp);
 				free(t.s);
