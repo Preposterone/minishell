@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:56:29 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/14 19:06:18 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 19:36:20 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,22 @@ static int	ft_run_single(t_for_in_parser **par, t_envp *sh_envp,
 	return (ret);
 }
 
-static void	ft_check_for_execname(char *cmd, char *exec, t_envp *sh_envp)
+/*
+	fprintf(stderr, "EXECNAME '%s'\n", exec);
+	fprintf(stderr, "Running EXECNAME '%s'\n", exec);
+ */
+
+static void ft_check_for_execname(char *cmd, char *exec, t_envp *sh_envp)
 {
 	char	*tmp;
 
 	tmp = ft_strjoin("./", exec);
 	if (cmd)
 	{
-		if (!ft_strcmp(cmd, tmp) || (cmd[ft_strlen(cmd)] != '/'
+		if (!ft_strcmp(cmd, tmp) || (ft_strrchr(cmd, '/')
+				&& cmd[ft_strlen(cmd)] != '/'
 				&& ft_strlen(cmd) > ft_strlen(exec)
-				&& ft_strcmp(ft_strrchr(cmd, '/') - 1, exec))
+				&& ft_strcmp(ft_strrchr(cmd, '/'), exec))
 			|| (!sh_envp->sh_path && !ft_strcmp(cmd, exec)))
 		{
 			g_all.max_depth = g_all.sh_lvl + 1;
@@ -88,7 +94,6 @@ static void	ft_check_for_execname(char *cmd, char *exec, t_envp *sh_envp)
 	}
 	free(tmp);
 }
-
 void	executor_secretary(t_for_in_parser **par, t_envp *sh_envp,
 						t_for_in_terminal *term_props)
 {
