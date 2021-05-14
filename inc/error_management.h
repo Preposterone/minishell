@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:46:03 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:13:50 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 16:32:29 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ void	ft_puterr_arr(char *s[]);
 # define M_QUOTES "The quotes are not closed"
 # define ERROR_E "Error"
 # define MSG_CMD_NOT_FOUND ": command not found"
+# define MSG_CD_1 "error retrieving current directory: getcwd: cannot access "
+# define MSG_CD_2 "parent directories: No such file or directory"
+
 # define MSH_ID_INV "': not a valid identifier"
 # define EXITT "exit"
 # define MSH_NO_SUCH_F_DIR ": no such file or directory"
