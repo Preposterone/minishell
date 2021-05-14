@@ -28,7 +28,7 @@ clean:
 	@make clean -C $(LFT_DIR)
 	/bin/rm -f $(OBJS)
 
-fclean:	clean #cleanlib TODO: uncomment for clean in lib_dir
+fclean:	clean cleanlib
 	/bin/rm -f $(NAME)
 
 cleanall: fclean dclean
