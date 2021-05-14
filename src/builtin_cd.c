@@ -6,11 +6,13 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 10:52:15 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:18:44 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 16:36:40 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+//cd: error retrieving current directory:
+// getcwd: cannot access parent directories: No such file or directory
 
 static int	ft_do_chdir(char *dir, t_envp *env)
 {
@@ -26,8 +28,15 @@ static int	ft_do_chdir(char *dir, t_envp *env)
 	else
 	{
 		buf = getcwd(buf, 0);
-		ft_update_envp_elem("PWD=", buf, env);
-		free(buf);
+		if (!buf)
+		{
+			ft_puterr_arr((char *[]){"cd: ", MSG_CD_1, MSG_CD_2, NULL});
+		}
+		else
+		{
+			ft_update_envp_elem("PWD=", buf, env);
+			free(buf);
+		}
 		ret = 0;
 	}
 	return (ret);

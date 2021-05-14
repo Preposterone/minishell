@@ -29,7 +29,7 @@ void	put5(t_for_in_lexer *lex, t_for_in_parser **par)
 	(*par)->output = open_APPEND_file_redirect(lex->line);
 	if ((*par)->output < 0)
 	{
-		lex->exit = 1;
+		lex->ex_red = 1;
 		lex->line = free_null(lex->line);
 		return ;
 	}

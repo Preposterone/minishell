@@ -13,6 +13,8 @@ typedef struct s_envp
 	char		**sh_envp;
 	char		*sh_path;
 	char		*sh_term;
+	char		*sh_name;
+	char		*sh_lvl;
 	int			truefd0;
 	int			truefd1;
 	int			ispipe;
@@ -96,6 +98,7 @@ typedef struct s_for_in_lexer
 	int				nr_j;
 	char			*dol_str;
 	int				if_i;
+	int				ex_red;
 	t_for_in_parser	*t_p;
 }					t_for_in_lexer;
 

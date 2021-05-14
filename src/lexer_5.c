@@ -22,14 +22,18 @@ void	lexer2(t_for_in_lexer *lex, t_for_in_parser **par)
 		else
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 	}
-	lexer22(lex);
+	lex22(lex);
 }
 
 void	lexer3(t_for_in_lexer *lex)
 {
 	while (lex->s[++lex->i] != '\0' && lex->s[lex->i] != 39)
-	{
 		lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
+	if (lex->s[lex->i - 1] == 39 && lex->s[lex->i] == 39
+		&& lex->line == NULL)
+	{
+		lex->line = lexer_charjoin(lex->line, '1');
+		lex->line[0] = '\0';
 	}
 	if (lex->s[lex->i] == '\0')
 	{
@@ -53,23 +57,13 @@ void	lexer4(t_for_in_lexer *lex, t_for_in_parser **par)
 		dollar(lex, par);
 	if (lex->if_i == 0 && lex->s[lex->i] == '|')
 	{
-		put_line_in_mas(lex, par);
+		if (lex->ex_red == 0)
+			put_line_in_mas(lex, par);
 		lex->pipe = 1;
 		lex->if_i = 1;
+		lex->ex_red = 0;
 	}
-	if (lex->if_i == 0 && lex->s[lex->i] == '>' && lex->s[lex->i + 1] != '>')
-	{
-		put_line_in_mas(lex, par);
-		lex->out = 1;
-		lex->if_i = 1;
-	}
-	if (lex->if_i == 0 && lex->s[lex->i] == '>' && lex->s[lex->i + 1] == '>')
-	{
-		put_line_in_mas(lex, par);
-		lex->outend = 1;
-		lex->if_i = 1;
-		lex->i++;
-	}
+	lexer42(lex, par);
 }
 
 void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par)
@@ -99,14 +93,14 @@ void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par)
 void	lexer6(t_for_in_lexer *lex, t_for_in_parser **par,
 			t_for_in_terminal *t, t_envp *sh_envp)
 {
+	int	i;
+
 	if (lex->if_i == 0 && lex->s[lex->i] == ';')
 	{
 		ch_line_par(par, lex, TOCHKA_M);
-		if (lex->exit == 1)
-		{
-			free(lex->line);
+		i = lexer62(lex);
+		if (i == 1)
 			return ;
-		}
 		put_line_in_mas(lex, par);
 		del_settings_term(t);
 		executor_secretary(par, sh_envp, t);
@@ -114,6 +108,7 @@ void	lexer6(t_for_in_lexer *lex, t_for_in_parser **par,
 		do_settings_term(t);
 		free(lex->t_p);
 		lexer7(lex, par);
+		lex->ex_red = 0;
 	}
 	if (lex->if_i == 0 && lex->s[lex->i] != ' ' && lex->s[lex->i] != 10)
 	{

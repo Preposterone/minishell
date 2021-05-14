@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 12:57:01 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 18:46:43 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 18:31:39 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		executor(char **args, char *cmdpath, t_envp *envp,
 			t_for_in_terminal *term_props);
 int		ft_exec_cmd(t_for_in_parser **par, t_envp *sh_envp,
 			t_for_in_terminal *term_props);
+void	ft_update_last_arg(t_for_in_parser **par, t_envp *sh_envp);
 
 /* **********************************BUILTIINS******************************* */
 
@@ -44,14 +45,16 @@ int		ft_do_exit(char **args, t_for_in_terminal *term_props, bool print);
 int		ft_do_env(char **envp_cpy);
 int		ft_do_unset(char **args, t_envp *sh_envp);
 int		ft_do_export(char **args, t_envp *sh_envp);
-int		ft_do_pwd(void);
+int		ft_do_pwd(t_envp *sh_envp);
 int		ft_do_cd(char **args, t_envp *env);
 int		ft_do_echo(char **args);
 
-/* *****************************BUILTI_HELPERS******************************* */
+/* ****************************BUILTIN_HELPERS******************************* */
 
 bool	ft_isstralpha(char *s, int slen);
 bool	is_id_str_valid(char *id);
+void	ft_free_arr(char **arr);
+void	ft_quicksort_char_arr(char *arr[], uint length);
 
 /* **********************************ENVP_OPS******************************** */
 

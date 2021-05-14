@@ -10,6 +10,7 @@ int	open_APPEND_file_redirect(char *s)
 	if (fd <= 0)
 	{
 		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
+		g_all.exit_code = 1;
 		return (-1);
 	}
 	return (fd);
@@ -25,6 +26,7 @@ int	open_RDONLY_file_redirect(char *s)
 	if (fd <= 0)
 	{
 		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
+		g_all.exit_code = 1;
 		return (-1);
 	}
 	return (fd);
@@ -40,6 +42,7 @@ int	open_TRUNC_file_redirect(char *s)
 	if (fd <= 0)
 	{
 		ft_puterr_arr((char *[]){s, ": ", strerror(errno), NULL});
+		g_all.exit_code = 1;
 		return (-1);
 	}
 	return (fd);

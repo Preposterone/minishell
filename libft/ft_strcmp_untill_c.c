@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strcmp_untill_c.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/04/18 15:00:07 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/14 18:17:19 by aarcelia         ###   ########.fr       */
+/*   Created: 2021/05/14 12:42:13 by aarcelia          #+#    #+#             */
+/*   Updated: 2021/05/14 13:53:54 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-# include "minishell_structs.h"
-# include "gnl.h"
-# include "libft.h"
-# include "termcap.h"
-# include "expander.h"
-# include "executor.h"
-# include "error_management.h"
-# include <stdio.h>
+#include "libft.h"
 
-typedef struct s_all
+int	ft_strcmp_untill_c(const char *s1, const char *s2, char c)
 {
-	int			key_signal;
-	int			exit_code;
-	int			key_ctr;
-	int			sh_lvl;
-	int			max_depth;
-}				t_all;
+	int		i;
+	u_char	c1;
+	u_char	c2;
 
-extern t_all	g_all;
-
-#endif
+	i = 0;
+	c1 = (u_char)s1[i];
+	c2 = (u_char)s2[i];
+	while (c1 == c2 && c1 != c && c2 != c)
+	{
+		if (!c1)
+			return (c1 - c2);
+		i++;
+		c1 = (u_char)s1[i];
+		c2 = (u_char)s2[i];
+	}
+	return (c1 - c2);
+}
