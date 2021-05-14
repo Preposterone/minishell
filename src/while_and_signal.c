@@ -47,8 +47,11 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 	while (t->key_main == 1)
 	{
 		g_all.key_ctr = 1;
-		signal(SIGQUIT, ft_signal_slesh);
-		signal(SIGINT, ft_signal_c);
+		if (g_all.sh_lvl == 1)
+		{
+			signal(SIGQUIT, ft_signal_slesh);
+			signal(SIGINT, ft_signal_c);
+		}
 		terminal_while2(t);
 		if (!term_strcmp(t->str, "\n\0"))
 		{
@@ -56,6 +59,8 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp)
 			t->key_main = 0;
 		}
 	}
+	signal(SIGQUIT, ft_signal_slesh);
+	signal(SIGINT, ft_signal_c);
 	terminal_while3(t, sh_envp);
 }
 

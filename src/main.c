@@ -50,6 +50,7 @@ int	main(int argc, char *argv[], char const *envp[])
 	ft_bzero(&sh_envp, sizeof(sh_envp));
 	sh_envp.truefd0 = 3;
 	sh_envp.truefd1 = 4;
+	g_all.sh_lvl = 1;
 	dup2(0, sh_envp.truefd0);
 	dup2(1, sh_envp.truefd1);
 	ft_envp_cpy(envp, &sh_envp);
