@@ -6,7 +6,7 @@
 /*   By: aarcelia <aarcelia@21-school.ru>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/29 11:45:23 by aarcelia          #+#    #+#             */
-/*   Updated: 2021/05/13 16:26:37 by aarcelia         ###   ########.fr       */
+/*   Updated: 2021/05/14 15:01:06 by aarcelia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,16 @@ void	ft_puterrln(char *s)
 }
 
 // printf("%s%s\n", MSH_MSG_GENERIC, str);	//НУЖНО ПИСАТЬ ВО ВТОРОЙ ФД
-	// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
 // ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
+// ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
+// ft_puterr_arr((char *[]){str, ": ", strerror(errno), NULL});
+
 void	exit_minishell(char *str, int reason, t_for_in_terminal *t)
 {
 	if (t)
 		del_settings_term(t);
 	if (reason == MSH_CMD_NOT_FOUND)
-		ft_puterr_arr((char *[]){str, ": ", strerror(errno), NULL});
+		ft_puterr_arr((char *[]){str, MSG_CMD_NOT_FOUND, NULL});
 	else if (reason == MSH_DOT_EX)
 		ft_puterr_arr((char *[]){str, MSH_DOT_1, MSH_DOT_2, NULL});
 	else if (reason == MSH_IS_DIR_ERR)
