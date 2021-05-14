@@ -25,16 +25,25 @@ void	put3(t_for_in_lexer *lex, t_for_in_parser **par)
 	lex->out = 0;
 }
 
-void	put1(t_for_in_lexer *lex, t_for_in_parser **par)
+void	put1(t_for_in_lexer *lex, t_for_in_parser **par, int i)
 {
+	char	**ss;
+
 	if (lex->input == 1)
 		put8(lex, par);
 	else if (lex->out == 1)
 		put3(lex, par);
 	else if (lex->dollar == 1)
 	{
-		(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments)
-				+ 1, (*par)->arguments, lex->line);
+		ss = ft_split(lex->line, ' ');
+		while (ss[++i])
+		{
+			(*par)->arguments
+				= strjoin_pr_mas(term_strlen_mas((*par)->arguments)
+					+ 1, (*par)->arguments, ss[i]);
+			free(ss[i]);
+		}
+		free((void *)ss);
 		lex->dollar = 0;
 	}
 	else if (lex->outend == 1)
@@ -53,7 +62,7 @@ void	put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 			if (lex->exit != 1)
 				put2(lex, par);
 		}
-		put1(lex, par);
+		put1(lex, par, -1);
 		lex->line = free_null(lex->line);
 		lex->j++;
 	}
