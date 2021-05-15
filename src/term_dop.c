@@ -51,8 +51,10 @@ void	put8(t_for_in_lexer *lex, t_for_in_parser **par)
 	if ((*par)->input < 0)
 	{
 		lex->ex_red = 1;
+		free_par_one(lex, par, 0);
+		(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments)
+				+ 1, (*par)->arguments, NULL);
 		lex->line = free_null(lex->line);
-		return ;
 	}
 	lex->input = 0;
 }
@@ -60,7 +62,9 @@ void	put8(t_for_in_lexer *lex, t_for_in_parser **par)
 void	free_par_one(t_for_in_lexer *lex, t_for_in_parser **par, int i)
 {
 	if ((*par)->input > 0)
+	{
 		close((*par)->input);
+	}
 	if ((*par)->output > 0)
 		close((*par)->output);
 	(*par)->input = -2;

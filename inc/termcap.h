@@ -56,7 +56,7 @@ void	lexer6(t_for_in_lexer *lex,
 			t_for_in_parser **par, t_for_in_terminal *t, t_envp *sh_envp);
 void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par);
 void	lexer4(t_for_in_lexer *lex, t_for_in_parser **par);
-void	lexer22(t_for_in_lexer *lex);
+void	lexer22(t_for_in_lexer *lex, t_for_in_parser **par);
 void	while_enter_term(t_for_in_terminal *t, t_envp *sh_envp);
 void	while_enter_term2(t_for_in_terminal *t, t_envp *sh_envp);
 void	del_term(t_for_in_terminal *t);
@@ -70,7 +70,7 @@ void	terminal_while(t_for_in_terminal *t, t_envp *sh_envp);
 void	terminal_while2(t_for_in_terminal *t);
 void	put8(t_for_in_lexer *lex, t_for_in_parser **par);
 void	free_par_one(t_for_in_lexer *lex, t_for_in_parser **par, int i);
-void	lex22(t_for_in_lexer *lex);
+void	lex22(t_for_in_lexer *lex, t_for_in_parser **par);
 void	lexer42(t_for_in_lexer *lex, t_for_in_parser **par);
 int		lexer62(t_for_in_lexer *lex);
 

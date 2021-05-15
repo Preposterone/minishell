@@ -19,8 +19,10 @@ void	put3(t_for_in_lexer *lex, t_for_in_parser **par)
 	if ((*par)->output < 0)
 	{
 		lex->ex_red = 1;
+		free_par_one(lex, par, 0);
+		(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments)
+				+ 1, (*par)->arguments, NULL);
 		lex->line = free_null(lex->line);
-		return ;
 	}
 	lex->out = 0;
 }
@@ -56,13 +58,14 @@ void	put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	if (lex->line && lex->line != NULL)
 	{
-		if (lex->pipe == 1)
+		if (lex->pipe == 1 && lex->ex_red != 1)
 		{
 			ch_line_par(par, lex, PIPE_M);
 			if (lex->exit != 1)
 				put2(lex, par);
 		}
-		put1(lex, par, -1);
+		if (lex->ex_red == 0)
+			put1(lex, par, -1);
 		lex->line = free_null(lex->line);
 		lex->j++;
 	}
@@ -71,6 +74,7 @@ void	put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 	{
 		lex->exit = 1;
 		ft_puterrln(RED_WHERE);
+		free_par_one(lex, par, 0);
 		g_all.exit_code = 258;
 	}
 }
