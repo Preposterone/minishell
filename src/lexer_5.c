@@ -22,10 +22,10 @@ void	lexer2(t_for_in_lexer *lex, t_for_in_parser **par)
 		else
 			lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
 	}
-	lex22(lex);
+	lex22(lex, par);
 }
 
-void	lexer3(t_for_in_lexer *lex)
+void	lexer3(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	while (lex->s[++lex->i] != '\0' && lex->s[lex->i] != 39)
 		lex->line = lexer_charjoin(lex->line, lex->s[lex->i]);
@@ -40,6 +40,7 @@ void	lexer3(t_for_in_lexer *lex)
 		lex->exit = 1;
 		lex->if_i = 1;
 		lex->line = free_null(lex->line);
+		free_par_one(lex, par, 0);
 		ft_puterrln(M_QUOTES);
 		g_all.exit_code = 258;
 		return ;
@@ -52,7 +53,7 @@ void	lexer4(t_for_in_lexer *lex, t_for_in_parser **par)
 	if (lex->if_i == 0 && lex->s[lex->i] == '"')
 		lexer2(lex, par);
 	if (lex->if_i == 0 && lex->s[lex->i] == 39)
-		lexer3(lex);
+		lexer3(lex, par);
 	if (lex->if_i == 0 && lex->s[lex->i] == '$')
 		dollar(lex, par);
 	if (lex->if_i == 0 && lex->s[lex->i] == '|')
@@ -82,6 +83,7 @@ void	lexer5(t_for_in_lexer *lex, t_for_in_parser **par)
 		{
 			lex->exit = 1;
 			lex->line = free_null(lex->line);
+			free_par_one(lex, par, 0);
 			ft_puterrln(ERROR_E);
 			g_all.exit_code = 258;
 			return ;

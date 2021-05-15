@@ -30,19 +30,23 @@ void	put5(t_for_in_lexer *lex, t_for_in_parser **par)
 	if ((*par)->output < 0)
 	{
 		lex->ex_red = 1;
+		free_par_one(lex, par, 0);
+		(*par)->arguments = strjoin_pr_mas(term_strlen_mas((*par)->arguments)
+				+ 1, (*par)->arguments, NULL);
 		lex->line = free_null(lex->line);
 		return ;
 	}
 	lex->outend = 0;
 }
 
-void 	lexer22(t_for_in_lexer *lex)
+void 	lexer22(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	if (lex->s[lex->i] == '\0')
 	{
 		lex->exit = 1;
 		lex->line = free_null(lex->line);
 		ft_puterrln(M_QUOTES);
+		free_par_one(lex, par, 0);
 		g_all.exit_code = 258;
 		return ;
 	}
@@ -56,6 +60,7 @@ void	ch_line_par(t_for_in_parser **par, t_for_in_lexer *lex, char *s)
 	{
 		lex->exit = 1;
 		ft_puterrln(s);
+		free_par_one(lex, par, 0);
 		g_all.exit_code = 258;
 	}
 }

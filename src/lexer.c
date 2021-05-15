@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+void	lexer_2l(t_for_in_lexer *lex, t_for_in_parser **par)
+{
+	if (lex->ex_red == 0)
+		put_line_in_mas(lex, par);
+	if (lex->ex_red == 1)
+		free_par_one(lex, par, 0);
+}
+
 void	lexer(t_for_in_lexer *lex, t_for_in_parser **par,
 			t_for_in_terminal *t, t_envp *sh_envp)
 {
@@ -22,10 +30,7 @@ void	lexer(t_for_in_lexer *lex, t_for_in_parser **par,
 		lex->i++;
 		lex->if_i = 0;
 	}
-	if (lex->ex_red == 0)
-		put_line_in_mas(lex, par);
-	if (lex->ex_red == 1)
-		free_par_one(lex, par, 0);
+	lexer_2l(lex, par);
 	(*par)->next = ft_calloc(1, sizeof(t_for_in_parser));
 	if (lex->exit == 1)
 		return ;
