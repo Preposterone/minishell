@@ -20,7 +20,6 @@ void	put3(t_for_in_lexer *lex, t_for_in_parser **par)
 	{
 		lex->ex_red = 1;
 		lex->line = free_null(lex->line);
-		return ;
 	}
 	lex->out = 0;
 }
@@ -56,13 +55,14 @@ void	put_line_in_mas(t_for_in_lexer *lex, t_for_in_parser **par)
 {
 	if (lex->line && lex->line != NULL)
 	{
-		if (lex->pipe == 1)
+		if (lex->pipe == 1 && lex->ex_red != 1)
 		{
 			ch_line_par(par, lex, PIPE_M);
 			if (lex->exit != 1)
 				put2(lex, par);
 		}
-		put1(lex, par, -1);
+		if (lex->ex_red == 0)
+			put1(lex, par, -1);
 		lex->line = free_null(lex->line);
 		lex->j++;
 	}

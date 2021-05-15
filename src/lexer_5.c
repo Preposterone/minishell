@@ -98,6 +98,8 @@ void	lexer6(t_for_in_lexer *lex, t_for_in_parser **par,
 	if (lex->if_i == 0 && lex->s[lex->i] == ';')
 	{
 		ch_line_par(par, lex, TOCHKA_M);
+		if (lex->ex_red == 1)
+			free_par_one(lex, par, 0);
 		i = lexer62(lex);
 		if (i == 1)
 			return ;

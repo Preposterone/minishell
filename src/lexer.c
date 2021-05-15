@@ -79,8 +79,6 @@ void	line_from_terminal_to_lexer(char *s,
 	par->key = 1;
 	par->previous = lex.t_p;
 	lex.flags_arg = (int *)ft_calloc(128, sizeof(int));
-	if (!lex.flags_arg)
-		exit_fatal(MSH_MALLOC_ERR);
 	lex.i = 0;
 	while (lex.i < 127)
 		lex.flags_arg[lex.i++] = 0;
